@@ -1,0 +1,7 @@
+ > ManyToOne - OneToMany relationship:
+   - At scale avoid using the bidirectional implementation, where OneToMany creates a list mapped by the other sides ManyToOne relation.
+     It's a neat implementation when working with relatively small data sets, otherwise it becomes very resource intensive!
+   - Setter on the mappedBy side can't exist, rather and Adder or "get list > add" system with dependency injection.
+     
+ > OneToOne - OneToOne
+   - Setter on the mappedBy side needs a dependency injection.
