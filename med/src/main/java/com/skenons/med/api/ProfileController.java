@@ -14,19 +14,19 @@ import com.skenons.med.data.Profile;
 import com.skenons.med.service.ProfileService;
 
 
-//@RestController
-//@RequestMapping("/profiles")
+@RestController
+@RequestMapping("/profiles")
 public class ProfileController
 {
 	
 	ProfileService profileService;
 
-    //@Autowired
+    @Autowired
     public void setUserService(ProfileService profileService) {
         this.profileService = profileService;
     }
 
-    //@GetMapping()
+    @GetMapping()
 	public ResponseEntity<List<Profile>> getAll(){
 		if(profileService.getAll() == null) {
 			return new ResponseEntity<List<Profile>>(HttpStatus.NO_CONTENT);
