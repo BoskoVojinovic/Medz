@@ -1,5 +1,12 @@
 $(document).ready(function () {
-
+	
+	$.get({
+		  url: 'homePageClinicAdmin.html',
+	      contentType: 'text/html',
+	      success: function(result){
+	         $('#home').html(result);
+	      }
+	   });
     $("#search-form").submit(function (event) {
 
         //stop submit the form, we will post it manually.

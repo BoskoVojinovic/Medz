@@ -18,6 +18,7 @@ public class ProfileService
 
 	public List<Profile> getAll(){ 
 		//return profileRepo.findAll().stream().collect(Collectors.toList());??
+
 		return profileRepo.findAll();
 	};
 }
