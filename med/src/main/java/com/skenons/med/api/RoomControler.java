@@ -2,6 +2,8 @@ package com.skenons.med.api;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skenons.med.data.Clinic;
 import com.skenons.med.data.Room;
 import com.skenons.med.service.RoomService;
 
 @RestController
-@RequestMapping("/room")
+@RequestMapping("/clinic/{id}/room")
 public class RoomControler {
 	@Autowired
 	private RoomService roomService;
@@ -26,21 +29,26 @@ public class RoomControler {
 	
 	//@PreAuthorize("hasRole('USER')")
 	@GetMapping()
-	public ResponseEntity<List<Room>> getAll(){
+	public ResponseEntity<List<Room>> getAll( HttpSession session){
 		if(roomService.getAll() == null) {
 			return new ResponseEntity<List<Room>>(HttpStatus.NO_CONTENT);
 		}
+		System.out.println(((Clinic)session.getServletContext().getAttribute("S")).getId() + "SD");
+
 		return new ResponseEntity<List<Room>>(roomService.getAll(),HttpStatus.OK);
 	}
 	
 	//@PreAuthorize("hasRole('USER')")
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Room> getById(@PathVariable Long id){
+	public ResponseEntity<Room> getById(@PathVariable Long id, HttpSession session){
 		if(roomService.getById(id) == null) {
 			return new ResponseEntity<Room>(HttpStatus.NO_CONTENT);
 		}
+		System.out.println(session.getServletContext().getAttribute("S") + "SD");
 		return new ResponseEntity<Room>(roomService.getById(id),HttpStatus.OK);
 	}
+	
+	
 	
 	@PostMapping()
 	public ResponseEntity<String> create(@RequestBody Room Room){

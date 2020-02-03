@@ -2,6 +2,9 @@ package com.skenons.med.api;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+import javax.xml.ws.spi.http.HttpContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +25,9 @@ import com.skenons.med.service.ClinicService;
 public class ClinicController {
 	@Autowired
 	private ClinicService clinicService;
-
+	
+	HttpContext https;
+	HttpSession h;
 	
 	//@PreAuthorize("hasRole('USER')")
 	@GetMapping()
@@ -35,10 +40,12 @@ public class ClinicController {
 	
 	//@PreAuthorize("hasRole('USER')")
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Clinic> getById(@PathVariable Long id){
+	public ResponseEntity<Clinic> getById(@PathVariable Long id, HttpSession session){
 		if(clinicService.getById(id) == null) {
 			return new ResponseEntity<Clinic>(HttpStatus.NO_CONTENT);
 		}
+		session.getServletContext().setAttribute("S", clinicService.getById(id));
+		System.out.println(session.getAttribute("S"));
 		return new ResponseEntity<Clinic>(clinicService.getById(id),HttpStatus.OK);
 	}
 	
