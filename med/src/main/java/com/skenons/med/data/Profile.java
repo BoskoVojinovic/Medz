@@ -7,54 +7,49 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Profile
 {
-	@Id @NotEmpty @Column(unique = true)
+	@Id @NotEmpty @Column(unique = true) @Size(min = 13, max = 13)
 	private String IDNum;
 	
 	@NotEmpty @Email
 	private String email;
 	
-	@NotEmpty
-	private String username;
-	
-	@NotEmpty
+	@NotEmpty @Size(min = 8)
 	private String password;
 	
-	@NotEmpty
+	@NotEmpty @Size(max = 50)
 	private String name;
 	
-	@NotEmpty
+	@NotEmpty @Size(max = 50)
 	private String lastName;
 	
-	@NotEmpty
+	@NotEmpty @Size(min = 9, max = 11)
 	private String cellNumber;
 	
-	@NotEmpty
+	@NotEmpty @Size(max = 100)
 	private String address;
 	
 	@OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Employee employeeProfile;
 	
 	@OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Employee patientProfile;
+	private Patient patientProfile;
 
 	public Profile()
 	{
 		
 	}
 	
-	
-	
-	public Profile(@NotEmpty String iDNum, @NotEmpty @Email String email, @NotEmpty String username,
+	public Profile(@NotEmpty String iDNum, @NotEmpty @Email String email,
 			@NotEmpty String password, @NotEmpty String name, @NotEmpty String lastName, @NotEmpty String cellNumber,
 			@NotEmpty String address) {
 		super();
 		IDNum = iDNum;
 		this.email = email;
-		this.username = username;
 		this.password = password;
 		this.name = name;
 		this.lastName = lastName;
@@ -70,14 +65,6 @@ public class Profile
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getPassword() {
@@ -129,11 +116,11 @@ public class Profile
 		this.employeeProfile = employeeProfile;
 	}
 
-	public Employee getPatientProfile() {
+	public Patient getPatientProfile() {
 		return patientProfile;
 	}
 
-	public void setPatientProfile(Employee patientProfile) {
+	public void setPatientProfile(Patient patientProfile) {
 		patientProfile.setProfile(this);
 		this.patientProfile = patientProfile;
 	}
@@ -146,8 +133,12 @@ public class Profile
 	public String getIDNum() {
 		return IDNum;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Profile [IDNum=" + IDNum + ", email=" + email + ", password=" + password + ", name=" + name
+				+ ", lastName=" + lastName + ", cellNumber=" + cellNumber + ", address=" + address + "]";
+	}
 	
 	
 }

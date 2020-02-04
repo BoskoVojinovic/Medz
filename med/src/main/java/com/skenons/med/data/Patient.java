@@ -19,7 +19,7 @@ public class Patient
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;
 	
-	@OneToOne @NotEmpty @MapsId
+	@OneToOne @MapsId
 	private Profile profile;
 	
 	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -39,6 +39,14 @@ public class Patient
 		clinicRatings = new ArrayList<ClinicRating>();
 		doctorRatings = new ArrayList<EmployeeRating>();
 		exams = new ArrayList<Exam>();
+	}
+	
+	public Patient(Profile profile)
+	{
+		clinicRatings = new ArrayList<ClinicRating>();
+		doctorRatings = new ArrayList<EmployeeRating>();
+		exams = new ArrayList<Exam>();
+		setProfile(profile);
 	}
 	
 	public Profile getProfile() {

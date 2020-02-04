@@ -41,6 +41,8 @@ public class Exam
 	
 	private Double discount;
 	
+	private Double price;
+	
 	private Boolean approved;
 
 	protected Exam()
