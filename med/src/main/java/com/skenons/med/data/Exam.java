@@ -19,10 +19,10 @@ public class Exam
 	private Long id;
 	
 	@ManyToOne
-	private Patient patient;
+	private Profile patient;
 	
 	@ManyToOne
-	private Employee doctor;
+	private Profile doctor;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date start;
@@ -50,19 +50,19 @@ public class Exam
 		
 	}
 	
-	public Patient getPatient() {
+	public Profile getPatient() {
 		return patient;
 	}
 
-	public void setPatient(Patient patient) {
+	public void setPatient(Profile patient) {
 		this.patient = patient;
 	}
 
-	public Employee getDoctor() {
+	public Profile getDoctor() {
 		return doctor;
 	}
 
-	public void setDoctor(Employee doctor) {
+	public void setDoctor(Profile doctor) {
 		this.doctor = doctor;
 	}
 
@@ -126,6 +126,16 @@ public class Exam
 	public Long getId() {
 		return id;
 	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	
+	
 	
 	
 }

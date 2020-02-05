@@ -1,11 +1,10 @@
-/*package com.skenons.med;
+package com.skenons.med;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,8 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@Order(2)
-public class SecurityStaff extends WebSecurityConfigurerAdapter //STAFF LOGIN!
+public class SecurityConfig extends WebSecurityConfigurerAdapter //PATIENT LOGIN!
 {	
 	
 	@Autowired
@@ -26,9 +24,9 @@ public class SecurityStaff extends WebSecurityConfigurerAdapter //STAFF LOGIN!
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception
 	{
 		auth.jdbcAuthentication().dataSource(ds)
-		.usersByUsernameQuery("select employee.profile_idnum as principal, profile.password as credentials, true from employee, profile where employee.profile_idnum=profile.idnum and profile_idnum=?")
-		.authoritiesByUsernameQuery("select profile_idnum as principal, type as role from employee where profile_idnum=?")
-		.passwordEncoder(passEnc2());
+		.usersByUsernameQuery("select idnum as principal, password as credentials, true from profile where idnum=?")
+		.authoritiesByUsernameQuery("select idnum as principal, type as role from profile where idnum=?")
+		.passwordEncoder(passEnc())
 		;
 	}
 	
@@ -38,19 +36,21 @@ public class SecurityStaff extends WebSecurityConfigurerAdapter //STAFF LOGIN!
 		http.authorizeRequests().antMatchers(
 				"/",
 				"/register",
-				"/plogin",
-				"/slogin",
+				"/login",
+				"/debug", 
 				"/about",
 				"/css/**",
 				"/webjars/**"
-				).permitAll().anyRequest().authenticated()
-				.and().formLogin().loginPage("/slogin").permitAll().defaultSuccessUrl("/profile")
+				).permitAll()
+				//.antMatchers("/SomePageJustForAdmins").hasAnyRole(ProfileType.ADMIN_CLINIC+","+ProfileType.ADMIN_CENTER)
+				.anyRequest().authenticated()			
+				.and().formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/profile")
 				.and().logout().logoutSuccessUrl("/");
 	}
 	
 	@Bean
-	public PasswordEncoder passEnc2()
+	public static PasswordEncoder passEnc()
 	{
 		return new BCryptPasswordEncoder();
 	}
-}*/
+}

@@ -3,6 +3,7 @@ package com.skenons.med.data;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,11 +20,11 @@ public class LeaveRequest
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private LeaveType type;
 	
 	@ManyToOne
-	private Employee employee;
+	private Profile employee;
 	
 	private Boolean approved;
 	
@@ -48,11 +49,11 @@ public class LeaveRequest
 		this.type = type;
 	}
 
-	public Employee getEmployee() {
+	public Profile getEmployee() {
 		return employee;
 	}
 
-	public void setEmployee(Employee employee) {
+	public void setEmployee(Profile employee) {
 		this.employee = employee;
 	}
 

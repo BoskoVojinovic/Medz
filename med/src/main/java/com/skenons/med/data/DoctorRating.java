@@ -7,20 +7,20 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class EmployeeRating
+public class DoctorRating
 {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@ManyToOne
-	private Patient patient;
+	private Profile patient;
 	
 	@ManyToOne
-	private Employee employee;
+	private Profile doctor;
 	
 	private Integer rating;
 
-	protected EmployeeRating()
+	protected DoctorRating()
 	{
 		
 	}
@@ -33,11 +33,11 @@ public class EmployeeRating
 		this.id = id;
 	}
 
-	public Patient getPatient() {
+	public Profile getPatient() {
 		return patient;
 	}
 
-	public void setPatient(Patient patient) {
+	public void setPatient(Profile patient) {
 		this.patient = patient;
 	}
 
@@ -49,12 +49,12 @@ public class EmployeeRating
 		this.rating = rating;
 	}
 
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
+	public void setDoctor(Profile doctor) {
+		this.doctor = doctor;
 	}
 	
-	public Employee getEmployee() {
-		return employee;
+	public Profile getDoctor() {
+		return doctor;
 	}
 	
 	

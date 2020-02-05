@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,12 +22,12 @@ public class Records
 	private Long id;
 	
 	@OneToOne
-	private Patient patient;
+	private Profile patient;
 	private Integer height;
 	private Integer weight;
 	private String alergies;
 	
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private BloodType bloodType;
 	
 	@OneToMany(mappedBy = "records", cascade = CascadeType.ALL, orphanRemoval = true) //potentially false(remember report?)
@@ -37,11 +38,11 @@ public class Records
 		
 	}
 	
-	public Patient getPatient() {
+	public Profile getPatient() {
 		return patient;
 	}
 
-	public void setPatient(Patient patient) {
+	public void setPatient(Profile patient) {
 		this.patient = patient;
 	}
 

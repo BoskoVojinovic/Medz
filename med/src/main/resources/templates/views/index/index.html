@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}">
+<head>
+	<meta charset="UTF-8">
+	<title>MEDz</title>
+</head>
+<body>
+	<div layout:fragment="content" class="container-fluid">
+		<div class="row full-page">
+			<div class="jumbotron left-sidebar col-sm-2 spacerLeft">
+				<p class="lead text-center" th:text="${title}"></p>
+				<hr class="my-4">
+				<p class="text text-center" th:text="${msg}"></p>
+			</div>
+			
+			<div class="jumbotron main-content col-sm-8 spacerLeft">
+  				<h1 class="display-3 text-center">MEDz</h1>
+  				<p class="lead text-center">We keep you healthy, so you don't have to!</p>
+  				<hr class="my-4">
+ 				<p class="text-center">To efficiently avoid death, please <a class="btn btn-primary btn-sm" href="/register" role="button">Register an account</a> with us.</p>
+			</div>
+	
+		</div>
+	</div>
+</body>
+</html>

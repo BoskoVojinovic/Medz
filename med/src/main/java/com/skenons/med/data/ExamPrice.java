@@ -25,6 +25,17 @@ public class ExamPrice
 		
 	}
 	
+	
+	
+	public ExamPrice(ExamType examType, Clinic clinic, Integer basePrice)
+	{
+		this.examType = examType;
+		this.clinic = clinic;
+		this.basePrice = basePrice;
+	}
+
+
+
 	public ExamType getExamType() {
 		return examType;
 	}

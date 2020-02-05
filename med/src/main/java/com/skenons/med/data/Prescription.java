@@ -19,7 +19,7 @@ public class Prescription
 	private Medicine medicine;
 	
 	@ManyToOne
-	private Employee authorizer;
+	private Profile authorizer;
 
 	protected Prescription()
 	{
@@ -42,11 +42,11 @@ public class Prescription
 		this.medicine = medicine;
 	}
 
-	public Employee getAuthorizer() {
+	public Profile getAuthorizer() {
 		return authorizer;
 	}
 
-	public void setAuthorizer(Employee authorizer) {
+	public void setAuthorizer(Profile authorizer) {
 		this.authorizer = authorizer;
 	}
 

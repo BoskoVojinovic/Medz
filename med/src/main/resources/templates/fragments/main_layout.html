@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:sec="http://www.thymeleaf.com/extras/spring-security">
-<head>
-	<link rel="stylesheet" href="../../static/css/style.css" th:href="@{css/style.css}"/>
-	<link rel="stylesheet" href="../../static/css/materia/bootstrap.min.css" th:href="@{css/materia/bootstrap.min.css}"/>
-	<script th:src="@{webjars/jquery/jquery.min.js}"> </script>
-	<script th:src="@{webjars/bootstrap/bootstrap.min.js}"> </script>
-</head>
-<body>
-	<div th:replace="fragments/header::header">
-	</div>
+	<head>
+		<link rel="stylesheet" href="../../static/css/materia/bootstrap.min.css" th:href="@{css/materia/bootstrap.min.css}"/>
+		<link rel="stylesheet" href="../../static/css/style.css" th:href="@{css/style.css}"/>
+		<script th:src="@{webjars/jquery/jquery.min.js}"> </script>
+		<script th:src="@{webjars/bootstrap/bootstrap.min.js}"> </script>
+	</head>
+	<body>
+		<div th:replace="fragments/header::header">
 	
-	<div layout:fragment="content">
+		</div><div class="spacerTop"></div>
 	
-	</div>
+		<div layout:fragment="content"></div>
 	
-	<div th:replace="fragments/footer::footer">
-	</div>
-</body>
+		<div th:replace="fragments/footer::footer"></div>
+	</body>
 </html>

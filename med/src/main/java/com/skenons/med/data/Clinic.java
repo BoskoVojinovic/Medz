@@ -23,20 +23,27 @@ public class Clinic
 	private String description;
 
 	@OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL, orphanRemoval = true)
-	List<Room> rooms;
+	List<Room> rooms = new ArrayList<Room>();
 
 	@OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL, orphanRemoval = true)
-	List<ClinicRating> ratings;
+	List<ClinicRating> ratings = new ArrayList<ClinicRating>();
 	
 	@OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL, orphanRemoval = true)
-	List<ExamPrice> prices;
+	List<ExamPrice> prices = new ArrayList<ExamPrice>();
 	
 	@OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL, orphanRemoval = true)
-	List<Employee> employees;
+	List<Profile> employees = new ArrayList<Profile>();
 	
 	protected Clinic()
 	{
 		
+	}
+	
+	public Clinic(String name, String address, String description)
+	{
+		this.name = name;
+		this.address = address;
+		this.description = description;
 	}
 
 	public String getName() {
@@ -79,7 +86,7 @@ public class Clinic
 		return prices;
 	}
 
-	public List<Employee> getEmployees() {
+	public List<Profile> getEmployees() {
 		return employees;
 	}
 	
@@ -113,11 +120,11 @@ public class Clinic
 		prices.add(ep);
 	}
 	
-	public void addEmployee(Employee e)
+	public void addEmployee(Profile e)
 	{
 		if(employees == null)
 		{
-			employees = new ArrayList<Employee>();
+			employees = new ArrayList<Profile>();
 		}
 		e.setClinic(this);
 		employees.add(e);

@@ -23,13 +23,27 @@ public class ExamType
 	private List<ExamPrice> prices;
 	
 	@OneToMany(mappedBy = "specialty", cascade = CascadeType.ALL)
-	private List<Employee> specialists;
+	private List<Profile> specialists;
 
 	protected ExamType()
 	{
-		
+		prices = new ArrayList<ExamPrice>();
+		specialists = new ArrayList<Profile>();
 	}
 	
+	
+	
+	public ExamType(String name, String description)
+	{
+		super();
+		prices = new ArrayList<ExamPrice>();
+		specialists = new ArrayList<Profile>();
+		this.name = name;
+		this.description = description;
+	}
+
+
+
 	public String getName() {
 		return name;
 	}
@@ -54,7 +68,7 @@ public class ExamType
 		return prices;
 	}
 
-	public List<Employee> getSpecialists() {
+	public List<Profile> getSpecialists() {
 		return specialists;
 	}
 	
@@ -68,11 +82,11 @@ public class ExamType
 		prices.add(ep);
 	}
 	
-	public void addSpecialist(Employee e)
+	public void addSpecialist(Profile e)
 	{
 		if(specialists==null)
 		{
-			specialists = new ArrayList<Employee>();
+			specialists = new ArrayList<Profile>();
 		}
 		e.setSpecialty(this);
 		specialists.add(e);

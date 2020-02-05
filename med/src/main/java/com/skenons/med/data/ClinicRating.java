@@ -13,7 +13,7 @@ public class ClinicRating
 	private Long id;
 	
 	@ManyToOne
-	private Patient patient;
+	private Profile patient;
 	
 	@ManyToOne
 	private Clinic clinic;
@@ -25,11 +25,11 @@ public class ClinicRating
 		
 	}
 	
-	public Patient getPatient() {
+	public Profile getPatient() {
 		return patient;
 	}
 
-	public void setPatient(Patient patient) {
+	public void setPatient(Profile patient) {
 		this.patient = patient;
 	}
 

@@ -1,7 +1,35 @@
- > ManyToOne - OneToMany relationship:
-   - At scale avoid using the bidirectional implementation, where OneToMany creates a list mapped by the other sides ManyToOne relation.
-     It's a neat implementation when working with relatively small data sets, otherwise it becomes very resource intensive!
-   - Setter on the mappedBy side can't exist, rather and Adder or "get list > add" system with dependency injection.
+MODEL:
+	> ManyToOne - OneToMany relationship:
+		- At scale avoid using the bidirectional implementation, where OneToMany creates a list mapped by the other sides ManyToOne relation.
+     	It's a neat implementation when working with relatively small data sets, otherwise it becomes very resource intensive!
+		- Setter on the mappedBy side can't exist, rather and Adder or "get list > add" system with dependency injection.
      
- > OneToOne - OneToOne
-   - Setter on the mappedBy side needs a dependency injection.
+	> OneToOne - OneToOne
+		- Setter on the mappedBy side needs a dependency injection.
+   
+   
+   
+   
+BACK:
+
+
+
+
+
+
+
+
+
+
+
+
+FRONT:
+	> Profile redirect
+		- SecurityConfig blocks access to /profile for non auth requests. Requests that pass thourgh security will be sorted by the ProfileController
+		based on the users role.
+	> Send data to front
+		- You can send data to the frontEnd pages by attaching a Model object and adding attributes to it.
+		You can retrieve those attributes via ThymeLeaf using th:each, th:text ect... methods.
+   
+   
+   

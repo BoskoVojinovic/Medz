@@ -1,13 +1,17 @@
 package com.skenons.med.data;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
+import com.skenons.med.data.enums.ProfileType;
 
 @Entity
 public class Profile
@@ -20,6 +24,8 @@ public class Profile
 	
 	@NotEmpty @Size(min = 8)
 	private String password;
+	@Transient
+	private String repassword;
 	
 	@NotEmpty @Size(max = 50)
 	private String name;
@@ -33,12 +39,19 @@ public class Profile
 	@NotEmpty @Size(max = 100)
 	private String address;
 	
-	@OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Employee employeeProfile;
+	@ManyToOne
+	private Clinic clinic;
 	
-	@OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Patient patientProfile;
+	@ManyToOne()
+	private ExamType specialty;
+	
+	@Enumerated(EnumType.STRING)
+	private ProfileType type;
+	
+	private String workingHours;//HH:MM-HH:MM format!
 
+	private Boolean approved = false;
+	
 	public Profile()
 	{
 		
@@ -107,24 +120,6 @@ public class Profile
 		this.address = address;
 	}
 
-	public Employee getEmployeeProfile() {
-		return employeeProfile;
-	}
-
-	public void setEmployeeProfile(Employee employeeProfile) {
-		employeeProfile.setProfile(this);
-		this.employeeProfile = employeeProfile;
-	}
-
-	public Patient getPatientProfile() {
-		return patientProfile;
-	}
-
-	public void setPatientProfile(Patient patientProfile) {
-		patientProfile.setProfile(this);
-		this.patientProfile = patientProfile;
-	}
-
 	public void setIDNum(String id)
 	{
 		this.IDNum = id;
@@ -133,12 +128,54 @@ public class Profile
 	public String getIDNum() {
 		return IDNum;
 	}
+	
+	public Clinic getClinic() {
+		return clinic;
+	}
+
+	public void setClinic(Clinic clinic) {
+		this.clinic = clinic;
+	}
+
+	public ProfileType getType() {
+		return type;
+	}
+
+	public void setType(ProfileType type) {
+		this.type = type;
+	}
+
+	public String getWorkingHours() {
+		return workingHours;
+	}
+
+	public void setWorkingHours(String workingHours) {
+		this.workingHours = workingHours;
+	}
+
+	public ExamType getSpecialty() {
+		return specialty;
+	}
+
+	public void setSpecialty(ExamType specialty) {
+		this.specialty = specialty;
+	}
+	
+	public Boolean getApproved() {
+		return approved;
+	}
+
+	public void setApproved(Boolean approved) {
+		this.approved = approved;
+	}
+
+	public String getRepassword() {
+		return repassword;
+	}
 
 	@Override
 	public String toString() {
 		return "Profile [IDNum=" + IDNum + ", email=" + email + ", password=" + password + ", name=" + name
 				+ ", lastName=" + lastName + ", cellNumber=" + cellNumber + ", address=" + address + "]";
 	}
-	
-	
 }

@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.skenons.med.data.ExamPrice;
 
-public interface IExamPriceRepo extends JpaRepository<ExamPrice, String> {
+public interface IExamPriceRepo extends JpaRepository<ExamPrice, Long> {
 
 }

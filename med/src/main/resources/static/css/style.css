@@ -1,5 +1,25 @@
 body
 {
-	background-image: url("assets/bcg.png");
+	background-image: url("bcg.png");
 	background-repeat: repeat;
 }
+
+.spacerTop
+{
+    margin-top: 40px;
+}
+.spacerLeft
+{
+    margin-left: 40px;
+}
+
+.debug
+{
+	border: 5px solid red;
+}
+
+.width80
+{
+	width:80%;
+}
+
