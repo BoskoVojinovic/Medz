@@ -10,27 +10,38 @@
 	<div layout:fragment="content" class="container">
 		
 		<div class="jumbotron">
-			<p class="text text-center">This is a profile page for clinic admins!</p>
-			<p class="text text-center">Only visible for logged in users.</p>
+			<div id="links" style="width: 100%;height: 100%">
+			<table  style="display: inline-flex;width: 100%;height: 100%">
+				<tr style="width: 100%;height: 100%">
+					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors (id=${profile.clinic.id})}">Lekari</a></td>
+					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/rooms (id=${profile.clinic.id})}">Sobe</a></td>
+					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/examTypes (id=${profile.clinic.id})}">Tipovi pregleda</a></td>
+					
+				</tr>
+				<tr style="width: 100%;height: 100%">
+					<td><button style="width: 100%;height: 100%" class="btn btn-outline-primary" id="clinicsReports">Izvestaji</button></td>
+					<td><button style="width: 100%;height: 100%" class="btn btn-outline-primary" id="examTypes">Tipovi pregleda</button></td>
+					<td><button style="width: 100%;height: 100%" class="btn btn-outline-primary" id="examRequests">Termini pregleda</button></td>
+				</tr>
+			</table>
+		</div>
 		</div>
 		
 		<div class="card">
 			<div class="card card-body">
-				<p class="text text-center">Logged in as:</p>
+				<p class="text text-center">Clinic:</p>
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>Admin ID</th>
-							<th>Admin Name</th>
-							<th>Admin LastName</th>
+							<td th:text="${profile.clinic.id}"></td>
+							
+							<td rowspan="2" th:text="${profile.clinic.description}"></td>
 						</tr>
 					</thead>
 					
 					<tbody>
 						<tr>
-							<td th:text="${profile.IDNum}"></td>
-							<td th:text="${profile.name}"></td>
-							<td th:text="${profile.lastName}"></td>
+							<td th:text="${profile.clinic.address}"></td>
 						</tr>
 					</tbody>
 				</table>

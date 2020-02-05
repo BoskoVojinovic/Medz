@@ -28,6 +28,8 @@ public class PageController
 		return "views/login";
 	}
 	
+	
+	
 	@GetMapping("/debug")
 	public String debug(Model m)
 	{
@@ -56,6 +58,7 @@ public class PageController
 			Profile p;
 			p = ps.getOne("1111111111115").get(); p.setClinic(cs.getOne(1L).get()); p.setSpecialty(e); ps.saveOne(p);
 			p = ps.getOne("1111111111116").get(); p.setClinic(cs.getOne(3L).get()); p.setSpecialty(e); ps.saveOne(p);
+			p = ps.getOne("1111111111117").get(); p.setClinic(cs.getOne(3L).get()); p.setSpecialty(e); ps.saveOne(p);
 			
 			
 			m.addAttribute("title","DEBUG MSG");

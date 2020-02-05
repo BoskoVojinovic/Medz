@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insasfase</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+<div class="card">
+			<div class="card card-body">
+				<p class="text text-center">Logged in as:</p>
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Name</th>
+							<th>LastName</th>
+							<th>Address</th>
+							<th>Mobile number</th>
+							<th>Specialty</th>
+							<th>Working hours</th>
+							<th>Email</th>
+						</tr>
+					</thead>
+					
+					<tbody th:each="profile : ${doctors}">
+						<tr>
+							<td th:text="${profile.IDNum}"></td>
+							<td th:text="${profile.name}"></td>
+							<td th:text="${profile.lastName}"></td>
+							<td th:text="${profile.address}"></td>
+							<td th:text="${profile.cellNumber}"></td>
+							<td th:text="${profile.specialty}"></td>
+							<td th:text="${profile.workingHours}"></td>
+							<td th:text="${profile.email}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
