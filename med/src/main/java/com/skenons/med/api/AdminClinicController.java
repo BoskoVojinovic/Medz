@@ -79,6 +79,16 @@ public class AdminClinicController {
 		return "views/adminPages/roomForm";
 	}
 	
+	@GetMapping("/{id}/rooms/remove/{roomId}")
+	public String removeRooms(@PathVariable(value = "id") Long id, @PathVariable(value = "roomId") Long roomId, Model model) {
+		System.out.println(id +"ASadD");
+		model.addAttribute("clinicId", id);
+		model.addAttribute("roomId", roomId);
+		roomService.deleteOne(roomId);
+		model.addAttribute("rooms", roomService.getRoomsByClinic(id));
+		return "views/adminPages/rooms";
+	}
+	
 	@PostMapping("/{id}/rooms")
 	public String updateRoomsForm(@PathVariable(value = "id") Long id, @Valid Room room, BindingResult br, Model model) {
 		System.out.println(id +"ASadD");
