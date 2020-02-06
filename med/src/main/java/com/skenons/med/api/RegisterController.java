@@ -1,15 +1,20 @@
 package com.skenons.med.api;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.skenons.med.EmailConfig;
+import com.skenons.med.SecurityConfig;
 import com.skenons.med.data.Profile;
 import com.skenons.med.service.ProfileService;
 
@@ -30,9 +35,10 @@ public class RegisterController
 	public String registerProfile(@Valid Profile p, BindingResult br, Model m)
 	{
 		
-		if(!p.getPassword().equals(p.getRepassword()))
+		if(!p.getPassword().equals(p.getRePassword()))
 		{
-			//br.addError(new ObjectError("repassword", "Please"));
+			System.out.println("asdfasdfasdfas");
+			br.addError(new FieldError("profile", "rePassword", "Passwords must match!"));
 		}
 		if(br.hasErrors())
 		{
@@ -44,7 +50,32 @@ public class RegisterController
 			return "views/register";
 		}
 		ps.createPatient(p);
+		EmailConfig.sendVerificationMail(p);
 		return "views/registerSuccess";
+	}
+	
+	@GetMapping("/verify/{id}/{token}")
+	public String registerForm(@PathVariable(value = "id") String id, @PathVariable(value = "token") String token, Model model)
+	{
+		Optional<Profile> op = ps.getOne(id);
+		System.out.println(token);
+		System.out.println(SecurityConfig.getVerifyToken(op.get()));
+		if(!op.isPresent() || !SecurityConfig.getVerifyToken(op.get()).equals(token))
+		{
+			model.addAttribute("msg","Invalid verification link!");
+			return "views/verify";
+		}
+		if(op.get().getVerified())
+		{
+			model.addAttribute("msg","Account already verified! But thanks for being thorough!");
+		}
+		else
+		{
+			op.get().setVerified(true);
+			ps.saveOne(op.get());
+			model.addAttribute("msg","Account verified, please proceed to the login page.");
+		}
+		return "views/verify";
 	}
 	
 }

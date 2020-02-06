@@ -32,6 +32,7 @@ public class ProfileService extends ISSService<IProfileRepo, Profile, String>
 	public void createProfileAs(@Valid Profile p, ProfileType type)
 	{
 		p.setPassword(SecurityConfig.passEnc().encode(p.getPassword()));
+		p.setRePassword(SecurityConfig.passEnc().encode(p.getRePassword()));
 		p.setType(type);
 		repo.save(p);
 	}

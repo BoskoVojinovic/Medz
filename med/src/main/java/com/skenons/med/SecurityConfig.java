@@ -1,6 +1,10 @@
 package com.skenons.med;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import javax.sql.DataSource;
+import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +15,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.skenons.med.data.Profile;
 
 @Configuration
 @EnableWebSecurity
@@ -24,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter //PATIENT LOGIN
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception
 	{
 		auth.jdbcAuthentication().dataSource(ds)
-		.usersByUsernameQuery("select idnum as principal, password as credentials, true from profile where idnum=?")
+		.usersByUsernameQuery("select idnum as principal, password as credentials, true from profile where idnum=? and verified=true")
 		.authoritiesByUsernameQuery("select idnum as principal, type as role from profile where idnum=?")
 		.passwordEncoder(passEnc())
 		;
@@ -37,7 +43,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter //PATIENT LOGIN
 				"/",
 				"/register",
 				"/login",
-				"/debug", 
+				"/verify/**",
+				//"/debugBurn",
+				"/debugFill",
 				"/about",
 				"/css/**",
 				"/webjars/**"
@@ -46,6 +54,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter //PATIENT LOGIN
 				.anyRequest().authenticated()			
 				.and().formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/profile")
 				.and().logout().logoutSuccessUrl("/");
+	}
+	
+	public static String getVerifyToken(Profile p)
+	{
+		MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return DatatypeConverter.printHexBinary(md.digest((p.getIDNum()+"Magic Sauce").getBytes())).toUpperCase();
+		
 	}
 	
 	@Bean

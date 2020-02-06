@@ -7,17 +7,28 @@
 	<title>MEDz</title>
 </head>
 <body>
-	<div layout:fragment="content" class="container">
+	<div layout:fragment="content" class="container-fluid">
 		
-		<div class="jumbotron">
-  			<h1 class="display-3 text-center">MEDz</h1>
-  			<p class="lead text-center">We keep you healthy, so you don't have to!</p>
-  			<hr class="my-4">
- 			<p class="text-center">Home page for patients.</p>
+		<div class="row full-page">
+			<div class="jumbotron left-sidebar col-sm-2 spacerLeft">
+				<p class="lead text-center" th:text="${title}"></p>
+				<hr class="my-4">
+				<p class="text text-center" th:text="${msg}"></p>
+			</div>
+			
+			<div class="jumbotron main-content col-sm-8 spacerLeft">
+  				<h1 class="display-3 text-center">MEDz</h1>
+  				<p class="lead text-center">We keep you healthy, so you don't have to!</p>
+  				<hr class="my-4">
+  				
+  				<div class="text-center">
+ 					<a href="#" class="btn btn-primary spacerTop">Clinic search</a>
+ 					<a href="#" class="btn btn-primary spacerTop">Exam history</a>
+ 					<a href="#" class="btn btn-primary spacerTop">Medical records</a>
+ 					<a href="/profile" class="btn btn-primary spacerTop">Edit Profile</a>
+ 				</div>
+			</div>
 		</div>
-		
-		
-	
 	</div>
 </body>
 </html>

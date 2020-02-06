@@ -23,9 +23,10 @@ public class Profile
 	private String email;
 	
 	@NotEmpty @Size(min = 8)
-	private String password;
+	private String password="";
+	
 	@Transient
-	private String repassword;
+	private String rePassword="";
 	
 	@NotEmpty @Size(max = 50)
 	private String name;
@@ -51,6 +52,8 @@ public class Profile
 	private String workingHours;//HH:MM-HH:MM format!
 
 	private Boolean approved = false;
+	
+	private Boolean verified = false;
 	
 	public Profile()
 	{
@@ -169,8 +172,20 @@ public class Profile
 		this.approved = approved;
 	}
 
-	public String getRepassword() {
-		return repassword;
+	public String getRePassword() {
+		return rePassword;
+	}
+
+	public void setRePassword(String rePassword) {
+		this.rePassword = rePassword;
+	}
+	
+	public Boolean getVerified() {
+		return verified;
+	}
+
+	public void setVerified(Boolean verified) {
+		this.verified = verified;
 	}
 
 	@Override
