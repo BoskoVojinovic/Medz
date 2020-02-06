@@ -1,7 +1,6 @@
 package com.skenons.med.api;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -29,6 +27,7 @@ import com.skenons.med.service.AdminExamTypeService;
 import com.skenons.med.service.AdminProfileService;
 import com.skenons.med.service.AdminRoomService;
 import com.skenons.med.service.ClinicService;
+import com.skenons.med.service.ProfileService;
 
 @Controller
 @RequestMapping("/clinic")
@@ -37,6 +36,10 @@ public class AdminClinicController {
 	private ClinicService clinicService;
 	@Autowired
 	private AdminProfileService profileService;
+	
+
+	@Autowired
+	private ProfileService profileServices;
 	@Autowired
 	private AdminRoomService roomService;
 	
@@ -91,7 +94,8 @@ public class AdminClinicController {
 	public String addDoctorsForm(@PathVariable(value = "id") Long id, Model model) {
 		System.out.println(id +"ASadD");
 		model.addAttribute("clinicId", id);
-		model.addAttribute("doctor", new Profile());
+		model.addAttribute("profile", new Profile());
+		model.addAttribute("specialities", examPriceService.getTypesByClinic(id));
 		return "views/adminPages/doctorForm";
 	}
 	
@@ -191,10 +195,13 @@ public class AdminClinicController {
 	public String addDoctor(@PathVariable(value = "id") Long id, @Valid Profile profile, BindingResult br, Model model) {
 		System.out.println(id +"ASadD");
 		model.addAttribute("clinicId", id);
+		model.addAttribute("specialities", examPriceService.getTypesByClinic(id));
+
 		profile.setClinic(clinicService.getOne(id).get());
 		profile.setType(ProfileType.DOCTOR);
 		if(br.hasErrors())
 		{
+
 			return "views/adminPages/doctorForm";
 		}
 
@@ -203,7 +210,7 @@ public class AdminClinicController {
 			model.addAttribute("exist", true);
 			return "views/adminPages/doctorForm";
 		}
-		profileService.saveOne(profile);
+		profileServices.createProfileAs(profile, profile.getType());
 
 		model.addAttribute("doctors", profileService.getDoctorsByClinic(id));
 		return "views/adminPages/doctors";
