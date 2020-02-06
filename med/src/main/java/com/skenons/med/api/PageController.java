@@ -80,7 +80,7 @@ public class PageController
 			Profile p;
 			p = s12.getOne("1111111111115").get(); p.setClinic(s2.getOne(1L).get()); p.setSpecialty(e); s12.saveOne(p);
 			p = s12.getOne("1111111111116").get(); p.setClinic(s2.getOne(3L).get()); p.setSpecialty(e); s12.saveOne(p);
-			p = s12.getOne("1111111111117").get(); p.setClinic(s2.getOne(3L).get()); p.setSpecialty(e); s12.saveOne(p);
+			p = s12.getOne("1111111111117").get(); p.setClinic(s2.getOne(3L).get()); p.setSpecialty(e); p.setVerified(true); s12.saveOne(p);
 			
 			
 			

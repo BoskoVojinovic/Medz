@@ -17,6 +17,7 @@
 							<th hidden="true">ID</th>
 							<th>Floor</th>
 							<th>Number</th>
+							<th><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/rooms/form (id=${clinicId})}">Dodaj</a></th>
 						</tr>
 					</thead>
 					
@@ -25,6 +26,7 @@
 							<td hidden="true" th:text="${profile.id}"></td>
 							<td th:text="${profile.floor}"></td>
 							<td th:text="${profile.number}"></td>
+							<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/rooms/{roomId} (id=${clinicId}, roomId=${profile.id})}">Izmeni</a></td>
 						</tr>
 					</tbody>
 				</table>

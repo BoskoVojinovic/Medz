@@ -18,7 +18,7 @@ public class Room
 	private Integer floor;
 	private Integer number;
 	
-	protected Room()
+	public Room()
 	{
 		
 	}
