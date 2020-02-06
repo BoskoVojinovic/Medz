@@ -297,8 +297,4 @@ public class AdminClinicController {
 		clinicService.deleteOne(id);
 	}
 	
-	@PutMapping("/{id}")
-	public void update(@PathVariable Long id, @RequestBody Clinic Clinic){
-		clinicService.consumeAndSave(id,(Consumer<com.skenons.med.data.Clinic>) Clinic);
-	}
 }
