@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}"><head><head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<div layout:fragment="content" class="container">
+		<div class="alert alert-info" th:if="${exist}">
+			<p class="text text-center">
+				A profile with that ID number already exists!
+			</p>
+		</div>
+		<div th:switch="${active}">
+    <form th:case="true" th:action="@{/clinic/{id}/examTypes (id=${clinicId})}" th:object="${examType}" method="post" class="jumbotron text-center">
+			
+			<div class="alert alert-dismissible alert-primary">
+				<p class="text text-center">Every user registration is subject to admin approval. Once approved, a verification notification will be sent to the e-mail address you specified.</a></p>
+			</div>
+			<div class="progress">
+  				<div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+			<div class="form-group spacerTop">
+				<label for="name" class="form-control-label">Exam type name:</label>
+				<input type="text" class="form-control" th:field="*{name}" id="name"/>
+				<div class="text text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+			</div>
+			<div class="form-group">
+				<label for="description" class="form-control-label">Exam type description:</label>
+				<input type="text" class="form-control" th:field="*{description}" id="description"/>
+				<div class="text text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+			</div>
+			
+			<div class="progress">
+  				<div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+			
+			<input type="submit" value="AddExamType" class="btn btn-primary spacerTop"/>
+		</form>
+		<form th:case="false" th:action="@{/clinic/{id}/examTypes/{examTypeId} (id=${clinicId}, examTypeId=${examTypeId})}" th:object="${examType}" method="post" class="jumbotron text-center">
+			
+			<div class="alert alert-dismissible alert-primary">
+				<p class="text text-center">Every user registration is subject to admin approval. Once approved, a verification notification will be sent to the e-mail address you specified.</a></p>
+			</div>
+			<div class="progress">
+  				<div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+			<div class="form-group spacerTop">
+				<label for="name" class="form-control-label">Exam type name:</label>
+				<input type="text" class="form-control" th:field="*{name}" id="name"/>
+				<div class="text text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+			</div>
+			<div class="form-group">
+				<label for="description" class="form-control-label">Exam type description:</label>
+				<input type="text" class="form-control" th:field="*{description}" id="description"/>
+				<div class="text text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+			</div>
+			<div class="progress">
+  				<div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+			
+			<input type="submit" value="UpdateExamType" class="btn btn-primary spacerTop"/>
+		</form>
+</div>
+		
+	</div>
+</body>
+</html>

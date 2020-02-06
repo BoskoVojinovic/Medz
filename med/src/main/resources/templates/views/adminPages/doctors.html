@@ -22,6 +22,8 @@
 							<th>Specialty</th>
 							<th>Working hours</th>
 							<th>Email</th>
+							<th><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors/form (id=${clinicId})}">Dodaj</a></th>
+						
 						</tr>
 					</thead>
 					
@@ -35,6 +37,8 @@
 							<td th:text="${profile.specialty}"></td>
 							<td th:text="${profile.workingHours}"></td>
 							<td th:text="${profile.email}"></td>
+							<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors/remove/{doctorId} (id=${clinicId}, doctorId=${profile.IDNum})}">Obrisi</a></td>
+						
 						</tr>
 					</tbody>
 				</table>

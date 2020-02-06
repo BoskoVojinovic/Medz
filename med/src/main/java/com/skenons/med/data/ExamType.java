@@ -25,7 +25,7 @@ public class ExamType
 	@OneToMany(mappedBy = "specialty", cascade = CascadeType.ALL)
 	private List<Profile> specialists;
 
-	protected ExamType()
+	public ExamType()
 	{
 		prices = new ArrayList<ExamPrice>();
 		specialists = new ArrayList<Profile>();
