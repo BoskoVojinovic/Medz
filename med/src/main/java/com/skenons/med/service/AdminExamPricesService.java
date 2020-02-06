@@ -30,4 +30,9 @@ public class AdminExamPricesService  extends ISSService<IExamPriceRepo, ExamPric
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public ExamPrice findByExamTypeId(Long examTypeId) {
+		// TODO Auto-generated method stub
+		return repo.findAll().stream().filter(x -> x.getExamType().getId() == examTypeId).collect(Collectors.toList()).get(0);
+	}
 }

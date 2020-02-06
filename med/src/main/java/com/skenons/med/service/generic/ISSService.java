@@ -35,9 +35,9 @@ public abstract class ISSService<R extends JpaRepository<T,K>,T,K>
 	{
 		repo.deleteAll();
 	}
-	public void saveOne(T object)
+	public T saveOne(T object)
 	{
-		repo.save(object);
+		return repo.save(object);
 	}
 	
 	public boolean updateOne(K originalID, T newObject)

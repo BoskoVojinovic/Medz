@@ -20,7 +20,7 @@ public class ExamPrice
 	
 	private Integer basePrice;
 
-	protected ExamPrice()
+	public ExamPrice()
 	{
 		
 	}

@@ -84,7 +84,7 @@ public class AdminClinicController {
 		System.out.println(id +"ASadD");
 		model.addAttribute("clinicId", id);
 		model.addAttribute("active", true);
-		model.addAttribute("examType", new ExamType());
+		model.addAttribute("examPrice", new ExamPrice());
 		return "views/adminPages/examTypesForm";
 	}
 	@GetMapping("/{id}/doctors/form")
@@ -110,8 +110,8 @@ public class AdminClinicController {
 		model.addAttribute("clinicId", id);
 		model.addAttribute("active", false);
 		model.addAttribute("examTypeId", examTypeId);
-		model.addAttribute("examType", examTypeService.getOne(examTypeId));
-		return "views/adminPages/examTypeForm";
+		model.addAttribute("examPrice", examPriceService.findByExamTypeId(examTypeId));
+		return "views/adminPages/examTypesForm";
 	}
 	
 	@GetMapping("/{id}/rooms/remove/{roomId}")
@@ -131,7 +131,7 @@ public class AdminClinicController {
 		model.addAttribute("examTypeId", examTypeId);
 		examTypeService.deleteOne(examTypeId);
 		examPriceService.deleteByExamTypeId(examTypeId);
-		model.addAttribute("examTypes", examPriceService.getTypesByClinic(id));
+		model.addAttribute("types", examPriceService.getTypesByClinic(id));
 		return "views/adminPages/examTypes";
 	}
 	
@@ -165,23 +165,26 @@ public class AdminClinicController {
 		return "views/adminPages/rooms";
 	}
 	@PostMapping("/{id}/examTypes")
-	public String addExamType(@PathVariable(value = "id") Long id, @Valid ExamType examType, int price, BindingResult br, Model model) {
+	public String addExamType(@PathVariable(value = "id") Long id, @Valid ExamPrice examPrice, BindingResult br, Model model) {
 		System.out.println(id +"ASadD");
 		model.addAttribute("clinicId", id);
 		if(br.hasErrors())
 		{
 			return "views/adminPages/examTypeForm";
 		}
-		if (examTypeService.checkIfExists(examType, id)) {
+		ExamType et = new ExamType(examPrice.getExamType().getName(), examPrice.getExamType().getDescription());
+		if (examTypeService.checkIfExists(et, id)) {
+			System.out.println("AS");
 			model.addAttribute("exist", true);
-			return "views/adminPages/examTypeForm";
+			return "views/adminPages/examTypesForm";
 		}
+		ExamType e = examTypeService.saveOne(et);
 
-		ExamPrice ep = new ExamPrice(examType, clinicService.getOne(id).get(), price);
-		examPriceService.saveOne(ep);
-		examTypeService.saveOne(examType);
+		examPrice.setClinic(clinicService.getOne(id).get());
+		examPrice.setExamType(examTypeService.getOne(e.getId()).get());
+		examPriceService.saveOne(examPrice);
 
-		model.addAttribute("examTypes", examPriceService.getTypesByClinic(id));
+		model.addAttribute("types", examPriceService.getTypesByClinic(id));
 		return "views/adminPages/examTypes";
 	}
 	@PostMapping("/{id}/doctors")
@@ -227,6 +230,38 @@ public class AdminClinicController {
 
 		model.addAttribute("rooms", roomService.getRoomsByClinic(id));
 		return "views/adminPages/rooms";
+	}
+	
+	@PostMapping("/{id}/examTypes/{examTypeId}")
+	public String updateExamType(@PathVariable(value = "id") Long id, @PathVariable(value = "examTypeId") Long examTypeId, @Valid ExamPrice examPrice, BindingResult br, Model model) {
+		model.addAttribute("clinicId", id);
+
+		if(br.hasErrors())
+		{
+			System.out.println("HASE");
+			model.addAttribute("types", examPriceService.getTypesByClinic(id));
+			return "views/adminPages/examTypesForm";
+		}
+		ExamType o = new ExamType(examPrice.getExamType().getName(),examPrice.getExamType().getDescription());
+		System.out.println(examPrice.getExamType().getName() + "AAA");
+
+		if (examTypeService.checkIfExists(o, id)) {
+			System.out.println(examPrice.getExamType().getName() + "AAAAAAA");
+
+			model.addAttribute("exist", true);
+			return "views/adminPages/examTypesForm";
+		}
+		ExamType et = examTypeService.getOne(examTypeId).get();
+		et.setDescription(examPrice.getExamType().getDescription());
+		et.setName(examPrice.getExamType().getName());
+		
+		examTypeService.updateOne(examTypeId, et);
+
+		ExamPrice ep = examPriceService.findByExamTypeId(examTypeId);
+		ep.setBasePrice(examPrice.getBasePrice());
+		examPriceService.updateOne(ep.getId(), ep);
+		model.addAttribute("types", examPriceService.getTypesByClinic(id));
+		return "views/adminPages/examTypes";
 	}
 	
 	@GetMapping("/{id}/examTypes")
