@@ -174,7 +174,7 @@ public class AdminClinicController {
 		model.addAttribute("clinicId", id);
 		if(br.hasErrors())
 		{
-			return "views/adminPages/examTypeForm";
+			return "views/adminPages/examTypesForm";
 		}
 		ExamType et = new ExamType(examPrice.getExamType().getName(), examPrice.getExamType().getDescription());
 		if (examTypeService.checkIfExists(et, id)) {

@@ -22,7 +22,7 @@ public class ExamType
 	@OneToMany(mappedBy = "examType", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ExamPrice> prices;
 	
-	@OneToMany(mappedBy = "specialty", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "specialty")
 	private List<Profile> specialists;
 
 	public ExamType()
