@@ -104,19 +104,31 @@ public class AdminClinicController {
 	
 	@GetMapping("/getRoomsByDate")
 	public String getRoomsByDate(@PathParam(value = "start") String start, @PathParam(value = "duration") String duration, Exam exam, HttpServletRequest http) {
-		System.out.println(start +"ASadD");
+		System.out.println(exam.getStart() +"ASadD");
 		http.getSession().setAttribute("exam", exam);
+		
 		return "views/adminPages/examSlotForm";
 	}
 	
 	@GetMapping("/{id}/examSlots/form")
 	public String addExamSlotForm(@PathVariable(value = "id") Long id, Model model) {
-		System.out.println(id +"ASadD");
+
+		model.addAttribute("rooms", roomService.getRoomsByClinic(id));
 		model.addAttribute("clinicId", id);
 		model.addAttribute("active", true);
 		model.addAttribute("examSlot", new Exam());
 		return "views/adminPages/examSlotForm";
 	}
+	@PostMapping("/{id}/examSlots")
+	public String addExamSlot(@PathVariable(value = "id") Long id, @Valid Exam exam, BindingResult br, Model model) {
+		System.out.println(exam.getDuration() + ""+ exam.getStart() +"ASadD");
+		model.addAttribute("clinicId", id);
+		
+		model.addAttribute("rooms", roomService.getRoomsByClinic(id));
+		model.addAttribute("examSlot", exam);
+		return "views/adminPages/examSlotForm";
+	}
+	
 	
 	@GetMapping("/{id}/examTypes/form")
 	public String addExamTypesForm(@PathVariable(value = "id") Long id, Model model) {

@@ -26,8 +26,7 @@ public class Exam
 	@NotNull @ManyToOne
 	private Profile doctor;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "yyyy-MM-dd, HH:mm")
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private Date start;
 
 	@Temporal(TemporalType.TIME)

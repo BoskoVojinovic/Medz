@@ -7,14 +7,12 @@
  $(function () {
      $('#start').on("change", function() {
             console.log($('#start').val());
-            $.get({
-            	url:'/clinic/getRoomsByDate',
-            	data: ({"start" :$('#start').val(), "duration": $('#duration').val()}),
-            	success:function(data) {
-            		
-            	}
-            })
+            $( "#butt" ).trigger( "submit" );
      });
+     $('#duration').on("change", function() {
+         console.log($('#duration').val());
+         $( "#butt" ).trigger( "submit" );
+  });
 });
 
 </script>
@@ -27,7 +25,7 @@
 			<p class="text text-center">A profile with that ID number already
 				exists!</p>
 		</div>
-		<form th:action="@{/clinic/{id}/examSlot (id=${clinicId})}"
+		<form th:action="@{/clinic/{id}/examSlots (id=${clinicId})}"
 			th:object="${examSlot}" method="post" class="jumbotron text-center">
 
 			<!-- <div class="alert alert-dismissible alert-primary">
@@ -99,36 +97,36 @@
 					th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
 			</div> -->
 			<div class="form-group">
-				<label for="start" class="form-control-label">Exam starts:</label><input type="date" class="form-control"
+				<label for="start" class="form-control-label">Exam starts:</label><input type="datetime-local" class="form-control"
 					th:field="*{start}" id="start" />
-			<!-- 	<div class="text text-danger"
+				<div class="text text-danger"
 					th:if="${#fields.hasErrors('start')}" th:errors="*{start}"></div>
-		 -->	</div>
+		</div>
 			<div class="form-group">
 				<label for="duration" class="form-control-label">Exam duration:</label><input type="time" class="form-control"
 					th:field="*{duration}" id="duration" />
 				<!-- <div class="text text-danger"
 					th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"></div> -->
-			</div><!-- 
+			</div>
 			<div class="form-group">
-				<label for="specialty" class="form-control-label">Mailing
-					address:</label> <select th:field="*{specialty}">
-					<option th:each="specialty : ${specialities}" th:value="${specialty.id}"
-						th:text="${specialty.name}"></option>
+				<label for="room" class="form-control-label">Mailing
+					address:</label> <select th:field="*{room}">
+					<option th:each="room : ${rooms}" th:value="${room.id}"
+						th:text="${room.number}"></option>
 				</select> 
-				<div class="text text-danger"
-					th:if="${#fields.hasErrors('specialty')}" th:errors="*{specialty}"></div>
+			<!--  	<div class="text text-danger"
+					th:if="${#fields.hasErrors('room')}" th:errors="*{room}"></div>-->
 			</div>
 
 
-
+<!-- 
 			<div class="progress">
 				<div class="progress-bar" role="progressbar" style="width: 100%;"
 					aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
 			</div>
-
-			<input type="submit" value="Add doctor"
-				class="btn btn-primary spacerTop" /> -->
+-->
+			<input type="submit" id="butt" value="Add exam"
+				class="btn btn-primary spacerTop" /> 
 		</form>
 	</div>
 
