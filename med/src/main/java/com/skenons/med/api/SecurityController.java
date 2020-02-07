@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.skenons.med.EmailConfig;
 import com.skenons.med.SecurityConfig;
+import com.skenons.med.data.PasswordChange;
 import com.skenons.med.data.Profile;
 import com.skenons.med.data.enums.ProfileType;
 import com.skenons.med.service.ProfileService;
@@ -74,6 +75,9 @@ public class SecurityController//Handling login, register and account verificati
 		}
 		if(!op.get().getType().equals(ProfileType.PATIENT))
 		{
+			PasswordChange pc = new PasswordChange();
+			pc.setIDNum(id);
+			model.addAttribute("passwordChange", pc);
 			return "views/security/verifyStaff";
 		}
 		if(op.get().getVerified())

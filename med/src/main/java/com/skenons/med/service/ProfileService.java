@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.stereotype.Service;
 
+import com.skenons.med.EmailConfig;
 import com.skenons.med.SecurityConfig;
 import com.skenons.med.data.Profile;
 import com.skenons.med.data.enums.ProfileType;
@@ -35,6 +36,7 @@ public class ProfileService extends ISSService<IProfileRepo, Profile, String>
 		p.setRePassword(SecurityConfig.passEnc().encode(p.getRePassword()));
 		p.setType(type);
 		repo.save(p);
+		EmailConfig.sendVerificationMail(p);
 	}
 	
 	public Profile getOrCreateMainAdmin()

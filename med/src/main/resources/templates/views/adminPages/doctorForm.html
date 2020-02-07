@@ -84,11 +84,18 @@
 					th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
 			</div>
 			<div class="form-group">
-				<label for="workingHours" class="form-control-label">Mailing
-					address:</label> <input type="text" placeholder="HH:MM-HH:MM" class="form-control"
-					th:field="*{workingHours}" id="workingHours" />
-				<div class="text text-danger"
-					th:if="${#fields.hasErrors('workingHours')}" th:errors="*{workingHours}"></div>
+				<label for="workingHoursStart" class="form-control-label">Mailing
+					address:</label><input type="time" class="form-control"
+					th:field="*{workingHoursStart}" id="workingHoursStart" />
+			<!-- 	<div class="text text-danger"
+					th:if="${#fields.hasErrors('workingHoursStart')}" th:errors="*{workingHoursStart}"></div>
+		 -->	</div>
+			<div class="form-group">
+				<label for="workingHoursEnd" class="form-control-label">Mailing
+					address:</label><input type="time" class="form-control"
+					th:field="*{workingHoursEnd}" id="workingHoursEnd" />
+				<!-- <div class="text text-danger"
+					th:if="${#fields.hasErrors('workingHoursEnd')}" th:errors="*{workingHoursEnd}"></div> -->
 			</div>
 			<div class="form-group">
 				<label for="specialty" class="form-control-label">Mailing

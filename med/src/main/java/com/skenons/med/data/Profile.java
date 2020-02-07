@@ -15,6 +15,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.skenons.med.data.enums.ProfileType;
 
 @Entity
@@ -53,10 +55,14 @@ public class Profile
 	@Enumerated(EnumType.STRING)
 	private ProfileType type;
 	
-	@Temporal(TemporalType.TIME)
+
+@Temporal(TemporalType.TIME)
+@DateTimeFormat(pattern = "HH:mm")
 	private Date workingHoursStart;
 	
-	@Temporal(TemporalType.TIME)
+
+@Temporal(TemporalType.TIME)
+@DateTimeFormat(pattern = "HH:mm")
 	private Date workingHoursEnd;
 
 	private Boolean approved = true; //automatic admins :D

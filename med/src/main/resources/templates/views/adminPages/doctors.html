@@ -20,7 +20,8 @@
 							<th>Address</th>
 							<th>Mobile number</th>
 							<th>Specialty</th>
-							<th>Working hours</th>
+							<th>Working hours start</th>
+							<th>Working hours end</th>
 							<th>Email</th>
 							<th><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors/form (id=${clinicId})}">Dodaj</a></th>
 						
@@ -35,7 +36,8 @@
 							<td th:text="${profile.address}"></td>
 							<td th:text="${profile.cellNumber}"></td>
 							<td th:text="${profile.specialty}"></td>
-							<td th:text="${profile.workingHours}"></td>
+							<td th:text="${#dates.format(profile.workingHoursStart, 'HH:mm')}"></td>
+							<td th:text="${#dates.format(profile.workingHoursEnd, 'HH:mm')}"></td>
 							<td th:text="${profile.email}"></td>
 							<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors/remove/{doctorId} (id=${clinicId}, doctorId=${profile.IDNum})}">Obrisi</a></td>
 						

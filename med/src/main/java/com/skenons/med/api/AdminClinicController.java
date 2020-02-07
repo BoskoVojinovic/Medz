@@ -196,11 +196,12 @@ public class AdminClinicController {
 		System.out.println(id +"ASadD");
 		model.addAttribute("clinicId", id);
 		model.addAttribute("specialities", examPriceService.getTypesByClinic(id));
-
+		System.out.println(profile.getWorkingHoursStart() + "AFFAF");
 		profile.setClinic(clinicService.getOne(id).get());
 		profile.setType(ProfileType.DOCTOR);
 		if(br.hasErrors())
 		{
+			System.out.println(profile.getWorkingHoursStart() + "AFFAF");
 
 			return "views/adminPages/doctorForm";
 		}
