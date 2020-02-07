@@ -10,5 +10,4 @@ import com.skenons.med.service.generic.ISSService;
 public class ClinicService extends ISSService<IClinicRepo, Clinic, Long>
 {
 	
-
 }

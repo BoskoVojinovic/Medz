@@ -44,6 +44,8 @@ public class Clinic
 		this.name = name;
 		this.address = address;
 		this.description = description;
+		Room r = new Room(this, 0, 0);
+		rooms.add(r);
 	}
 
 	public String getName() {

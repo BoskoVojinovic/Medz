@@ -3,38 +3,49 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{fragments/main_layout}">
 <head>
-	<meta charset="UTF-8">
-	<title>MEDz</title>
+<meta charset="UTF-8">
+<title>MEDz: exams</title>
 </head>
 <body>
 	<div layout:fragment="content" class="container">
-		
-		<form class="form-inline" action="/profiles">
-			<div class="form-group mb-2">
-				<input class="form-control" name="name" placeholder="Search Profiles"/>
-				<input type="submit" value="Search" class="btn btn-primary">
-			</div>
-		</form>
-		
+
 		<div class="card">
+			
 			<div class="card card-body">
-				<table class="table table-hover">
+			<div class="alert alert-primary">
+				<h2 class="text text-center">All of your exams:</h2>
+			</div>
+				<div th:each="exam:${exams}" class="card spacerTop">
+					<div class="card-header">
+						<h3 th:text="${exam.type.name}" class="text text-center"></h3>
+						<h3 th:if="${exam.report==null}">[FUTURE]</h3>
+					</div>
+					<div class="progress">
+  						<div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
+					<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>ID</th>
-							<th>Name</th>
-							<th>LastName</th>
+							<th>eID</th>
+							<th>Doctor</th>
+							<th>Date</th>
+							<th>Clinic</th>
+							<th>Room/Floor</th>
+							<th>Price</th>
 						</tr>
 					</thead>
-					
 					<tbody>
-						<tr th:each="profile:${profiles}">
-							<td th:text="${profile.IDNum}"></td>
-							<td th:text="${profile.name}"></td>
-							<td th:text="${profile.lastName}"></td>
+						<tr>
+							<td th:text="${exam.id}"></td>
+							<td th:text="'Dr.' + ${exam.doctor.name} + ' ' + ${exam.doctor.lastName}"></td>
+							<td th:text="${exam.start}"></td>
+							<td th:text="${exam.room.clinic.name}"></td>
+							<td th:text="${exam.start}"></td>
+							<td th:text="${exam.start}"></td>
 						</tr>
 					</tbody>
 				</table>
+				</div>
 			</div>
 		</div>
 	</div>

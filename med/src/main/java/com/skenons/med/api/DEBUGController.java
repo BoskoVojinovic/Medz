@@ -98,7 +98,7 @@ public class DEBUGController//Handling debug options
 			r = new Room(s2.getOne(4L).get(), 4, 401); s14.saveOne(r);
 			
 			
-			Records re = new Records(s12.getOne("1111111111111").get(), 185, 80, "FTN", BloodType.A); s13.saveOne(re);
+			Records re = new Records(s12.getOne("1111111111111").get(), 185, 80, "FTN", BloodType.A, true); s13.saveOne(re);
 			
 			Exam ex;
 			Diagnosis d;

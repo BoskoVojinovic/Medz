@@ -9,32 +9,44 @@
 <body>
 	<div layout:fragment="content" class="container">
 		
-		<form class="form-inline" action="/profiles">
-			<div class="form-group mb-2">
-				<input class="form-control" name="name" placeholder="Search Profiles"/>
-				<input type="submit" value="Search" class="btn btn-primary">
-			</div>
-		</form>
-		
 		<div class="card">
 			<div class="card card-body">
+				<div class="alert alert-primary">
+					<strong class="text text-center">CONFIGURE AND BOOK YOUR OWN EXAM:</strong>
+				</div>
+				<form class="form-inline" action="/profiles">
+					<div class="form-group mb-2">
+						<input class="form-control" name="name" placeholder="Search Profiles"/>
+						<input type="submit" value="Search" class="btn btn-primary">
+					</div>
+				</form>			
+			
+				<div class="alert alert-primary">
+					<strong class="text text-center">OR PICK A CLINIC NEAR YOU TO SEE THEIR PREDEFINED EXAMS:</strong>
+				</div>
+
+		
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>ID</th>
-							<th>Name</th>
-							<th>LastName</th>
+							<th><button type="button" class="btn btn-secondary">Name</button></th>
+							<th><button type="button" class="btn btn-secondary">Address</button></th>
+							<th><button type="button" class="btn btn-secondary">Description</button></th>
+							<th></th>
 						</tr>
 					</thead>
 					
 					<tbody>
-						<tr th:each="profile:${profiles}">
-							<td th:text="${profile.IDNum}"></td>
-							<td th:text="${profile.name}"></td>
-							<td th:text="${profile.lastName}"></td>
+						<tr th:each="cl:${clinics}">
+							<td th:text="${cl.name}"></td>
+							<td th:text="${cl.address}"></td>
+							<td th:text="${cl.description}"></td>
+							<td>
+								<a class="btn btn-primary" th:href="'/examOffers/'+${cl.id}" role="button">Select</a>
+							</td>
 						</tr>
 					</tbody>
-				</table>
+				</table>	
 			</div>
 		</div>
 	</div>

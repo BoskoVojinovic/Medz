@@ -65,7 +65,7 @@ public abstract class ISSService<R extends JpaRepository<T,K>,T,K>
 					continue;
 				}
 				ff.setAccessible(true);
-				if(!setNullValues && ff.get(newObject)==null)
+				if(!setNullValues && (ff.get(newObject)==null || ff.get(newObject).equals("")))//ehh
 				{
 					continue;
 				}

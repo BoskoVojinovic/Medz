@@ -27,6 +27,7 @@ public class Records
 	private Integer height;
 	private Integer weight;
 	private String allergies;
+	private Boolean donor;
 	
 	@Enumerated(EnumType.STRING)
 	private BloodType bloodType;
@@ -40,7 +41,7 @@ public class Records
 	}
 	
 	
-	public Records(Profile patient, Integer height, Integer weight, String alergies, BloodType bloodType)
+	public Records(Profile patient, Integer height, Integer weight, String alergies, BloodType bloodType, Boolean donor)
 	{
 		super();
 		this.patient = patient;
@@ -48,6 +49,7 @@ public class Records
 		this.weight = weight;
 		this.allergies = alergies;
 		this.bloodType = bloodType;
+		this.donor = donor;
 	}
 
 
@@ -107,5 +109,15 @@ public class Records
 		}
 		er.setRecords(this);
 		history.add(er);
+	}
+
+
+	public Boolean getDonor() {
+		return donor;
+	}
+
+
+	public void setDonor(Boolean donor) {
+		this.donor = donor;
 	}
 }
