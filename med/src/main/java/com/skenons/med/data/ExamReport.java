@@ -1,5 +1,6 @@
 package com.skenons.med.data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,11 +14,14 @@ public class ExamReport
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToOne
+	@OneToOne(mappedBy = "report", cascade = CascadeType.ALL)
 	private Exam exam;
 	
-	@ManyToOne
+	@OneToOne
 	private Diagnosis diagnosis;
+	
+	@OneToOne
+	private Prescription prescription;
 	
 	@ManyToOne
 	private Records records;
@@ -27,6 +31,13 @@ public class ExamReport
 		
 	}
 	
+	public ExamReport(Diagnosis diagnosis, Prescription prescription, Records records) {
+		super();
+		this.diagnosis = diagnosis;
+		this.prescription = prescription;
+		this.records = records;
+	}
+
 	public Exam getExam() {
 		return exam;
 	}
@@ -49,6 +60,18 @@ public class ExamReport
 
 	public void setRecords(Records records) {
 		this.records = records;
+	}
+
+	public Prescription getPrescription() {
+		return prescription;
+	}
+
+	public void setPrescription(Prescription prescription) {
+		this.prescription = prescription;
+	}
+
+	public Long getId() {
+		return id;
 	}
 	
 	

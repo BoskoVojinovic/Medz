@@ -23,6 +23,17 @@ public class Room
 		
 	}
 	
+	
+	
+	public Room(Clinic clinic, Integer floor, Integer number) {
+		super();
+		this.clinic = clinic;
+		this.floor = floor;
+		this.number = number;
+	}
+
+
+
 	public Clinic getClinic() {
 		return clinic;
 	}

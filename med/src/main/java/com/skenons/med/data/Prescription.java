@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Prescription
@@ -12,26 +15,24 @@ public class Prescription
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToOne
-	private ExamReport report;
-	
-	@ManyToOne
+	@NotNull @OneToOne
 	private Medicine medicine;
 	
-	@ManyToOne
-	private Profile authorizer;
+	@NotNull
+	private String description;
+	
+	//@ManyToOne
+	//private Profile authorizer;//automatic nurses :D
 
 	protected Prescription()
 	{
 		
 	}
 	
-	public ExamReport getReport() {
-		return report;
-	}
-
-	public void setReport(ExamReport report) {
-		this.report = report;
+	public Prescription(@NotNull Medicine medicine, @NotNull String description) {
+		super();
+		this.medicine = medicine;
+		this.description = description;
 	}
 
 	public Medicine getMedicine() {
@@ -42,16 +43,16 @@ public class Prescription
 		this.medicine = medicine;
 	}
 
-	public Profile getAuthorizer() {
-		return authorizer;
-	}
-
-	public void setAuthorizer(Profile authorizer) {
-		this.authorizer = authorizer;
-	}
-
 	public Long getId() {
 		return id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	

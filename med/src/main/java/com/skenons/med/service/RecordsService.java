@@ -7,7 +7,7 @@ import com.skenons.med.repo.IRecordsRepo;
 import com.skenons.med.service.generic.ISSService;
 
 @Service
-public class RecordsService extends ISSService<IRecordsRepo, Records, Long>
+public class RecordsService extends ISSService<IRecordsRepo, Records, String>
 {
 	
 }

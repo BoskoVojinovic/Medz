@@ -2,7 +2,6 @@ package com.skenons.med.data;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Exam
@@ -21,7 +21,7 @@ public class Exam
 	@ManyToOne
 	private Profile patient;
 	
-	@ManyToOne
+	@NotNull @ManyToOne
 	private Profile doctor;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -33,10 +33,10 @@ public class Exam
 	@ManyToOne
 	private Room room;
 	
-	@ManyToOne
+	@NotNull @ManyToOne
 	private ExamType type;
 	
-	@OneToOne(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true) //potentially false(remember report?)
+	@OneToOne
 	private ExamReport report;
 	
 	private Double discount;
@@ -50,6 +50,34 @@ public class Exam
 		
 	}
 	
+	
+	
+	public Exam(Profile doctor, Date start, Date duration, Room room, ExamType type, Double discount, //PREDEFINED!
+			Double price) {
+		super();
+		this.doctor = doctor;
+		this.start = start;
+		this.duration = duration;
+		this.room = room;
+		this.type = type;
+		this.discount = discount;
+		this.price = price;
+		this.approved = true;
+	}
+
+	
+
+	public Exam(Profile patient, Date start, ExamType type, Double price) { //CUSTOM
+		super();
+		this.patient = patient;
+		this.start = start;
+		this.type = type;
+		this.price = price;
+		approved = false;
+	}
+
+
+
 	public Profile getPatient() {
 		return patient;
 	}
@@ -103,7 +131,6 @@ public class Exam
 	}
 
 	public void setReport(ExamReport report) {
-		report.setExam(this);
 		this.report = report;
 	}
 

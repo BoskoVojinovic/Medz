@@ -14,7 +14,7 @@ import com.skenons.med.data.enums.ProfileType;
 import com.skenons.med.service.ProfileService;
 
 @Controller
-public class IndexController
+public class IndexController//Handling redirection to user-specific index(home) pages
 {
 	private String title[] = {
 			"Did you know?",
@@ -78,6 +78,6 @@ public class IndexController
 		case ADMIN_CENTER: return "views/index/adminCenter";
 		}
 		
-		return "index";
+		return "views/index/index";
 	}
 }

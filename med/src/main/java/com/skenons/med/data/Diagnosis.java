@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Diagnosis
@@ -11,8 +12,10 @@ public class Diagnosis
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotNull
 	private String name;
 	
+	@NotNull
 	private String description;
 
 	protected Diagnosis()
@@ -20,6 +23,12 @@ public class Diagnosis
 		
 	}
 	
+	public Diagnosis(String name, String description) {
+		super();
+		this.name = name;
+		this.description = description;
+	}
+
 	public String getName() {
 		return name;
 	}

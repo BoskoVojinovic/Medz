@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -18,26 +19,38 @@ import com.skenons.med.data.enums.BloodType;
 @Entity
 public class Records
 {
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@Id
+	private String id;
 	
-	@OneToOne
+	@OneToOne @MapsId
 	private Profile patient;
 	private Integer height;
 	private Integer weight;
-	private String alergies;
+	private String allergies;
 	
 	@Enumerated(EnumType.STRING)
 	private BloodType bloodType;
 	
 	@OneToMany(mappedBy = "records", cascade = CascadeType.ALL, orphanRemoval = true) //potentially false(remember report?)
-	private List<ExamReport> history;
+	private List<ExamReport> history = new ArrayList<ExamReport>();
 
 	protected Records()
 	{
 		
 	}
 	
+	
+	public Records(Profile patient, Integer height, Integer weight, String alergies, BloodType bloodType)
+	{
+		super();
+		this.patient = patient;
+		this.height = height;
+		this.weight = weight;
+		this.allergies = alergies;
+		this.bloodType = bloodType;
+	}
+
+
 	public Profile getPatient() {
 		return patient;
 	}
@@ -62,12 +75,12 @@ public class Records
 		this.weight = weight;
 	}
 
-	public String getAlergies() {
-		return alergies;
+	public String getAllergies() {
+		return allergies;
 	}
 
-	public void setAlergies(String alergies) {
-		this.alergies = alergies;
+	public void setAllergies(String alergies) {
+		this.allergies = alergies;
 	}
 
 	public BloodType getBloodType() {
@@ -78,7 +91,7 @@ public class Records
 		this.bloodType = bloodType;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 

@@ -1,14 +1,26 @@
 package com.skenons.med.api;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.datetime.standard.InstantFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.skenons.med.MedApplication;
 import com.skenons.med.data.Clinic;
+import com.skenons.med.data.Diagnosis;
+import com.skenons.med.data.Exam;
 import com.skenons.med.data.ExamPrice;
+import com.skenons.med.data.ExamReport;
 import com.skenons.med.data.ExamType;
+import com.skenons.med.data.Medicine;
+import com.skenons.med.data.Prescription;
 import com.skenons.med.data.Profile;
+import com.skenons.med.data.Records;
+import com.skenons.med.data.Room;
+import com.skenons.med.data.enums.BloodType;
 import com.skenons.med.data.enums.ProfileType;
 import com.skenons.med.service.ClinicRatingService;
 import com.skenons.med.service.ClinicService;
@@ -26,7 +38,7 @@ import com.skenons.med.service.RecordsService;
 import com.skenons.med.service.RoomService;
 
 @Controller
-public class PageController
+public class DEBUGController//Handling debug options
 {
 	@Autowired ClinicRatingService s1;
 	@Autowired ClinicService s2;
@@ -43,21 +55,13 @@ public class PageController
 	@Autowired RecordsService s13;
 	@Autowired RoomService s14;
 	
-
-	@GetMapping("/login")
-	public String showLoginForm()
-	{
-		return "views/login";
-	}
-	
-	
 	
 	@GetMapping("/debugFill")
 	public String debugF(Model m)
 	{
 		if(!s12.getOne("1111111111111").isPresent())
 		{
-			s12.createProfileAs(new Profile("1111111111111", "mail1@mail.com", "password1", "Name1", "LastName1", "060-cell-01", "Address 1"), ProfileType.PATIENT);
+			s12.createProfileAs(new Profile("1111111111111", "skenons.mail@gmail.com", "123654789", "Bosko", "Vojinovic", "0604300501", "Adresica"), ProfileType.PATIENT);
 			s12.createProfileAs(new Profile("1111111111112", "mail2@mail.com", "password2", "Name2", "LastName2", "060-cell-02", "Address 2"), ProfileType.PATIENT);
 			s12.createProfileAs(new Profile("1111111111113", "mail3@mail.com", "password3", "Name3", "LastName3", "060-cell-03", "Address 3"), ProfileType.PATIENT);
 			s12.createProfileAs(new Profile("1111111111114", "mail4@mail.com", "password4", "Name4", "LastName4", "060-cell-04", "Address 4"), ProfileType.NURSE);
@@ -78,9 +82,62 @@ public class PageController
 			e = new ExamType("Foot exam", "idk"); e.addPrice(new ExamPrice(null, s2.getOne(3L).get(), 250)); 	s8.saveOne(e);
 
 			Profile p;
+			p = s12.getOne("1111111111111").get(); p.setVerified(true); s12.saveOne(p);
 			p = s12.getOne("1111111111115").get(); p.setClinic(s2.getOne(1L).get()); p.setSpecialty(e); s12.saveOne(p);
 			p = s12.getOne("1111111111116").get(); p.setClinic(s2.getOne(3L).get()); p.setSpecialty(e); s12.saveOne(p);
 			p = s12.getOne("1111111111117").get(); p.setClinic(s2.getOne(3L).get()); p.setSpecialty(e); p.setVerified(true); s12.saveOne(p);
+			
+			Room r;
+			r = new Room(s2.getOne(1L).get(), 1, 101); s14.saveOne(r);
+			r = new Room(s2.getOne(1L).get(), 2, 201); s14.saveOne(r);
+			r = new Room(s2.getOne(1L).get(), 2, 202); s14.saveOne(r);
+			r = new Room(s2.getOne(2L).get(), 1, 101); s14.saveOne(r);
+			r = new Room(s2.getOne(2L).get(), 2, 201); s14.saveOne(r);
+			r = new Room(s2.getOne(2L).get(), 2, 202); s14.saveOne(r);
+			r = new Room(s2.getOne(3L).get(), 3, 301); s14.saveOne(r);
+			r = new Room(s2.getOne(4L).get(), 4, 401); s14.saveOne(r);
+			
+			
+			Records re = new Records(s12.getOne("1111111111111").get(), 185, 80, "FTN", BloodType.A); s13.saveOne(re);
+			
+			Exam ex;
+			Diagnosis d;
+			ExamReport exr;
+			Prescription pr;
+			Medicine md;
+			
+			
+			d = new Diagnosis("Smoritis extremus", "idk"); s3.saveOne(d);
+			md = new Medicine("Lil pill", "Rainbow colored"); s10.saveOne(md);
+			pr = new Prescription(md, "Take once per day until you die"); s11.saveOne(pr);
+			exr = new ExamReport(d, pr, re); s6.saveOne(exr);
+			ex = new Exam(s12.getOne("1111111111115").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), r, e, 20D, 120D); ex.setPatient(s12.getOne("1111111111111").get()); 
+			ex.setReport(exr); s7.saveOne(ex);
+			
+			
+			d = new Diagnosis("Smoritis maximus extremus", "idk"); s3.saveOne(d);			
+			md = new Medicine("Lil pill 2", "Red colored"); s10.saveOne(md);
+			pr = new Prescription(md, "Take three times per day until you die"); s11.saveOne(pr);
+			exr = new ExamReport(d, pr, re); s6.saveOne(exr);
+			ex = new Exam(s12.getOne("1111111111115").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), r, e, 25D, 300D); ex.setPatient(s12.getOne("1111111111111").get());
+			ex.setReport(exr); s7.saveOne(ex);
+			
+			
+			d = new Diagnosis("Smoritis serious extremus", "idk"); s3.saveOne(d);			
+			md = new Medicine("Lil pill 3", "Blue colored"); s10.saveOne(md);
+			pr = new Prescription(md, "Take twice per day until you die"); s11.saveOne(pr);
+			exr = new ExamReport(d, pr, re); s6.saveOne(exr);
+			ex = new Exam(s12.getOne("1111111111116").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), r, e, 15D, 150D); ex.setPatient(s12.getOne("1111111111111").get());
+			ex.setReport(exr); s7.saveOne(ex);
+			
+			
+			d = new Diagnosis("Smoritis mortalis extremus", "idk"); s3.saveOne(d);			
+			md = new Medicine("Lil pill 4", "Green colored"); s10.saveOne(md);
+			pr = new Prescription(md, "Take four times per day until you die"); s11.saveOne(pr);
+			exr = new ExamReport(d, pr, re); s6.saveOne(exr);
+			ex = new Exam(s12.getOne("1111111111116").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), r, e, 10D, 20D);  ex.setPatient(s12.getOne("1111111111111").get());
+			ex.setReport(exr); s7.saveOne(ex);
+			
 			
 			
 			
@@ -93,27 +150,32 @@ public class PageController
 		return "views/index/index";
 	}
 	
-	/*
-	@GetMapping("/debugBurn")
+	
+	//@GetMapping("/debugBurn")
 	public String debugB(Model m)
 	{
-		s1.deleteAll();
-		s2.deleteAll();
-		s3.deleteAll();
-		s4.deleteAll();
+		
+		s13.deleteAll();
+		s7.deleteAll();
+		s12.deleteAll();
+		s9.deleteAll();
 		s5.deleteAll();
 		s6.deleteAll();
-		s7.deleteAll();
-		s8.deleteAll();
-		s9.deleteAll();
-		s10.deleteAll();
 		s11.deleteAll();
-		s12.deleteAll();
-		s13.deleteAll();
 		s14.deleteAll();
+		s8.deleteAll();
+		s2.deleteAll();
+		s1.deleteAll();
+		s4.deleteAll();
+		s3.deleteAll();
+		s10.deleteAll();
+		
 		
 		m.addAttribute("title","DEBUG MSG");
-		m.addAttribute("msg","Database burned!");
+		m.addAttribute("msg","Database burned, restart the server!");
+		
+		MedApplication.stop();
+		
 		return "views/index/index";
-	}*/
+	}
 }

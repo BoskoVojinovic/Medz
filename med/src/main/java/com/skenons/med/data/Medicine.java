@@ -23,6 +23,14 @@ public class Medicine
 	{
 		
 	}
+	
+	
+
+	public Medicine(String name, String description) {
+		super();
+		this.name = name;
+		this.description = description;
+	}
 
 	public void setName(String name) {
 		this.name = name;

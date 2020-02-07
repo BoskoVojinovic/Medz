@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.skenons.med.EmailConfig;
 import com.skenons.med.SecurityConfig;
 import com.skenons.med.data.Profile;
+import com.skenons.med.data.enums.ProfileType;
 import com.skenons.med.service.ProfileService;
 
 @Controller
-public class RegisterController
+public class SecurityController//Handling login, register and account verification
 {
 	@Autowired
 	ProfileService ps;
@@ -28,7 +29,13 @@ public class RegisterController
 	public String registerForm(Model model)
 	{
 		model.addAttribute("profile", new Profile());
-		return "views/register";
+		return "views/security/register";
+	}
+	
+	@GetMapping("/login")
+	public String showLoginForm()
+	{
+		return "views/security/login";
 	}
 	
 	@PostMapping("/register")
@@ -42,16 +49,16 @@ public class RegisterController
 		}
 		if(br.hasErrors())
 		{
-			return "views/register";
+			return "views/security/register";
 		}
 		if(ps.exists(p.getIDNum()))
 		{
 			m.addAttribute("exist", true);
-			return "views/register";
+			return "views/security/register";
 		}
 		ps.createPatient(p);
 		EmailConfig.sendVerificationMail(p);
-		return "views/registerSuccess";
+		return "views/security/registerSuccess";
 	}
 	
 	@GetMapping("/verify/{id}/{token}")
@@ -63,7 +70,11 @@ public class RegisterController
 		if(!op.isPresent() || !SecurityConfig.getVerifyToken(op.get()).equals(token))
 		{
 			model.addAttribute("msg","Invalid verification link!");
-			return "views/verify";
+			return "views/security/verify";
+		}
+		if(!op.get().getType().equals(ProfileType.PATIENT))
+		{
+			return "views/security/verifyStaff";
 		}
 		if(op.get().getVerified())
 		{
@@ -75,7 +86,7 @@ public class RegisterController
 			ps.saveOne(op.get());
 			model.addAttribute("msg","Account verified, please proceed to the login page.");
 		}
-		return "views/verify";
+		return "views/security/verify";
 	}
 	
 }

@@ -14,7 +14,7 @@ import com.skenons.med.data.enums.ProfileType;
 import com.skenons.med.service.ProfileService;
 
 @Controller
-public class ProfileController
+public class ProfileController//Handling redirection to user-specific profile pages
 {
 	@Autowired
 	private ProfileService ps;

@@ -1,11 +1,15 @@
 package com.skenons.med.data;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -49,9 +53,13 @@ public class Profile
 	@Enumerated(EnumType.STRING)
 	private ProfileType type;
 	
-	private String workingHours;//HH:MM-HH:MM format!
+	@Temporal(TemporalType.TIME)
+	private Date workingHoursStart;
+	
+	@Temporal(TemporalType.TIME)
+	private Date workingHoursEnd;
 
-	private Boolean approved = false;
+	private Boolean approved = true; //automatic admins :D
 	
 	private Boolean verified = false;
 	
@@ -148,12 +156,20 @@ public class Profile
 		this.type = type;
 	}
 
-	public String getWorkingHours() {
-		return workingHours;
+	public Date getWorkingHoursStart() {
+		return workingHoursStart;
 	}
 
-	public void setWorkingHours(String workingHours) {
-		this.workingHours = workingHours;
+	public void setWorkingHoursStart(Date workingHoursStart) {
+		this.workingHoursStart = workingHoursStart;
+	}
+
+	public Date getWorkingHoursEnd() {
+		return workingHoursEnd;
+	}
+
+	public void setWorkingHoursEnd(Date workingHoursEnd) {
+		this.workingHoursEnd = workingHoursEnd;
 	}
 
 	public ExamType getSpecialty() {
