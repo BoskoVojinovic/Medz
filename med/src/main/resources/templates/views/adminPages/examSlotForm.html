@@ -3,6 +3,21 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{fragments/main_layout}">
 <head>
+<script type="text/javascript">
+ $(function () {
+     $('#start').on("change", function() {
+            console.log($('#start').val());
+            $.get({
+            	url:'/clinic/getRoomsByDate',
+            	data: ({"start" :$('#start').val(), "duration": $('#duration').val()}),
+            	success:function(data) {
+            		
+            	}
+            })
+     });
+});
+
+</script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -12,10 +27,10 @@
 			<p class="text text-center">A profile with that ID number already
 				exists!</p>
 		</div>
-		<form th:action="@{/clinic/{id}/doctors (id=${clinicId})}"
-			th:object="${profile}" method="post" class="jumbotron text-center">
+		<form th:action="@{/clinic/{id}/examSlot (id=${clinicId})}"
+			th:object="${examSlot}" method="post" class="jumbotron text-center">
 
-			<div class="alert alert-dismissible alert-primary">
+			<!-- <div class="alert alert-dismissible alert-primary">
 				<p class="text text-center">
 					Every user registration is subject to admin approval. Once
 					approved, a verification notification will be sent to the e-mail
@@ -82,21 +97,19 @@
 					th:field="*{address}" id="address" />
 				<div class="text text-danger"
 					th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
-			</div>
+			</div> -->
 			<div class="form-group">
-				<label for="workingHoursStart" class="form-control-label">Mailing
-					address:</label><input type="time" class="form-control"
-					th:field="*{workingHoursStart}" id="workingHoursStart" />
+				<label for="start" class="form-control-label">Exam starts:</label><input type="date" class="form-control"
+					th:field="*{start}" id="start" />
 			<!-- 	<div class="text text-danger"
-					th:if="${#fields.hasErrors('workingHoursStart')}" th:errors="*{workingHoursStart}"></div>
+					th:if="${#fields.hasErrors('start')}" th:errors="*{start}"></div>
 		 -->	</div>
 			<div class="form-group">
-				<label for="workingHoursEnd" class="form-control-label">Mailing
-					address:</label><input type="time" class="form-control"
-					th:field="*{workingHoursEnd}" id="workingHoursEnd" />
+				<label for="duration" class="form-control-label">Exam duration:</label><input type="time" class="form-control"
+					th:field="*{duration}" id="duration" />
 				<!-- <div class="text text-danger"
-					th:if="${#fields.hasErrors('workingHoursEnd')}" th:errors="*{workingHoursEnd}"></div> -->
-			</div>
+					th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"></div> -->
+			</div><!-- 
 			<div class="form-group">
 				<label for="specialty" class="form-control-label">Mailing
 					address:</label> <select th:field="*{specialty}">
@@ -115,8 +128,9 @@
 			</div>
 
 			<input type="submit" value="Add doctor"
-				class="btn btn-primary spacerTop" />
+				class="btn btn-primary spacerTop" /> -->
 		</form>
 	</div>
+
 </body>
 </html>

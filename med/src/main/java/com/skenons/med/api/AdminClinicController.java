@@ -2,8 +2,12 @@ package com.skenons.med.api;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionContext;
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,12 +21,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.skenons.med.data.Clinic;
+import com.skenons.med.data.Exam;
 import com.skenons.med.data.ExamPrice;
 import com.skenons.med.data.ExamType;
 import com.skenons.med.data.Profile;
 import com.skenons.med.data.Room;
 import com.skenons.med.data.enums.ProfileType;
 import com.skenons.med.service.AdminExamPricesService;
+import com.skenons.med.service.AdminExamService;
 import com.skenons.med.service.AdminExamTypeService;
 import com.skenons.med.service.AdminProfileService;
 import com.skenons.med.service.AdminRoomService;
@@ -34,19 +40,22 @@ import com.skenons.med.service.ProfileService;
 public class AdminClinicController {
 	@Autowired
 	private ClinicService clinicService;
+	
 	@Autowired
 	private AdminProfileService profileService;
 	
+	@Autowired
+	private AdminExamService examService;
 
 	@Autowired
 	private ProfileService profileServices;
+	
 	@Autowired
 	private AdminRoomService roomService;
 	
 	@Autowired
 	private AdminExamPricesService examPriceService;
 	
-
 	@Autowired
 	private AdminExamTypeService examTypeService;
 	
@@ -63,6 +72,15 @@ public class AdminClinicController {
 		model.addAttribute("clinicId", id);
 		model.addAttribute("doctors", profileService.getDoctorsByClinic(id));
 		return "views/adminPages/doctors";
+	}
+	
+	@GetMapping("/{id}/examSlots")
+	public String showExamSlots(@PathVariable(value = "id") Long id, Model model) {
+		System.out.println(id +"ASwwwwwwwwwD");
+
+		model.addAttribute("clinicId", id);
+		model.addAttribute("doctors", examService.findByClinicId(id));
+		return "views/adminPages/examSlots";
 	}
 	
 	@GetMapping("/{id}/rooms")
@@ -82,6 +100,24 @@ public class AdminClinicController {
 		model.addAttribute("room", new Room());
 		return "views/adminPages/roomForm";
 	}
+	
+	
+	@GetMapping("/getRoomsByDate")
+	public String getRoomsByDate(@PathParam(value = "start") String start, @PathParam(value = "duration") String duration, Exam exam, HttpServletRequest http) {
+		System.out.println(start +"ASadD");
+		http.getSession().setAttribute("exam", exam);
+		return "views/adminPages/examSlotForm";
+	}
+	
+	@GetMapping("/{id}/examSlots/form")
+	public String addExamSlotForm(@PathVariable(value = "id") Long id, Model model) {
+		System.out.println(id +"ASadD");
+		model.addAttribute("clinicId", id);
+		model.addAttribute("active", true);
+		model.addAttribute("examSlot", new Exam());
+		return "views/adminPages/examSlotForm";
+	}
+	
 	@GetMapping("/{id}/examTypes/form")
 	public String addExamTypesForm(@PathVariable(value = "id") Long id, Model model) {
 		System.out.println(id +"ASadD");

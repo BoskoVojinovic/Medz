@@ -56,13 +56,13 @@ public class Profile
 	private ProfileType type;
 	
 
-@Temporal(TemporalType.TIME)
-@DateTimeFormat(pattern = "HH:mm")
+	@Temporal(TemporalType.TIME)
+	@DateTimeFormat(pattern = "HH:mm")
 	private Date workingHoursStart;
 	
 
-@Temporal(TemporalType.TIME)
-@DateTimeFormat(pattern = "HH:mm")
+	@Temporal(TemporalType.TIME)
+	@DateTimeFormat(pattern = "HH:mm")
 	private Date workingHoursEnd;
 
 	private Boolean approved = true; //automatic admins :D

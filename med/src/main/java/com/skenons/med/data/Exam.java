@@ -12,6 +12,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 public class Exam
 {
@@ -25,9 +27,11 @@ public class Exam
 	private Profile doctor;
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "yyyy-MM-dd, HH:mm")
 	private Date start;
 
 	@Temporal(TemporalType.TIME)
+	@DateTimeFormat(pattern = "HH:mm")
 	private Date duration;
 	
 	@ManyToOne
@@ -45,7 +49,7 @@ public class Exam
 	
 	private Boolean approved;
 
-	protected Exam()
+	public Exam()
 	{
 		
 	}

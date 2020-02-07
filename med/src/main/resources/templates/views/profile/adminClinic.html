@@ -20,8 +20,8 @@
 				</tr>
 				<tr style="width: 100%;height: 100%">
 					<td><button style="width: 100%;height: 100%" class="btn btn-outline-primary" id="clinicsReports">Izvestaji</button></td>
-					<td><button style="width: 100%;height: 100%" class="btn btn-outline-primary" id="examTypes">Tipovi pregleda</button></td>
-					<td><button style="width: 100%;height: 100%" class="btn btn-outline-primary" id="examRequests">Termini pregleda</button></td>
+					<td><a style="width: 100%;height: 100%" class="btn btn-outline-primary" th:href="@{/clinic/{id}/examSlots (id=${profile.clinic.id})}">Termini pregleda</a></td>
+					<td><button style="width: 100%;height: 100%" class="btn btn-outline-primary" id="examRequests">Zahtevi pregleda</button></td>
 				</tr>
 			</table>
 		</div>
