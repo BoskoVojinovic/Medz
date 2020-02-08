@@ -1,5 +1,6 @@
 package com.skenons.med.api;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.skenons.med.data.Clinic;
 import com.skenons.med.data.Exam;
@@ -90,6 +92,41 @@ public class AdminClinicController {
 		return "views/adminPages/rooms";
 	}
 	
+	@GetMapping("/{id}/examRequests")
+	public String showExamRequests(@PathVariable(value = "id") Long id, Model model) {
+		System.out.println(id +"ASadD");
+		model.addAttribute("clinicId", id);
+
+		model.addAttribute("exams", examService.getRequests(id));
+		return "views/adminPages/examRequests";
+	}
+	
+	@GetMapping("/{id}/examRequests/{requestId}/approve")
+	public String approveRequest(@PathVariable(value = "requestId") Long requestId, @PathVariable(value = "id") Long id, Model model) {
+		System.out.println(id +"ASadD");
+		model.addAttribute("clinicId", id);
+
+		model.addAttribute("requestId", requestId);
+		Exam e = examService.getOne(requestId).get();
+		model.addAttribute("rooms", roomService.findAvailable(e.getStart(), e.getFinish(), id));
+		model.addAttribute("calendar", examService.findByClinicIdD(id));
+		model.addAttribute("request", examService.getOne(requestId).get());
+		return "views/adminPages/examRequestApproval";
+	}
+	@GetMapping("/{id}/examRequests/{requestId}/approved/{roomId}")
+	public String approvedRequest(@PathVariable(value = "roomId") Long roomId, @PathVariable(value = "requestId") Long requestId, @PathVariable(value = "id") Long id, Model model) {
+		System.out.println(id +"ASadD");
+		model.addAttribute("requestId", requestId);
+
+		model.addAttribute("clinicId", id);
+		Exam e = examService.getOne(requestId).get();
+		e.setRoom(roomService.getOne(roomId).get());
+		e.setPrice(examPriceService.findByExamTypeId(e.getType().getId()).getBasePrice());
+		model.addAttribute("exams", examService.getRequests(id));
+		examService.saveOne(e);
+		return "views/adminPages/examRequests";
+	}
+	
 	@GetMapping("/{id}/rooms/form")
 	public String addRoomsForm(@PathVariable(value = "id") Long id, Model model) {
 		System.out.println(id +"ASadD");
@@ -126,10 +163,20 @@ public class AdminClinicController {
 	public String addExamSlot(@PathVariable(value = "id") Long id, @Valid Exam exam, BindingResult br, Model model) {
 		System.out.println(exam.getDuration() + ""+ exam.getStart() +"ASadD"  +exam.getType() + "ASD");
 		model.addAttribute("clinicId", id);
+		Calendar cal = Calendar.getInstance();
+		Calendar cal1 = Calendar.getInstance();
+		cal1.setTime(exam.getStart());
+		cal.setTime(exam.getFinish());
+		int year = cal1.get(Calendar.YEAR);
+		int month = cal1.get(Calendar.MONTH);
+		int day = cal1.get(Calendar.DAY_OF_MONTH);
+		cal.set(year, month, day);
+		exam.setFinish(cal.getTime());
+		System.out.println(exam.getStart() + "ASDSADSA" + exam.getFinish());
 		if (exam.getDuration() != null && exam.getStart() != null && exam.getType() != null) {
-			model.addAttribute("rooms", roomService.getRoomsByClinic(id));
+			model.addAttribute("rooms", roomService.findAvailable(exam.getStart(), exam.getFinish(), id));
 			System.out.println("AS");
-			model.addAttribute("doctors", profileService.getDoctorsByClinic(id));
+			model.addAttribute("doctors", profileService.findAvailable(exam.getStart(),exam.getFinish(), exam.getType().getId(), id));
 		} else {
 			model.addAttribute("rooms", null);
 			model.addAttribute("doctors", null);
@@ -139,7 +186,10 @@ public class AdminClinicController {
 		model.addAttribute("examSlot", exam);
 		if (exam.getDoctor() != null && exam.getDuration() != null && exam.getStart() != null && exam.getRoom() != null && exam.getDiscount() != null) {
 			exam.setPrice(examPriceService.findByExamTypeId(exam.getType().getId()).getBasePrice());
+			
 			examService.saveOne(exam);
+			model.addAttribute("exams", examService.findByClinicId(id));
+
 			return "views/adminPages/examSlots";
 		}
 		return "views/adminPages/examSlotForm";
@@ -275,6 +325,11 @@ public class AdminClinicController {
 			model.addAttribute("exist", true);
 			return "views/adminPages/doctorForm";
 		}
+		Calendar cal = Calendar.getInstance();
+		Calendar cal1 = Calendar.getInstance();
+		cal1.setTime(profile.getWorkingHoursEnd());
+		cal1.set(Calendar.YEAR, 2100);
+		profile.setWorkingHoursEnd(cal1.getTime());
 		profileServices.createProfileAs(profile, profile.getType());
 
 		model.addAttribute("doctors", profileService.getDoctorsByClinic(id));

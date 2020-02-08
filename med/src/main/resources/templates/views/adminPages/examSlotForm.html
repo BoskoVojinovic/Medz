@@ -8,14 +8,14 @@
      $('#start').on("change", function() {
             console.log($('#start').val());
             if ($("#finish").val() != null && $("#start").val() != null && $("#type").val() != null){
-                $( "#butt" ).trigger( "click" );
+              //  $( "#butt" ).trigger( "click" );
 
             }
      });
      $('#finish').on("change", function() {
          console.log($('#finish').val() + "ASF");
          if ($("#finish").val() != null && $("#start").val() != null && $("#type").val() != null){
-             $( "#butt" ).trigger( "click" );
+           //  $( "#butt" ).trigger( "click" );
 
          }
   });
@@ -165,6 +165,7 @@
 -->
 			<input type="submit" id="butt" value="Add exam"
 				class="btn btn-primary spacerTop" /> 
+				<a class="btn btn-primary spacerTop" th:href="@{/clinic/{id}/examSlots (id=${clinicId})}">Cancel</a>
 		</form>
 	</div>
 

@@ -1,7 +1,7 @@
 package com.skenons.med.service;
 
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +31,7 @@ public class AdminRoomService extends ISSService<IRoomRepo, Room, Long> {
 	}
 	
 	public List<Room> findAvailable(Date start, Date finish, Long clinicId){
-		List<Exam> exams = examRepo.findAll().stream().filter(x -> x.getDoctor().getClinic().getId() == clinicId && (start.before(x.getStart()) && finish.after(x.getStart())) || (start.before(x.getDuration()) && finish.after(x.getDuration())) || (start.after(x.getStart()) && finish.before(x.getDuration())) || (start.before(x.getStart()) && finish.after(x.getDuration()))).collect(Collectors.toList());
+		List<Exam> exams = examRepo.findAll().stream().filter(x -> x.getDoctor().getClinic().getId() == clinicId && ((start.equals(x.getStart())) || finish.equals(x.getFinish()) || (start.before(x.getStart()) && finish.after(x.getStart())) || (start.before(x.getFinish()) && finish.after(x.getFinish())) || (start.after(x.getStart()) && finish.before(x.getFinish())) || (start.before(x.getStart()) && finish.after(x.getFinish())))).collect(Collectors.toList());
 		List<Room> ids = new ArrayList<Room>();
 		for (Exam long1 : exams) {
 			ids.add(long1.getRoom());
@@ -39,6 +39,15 @@ public class AdminRoomService extends ISSService<IRoomRepo, Room, Long> {
 		
 		List<Room> r = repo.findByClinic(clinicRepo.findById(clinicId).get());
 		r.removeAll(ids);
+		Room d = null;
+		for (Room room : r) {
+			if (room.getNumber() == 0) {
+				d = room;
+			}
+		}
+		r.remove(d);
 		return r;
 	}
+	
+	
 }

@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}"><head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-
+<div layout:fragment="content" class="container">
+<div class="card">
+			<div class="card card-body">
+				<p class="text text-center">Termini pregleda:</p>
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Tip</th>
+							<th>Datum pocetka</th>
+							<th>Zavrsetak</th>
+							<th>Doktor</th>
+							<th>Pacijent</th>
+							
+						</tr>
+					</thead>
+					
+					<tbody th:each="exam : ${exams}">
+						<tr>
+							<td th:text="${exam.type.name}"></td>
+							<td th:text="${#dates.format(exam.start, 'yyyy-MM-dd, HH:mm')}"></td>
+							<td th:text="${#dates.format(exam.duration, 'HH:mm')}"></td>
+							<td th:text="${exam.doctor.name} + ${exam.doctor.lastName}"></td>
+							<td th:text="${exam.patient.name} + ${exam.patient.lastName}"></td>
+						 	<th><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/examRequests/{requestId}/approve (id=${clinicId}, requestId=${exam.id})}">Dodaj</a></th>
+						
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

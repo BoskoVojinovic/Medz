@@ -37,7 +37,8 @@
 							<td th:text="${#dates.format(exam.duration, 'HH:mm')}"></td>
 							<td th:text="${exam.room.number}"></td>
 							<td th:text="${exam.doctor.name} + ${exam.doctor.lastName}"></td>
-							<td ></td>
+							<td th:if="${exam.patient != null}" th:text="${exam.patient.name} + ${exam.patient.lastName}"></td>
+						 	<td th:unless="${exam.patient != null}"></td>
 						 	<td th:text="${exam.price}"></td>
 							<td th:text="${exam.discount}"></td>
 							<td th:text="${exam.approved}"></td>

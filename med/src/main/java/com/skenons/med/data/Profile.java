@@ -56,12 +56,10 @@ public class Profile
 	private ProfileType type;
 	
 
-	@Temporal(TemporalType.TIME)
 	@DateTimeFormat(pattern = "HH:mm")
 	private Date workingHoursStart;
 	
 
-	@Temporal(TemporalType.TIME)
 	@DateTimeFormat(pattern = "HH:mm")
 	private Date workingHoursEnd;
 

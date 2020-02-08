@@ -10,11 +10,44 @@
 	<div layout:fragment="content" class="container">
 		
 		<div class="jumbotron">
-			<p class="text text-center">This is a profile page for doctors!</p>
-			<p class="text text-center">Only visible for logged in users.</p>
+			<div id="links" style="width: 100%;height: 100%">
+			<table  style="display: inline-flex;width: 100%;height: 100%">
+				<tr style="width: 100%;height: 100%">
+					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors/{doctorId}/patients (doctorId=${profile.IDNum},id=${profile.clinic.id})}">Pacijenti</a></td>
+					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/workingCalendar (id=${profile.clinic.id})}">Radni kalendar</a></td>
+					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/leaveRequests (id=${profile.clinic.id})}">Zahtevi za odsustvo/godisnji</a></td>
+					
+				</tr>
+				<tr style="width: 100%;height: 100%">
+					<td><button style="width: 100%;height: 100%" class="btn btn-outline-primary" id="clinicsReports">Izvestaji</button></td>
+					<td><a style="width: 100%;height: 100%" class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctorProfile (id=${profile.clinic.id})}">Profil</a></td>
+					<td><button style="width: 100%;height: 100%" class="btn btn-outline-primary" id="examRequests">Zahtevi pregleda</button></td>
+				</tr>
+			</table>
+		</div>
 		</div>
 		
-		
+		<div class="card">
+			<div class="card card-body">
+				<p class="text text-center">Clinic:</p>
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<td th:text="${profile.clinic.id}"></td>
+							
+							<td rowspan="2" th:text="${profile.clinic.description}"></td>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr>
+							<td th:text="${profile.clinic.address}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	
 	</div>
 </body>
 </html>
