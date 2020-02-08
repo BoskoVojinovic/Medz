@@ -1,6 +1,7 @@
 package com.skenons.med.repo;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,4 +13,5 @@ public interface IExamRepo extends JpaRepository<Exam, Long>
 {
 	List<Exam> findByPatient(Profile patient);
 	List<Exam> findByDoctor(Profile doctor);
+	
 }

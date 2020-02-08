@@ -30,19 +30,18 @@
 						</tr>
 					</thead>
 					
-					<tbody th:each="profile : ${doctors}">
+					<tbody th:each="exam : ${exams}">
 						<tr>
-							<td th:text="${profile.type}"></td>
-							<td th:text="${#dates.format(profile.start, 'yyyy-MM-dd, HH:mm')}"></td>
-							<td th:text="${#dates.format(profile.duration, 'HH:mm')}"></td>
-							<td th:text="${profile.room}"></td>
-							<td th:text="${profile.doctor.name} + ${profile.doctor.lastName}"></td>
-							<td th:text="${profile.patient.name} + ${profile.patient.lastName}"></td>
-							<td th:text="${profile.price}"></td>
-							<td th:text="${profile.discount}"></td>
-							<td th:text="${profile.approved}"></td>
-							<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors/remove/{doctorId} (id=${clinicId}, doctorId=${profile.IDNum})}">Obrisi</a></td>
-						
+							<td th:text="${exam.type.name}"></td>
+							<td th:text="${#dates.format(exam.start, 'yyyy-MM-dd, HH:mm')}"></td>
+							<td th:text="${#dates.format(exam.duration, 'HH:mm')}"></td>
+							<td th:text="${exam.room.number}"></td>
+							<td th:text="${exam.doctor.name} + ${exam.doctor.lastName}"></td>
+							<td ></td>
+						 	<td th:text="${exam.price}"></td>
+							<td th:text="${exam.discount}"></td>
+							<td th:text="${exam.approved}"></td>
+							
 						</tr>
 					</tbody>
 				</table>

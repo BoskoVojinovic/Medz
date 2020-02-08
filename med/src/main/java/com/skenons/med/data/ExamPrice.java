@@ -18,7 +18,7 @@ public class ExamPrice
 	@ManyToOne
 	private Clinic clinic;
 	
-	private Integer basePrice;
+	private Double basePrice;
 
 	public ExamPrice()
 	{
@@ -27,7 +27,7 @@ public class ExamPrice
 	
 	
 	
-	public ExamPrice(ExamType examType, Clinic clinic, Integer basePrice)
+	public ExamPrice(ExamType examType, Clinic clinic, Double basePrice)
 	{
 		this.examType = examType;
 		this.clinic = clinic;
@@ -52,11 +52,11 @@ public class ExamPrice
 		this.clinic = clinic;
 	}
 
-	public Integer getBasePrice() {
+	public Double getBasePrice() {
 		return basePrice;
 	}
 
-	public void setBasePrice(Integer basePrice) {
+	public void setBasePrice(Double basePrice) {
 		this.basePrice = basePrice;
 	}
 

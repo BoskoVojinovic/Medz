@@ -76,10 +76,10 @@ public class DEBUGController//Handling debug options
 			c = new Clinic("Clinic4", "Adress4", "The best clinic in the world 4"); s2.saveOne(c);
 			
 			ExamType e;
-			e = new ExamType("Head exam", "idk"); e.addPrice(new ExamPrice(null, s2.getOne(1L).get(), 100)); 	s8.saveOne(e);
-			e = new ExamType("Arm exam", "idk"); e.addPrice(new ExamPrice(null, s2.getOne(2L).get(), 150)); 	s8.saveOne(e);
-			e = new ExamType("Hand exam", "idk"); e.addPrice(new ExamPrice(null, s2.getOne(2L).get(), 200)); 	s8.saveOne(e);
-			e = new ExamType("Foot exam", "idk"); e.addPrice(new ExamPrice(null, s2.getOne(3L).get(), 250)); 	s8.saveOne(e);
+			e = new ExamType("Head exam", "idk"); e.addPrice(new ExamPrice(null, s2.getOne(1L).get(), 100.00)); 	s8.saveOne(e);
+			e = new ExamType("Arm exam", "idk"); e.addPrice(new ExamPrice(null, s2.getOne(2L).get(), 150.00)); 	s8.saveOne(e);
+			e = new ExamType("Hand exam", "idk"); e.addPrice(new ExamPrice(null, s2.getOne(2L).get(), 200.00)); 	s8.saveOne(e);
+			e = new ExamType("Foot exam", "idk"); e.addPrice(new ExamPrice(null, s2.getOne(3L).get(), 250.00)); 	s8.saveOne(e);
 
 			Profile p;
 			p = s12.getOne("1111111111111").get(); p.setVerified(true); s12.saveOne(p);

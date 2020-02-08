@@ -3,9 +3,7 @@ package com.skenons.med.api;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionContext;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
@@ -79,7 +77,7 @@ public class AdminClinicController {
 		System.out.println(id +"ASwwwwwwwwwD");
 
 		model.addAttribute("clinicId", id);
-		model.addAttribute("doctors", examService.findByClinicId(id));
+		model.addAttribute("exams", examService.findByClinicId(id));
 		return "views/adminPages/examSlots";
 	}
 	
@@ -116,16 +114,34 @@ public class AdminClinicController {
 		model.addAttribute("rooms", roomService.getRoomsByClinic(id));
 		model.addAttribute("clinicId", id);
 		model.addAttribute("active", true);
+		model.addAttribute("types", examPriceService.getTypesByClinic(id));
+
+			model.addAttribute("rooms", null);
+			model.addAttribute("doctors", null);
+		
 		model.addAttribute("examSlot", new Exam());
 		return "views/adminPages/examSlotForm";
 	}
 	@PostMapping("/{id}/examSlots")
 	public String addExamSlot(@PathVariable(value = "id") Long id, @Valid Exam exam, BindingResult br, Model model) {
-		System.out.println(exam.getDuration() + ""+ exam.getStart() +"ASadD");
+		System.out.println(exam.getDuration() + ""+ exam.getStart() +"ASadD"  +exam.getType() + "ASD");
 		model.addAttribute("clinicId", id);
+		if (exam.getDuration() != null && exam.getStart() != null && exam.getType() != null) {
+			model.addAttribute("rooms", roomService.getRoomsByClinic(id));
+			System.out.println("AS");
+			model.addAttribute("doctors", profileService.getDoctorsByClinic(id));
+		} else {
+			model.addAttribute("rooms", null);
+			model.addAttribute("doctors", null);
 		
-		model.addAttribute("rooms", roomService.getRoomsByClinic(id));
+		}
+		model.addAttribute("types", examPriceService.getTypesByClinic(id));
 		model.addAttribute("examSlot", exam);
+		if (exam.getDoctor() != null && exam.getDuration() != null && exam.getStart() != null && exam.getRoom() != null && exam.getDiscount() != null) {
+			exam.setPrice(examPriceService.findByExamTypeId(exam.getType().getId()).getBasePrice());
+			examService.saveOne(exam);
+			return "views/adminPages/examSlots";
+		}
 		return "views/adminPages/examSlotForm";
 	}
 	

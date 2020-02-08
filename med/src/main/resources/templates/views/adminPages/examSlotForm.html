@@ -7,11 +7,24 @@
  $(function () {
      $('#start').on("change", function() {
             console.log($('#start').val());
-            $( "#butt" ).trigger( "submit" );
+            if ($("#finish").val() != null && $("#start").val() != null && $("#type").val() != null){
+                $( "#butt" ).trigger( "click" );
+
+            }
      });
-     $('#duration').on("change", function() {
-         console.log($('#duration').val());
-         $( "#butt" ).trigger( "submit" );
+     $('#finish').on("change", function() {
+         console.log($('#finish').val() + "ASF");
+         if ($("#finish").val() != null && $("#start").val() != null && $("#type").val() != null){
+             $( "#butt" ).trigger( "click" );
+
+         }
+  });
+     $('#type').change( function() {
+         console.log($('#type').val());
+         if ($("#finish").val() != null && $("#start").val() != null && $("#type").val() != null){
+             $( "#butt" ).trigger( "click" );
+
+         }
   });
 });
 
@@ -103,21 +116,46 @@
 					th:if="${#fields.hasErrors('start')}" th:errors="*{start}"></div>
 		</div>
 			<div class="form-group">
-				<label for="duration" class="form-control-label">Exam duration:</label><input type="time" class="form-control"
-					th:field="*{duration}" id="duration" />
-				<!-- <div class="text text-danger"
-					th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"></div> -->
+				<label for="finish" class="form-control-label">Exam duration:</label><input type="time" class="form-control"
+					th:field="*{finish}" id="finish" />
+				<div class="text text-danger"
+					th:if="${#fields.hasErrors('finish')}" th:errors="*{finish}"></div>
 			</div>
 			<div class="form-group">
-				<label for="room" class="form-control-label">Mailing
-					address:</label> <select th:field="*{room}">
+				<label for="type" class="form-control-label">Mailing
+					address:</label> <select th:field="*{type}">
+					
+    				 <option th:value="0"></option>
+					<option th:each="type : ${types}" th:value="${type.id}"
+						th:text="${type.name}"></option>
+				</select> 
+				<div class="text text-danger"
+					th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
+			</div>
+			<div th:if="${rooms} != null" class="form-group">
+				<label for="room" class="form-control-label">Rooms:</label> <select th:field="*{room}">
 					<option th:each="room : ${rooms}" th:value="${room.id}"
 						th:text="${room.number}"></option>
 				</select> 
 			<!--  	<div class="text text-danger"
 					th:if="${#fields.hasErrors('room')}" th:errors="*{room}"></div>-->
 			</div>
-
+			<div th:if="${doctors} != null" class="form-group">
+				<label for="doctor" class="form-control-label">Rooms:</label> <select th:field="*{doctor}">
+					<option th:each="doctor : ${doctors}" th:value="${doctor.IDNum}"
+						th:text="${doctor.name} + ${doctor.lastName}"></option>
+				</select> 
+			<!--  	<div class="text text-danger"
+					th:if="${#fields.hasErrors('room')}" th:errors="*{room}"></div>-->
+			</div>
+<div class="form-group">
+				<label for="discount" class="form-control-label">Phone
+					number:</label> <input type="number" class="form-control"
+					th:field="*{discount}" id="discount" />
+				<div class="text text-danger"
+					th:if="${#fields.hasErrors('discount')}"
+					th:errors="*{discount}"></div>
+			</div>
 
 <!-- 
 			<div class="progress">

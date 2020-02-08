@@ -29,9 +29,8 @@ public class Exam
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private Date start;
 
-	@Temporal(TemporalType.TIME)
 	@DateTimeFormat(pattern = "HH:mm")
-	private Date duration;
+	private Date finish;
 	
 	@ManyToOne
 	private Room room;
@@ -55,12 +54,12 @@ public class Exam
 	
 	
 	
-	public Exam(Profile doctor, Date start, Date duration, Room room, ExamType type, Double discount, //PREDEFINED!
+	public Exam(Profile doctor, Date start, Date finish, Room room, ExamType type, Double discount, //PREDEFINED!
 			Double price) {
 		super();
 		this.doctor = doctor;
 		this.start = start;
-		this.duration = duration;
+		this.finish = finish;
 		this.room = room;
 		this.type = type;
 		this.discount = discount;
@@ -106,11 +105,11 @@ public class Exam
 	}
 
 	public Date getDuration() {
-		return duration;
+		return finish;
 	}
 
-	public void setDuration(Date duration) {
-		this.duration = duration;
+	public void setDuration(Date finish) {
+		this.finish = finish;
 	}
 
 	public Room getRoom() {
@@ -132,6 +131,18 @@ public class Exam
 	public ExamReport getReport() {
 		return report;
 	}
+
+	public Date getFinish() {
+		return finish;
+	}
+
+
+
+	public void setFinish(Date finish) {
+		this.finish = finish;
+	}
+
+
 
 	public void setReport(ExamReport report) {
 		this.report = report;
