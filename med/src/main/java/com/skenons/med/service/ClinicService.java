@@ -1,5 +1,7 @@
 package com.skenons.med.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,11 @@ public class ClinicService extends ISSService<IClinicRepo, Clinic, Long>
 {
 	@Autowired
 	ClinicRatingService crs;
+	
+	public List<Clinic> getSearchByNameAndAddress(String name, String address)
+	{
+		return repo.findByNameLikeAndAddressLike("%"+name+"%", "%"+address+"%");
+	}
 	
 	public void calculateReviewOne(Clinic c)
 	{
@@ -30,6 +37,14 @@ public class ClinicService extends ISSService<IClinicRepo, Clinic, Long>
 		{
 			c.setAvgReview(sum/count);
 			saveOne(c);
+		}
+	}
+	
+	public void calculateReviewMulti(List<Clinic> clinics)
+	{
+		for(Clinic c : clinics)
+		{
+			calculateReviewOne(c);
 		}
 	}
 	

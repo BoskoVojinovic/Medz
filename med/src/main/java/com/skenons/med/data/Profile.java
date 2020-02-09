@@ -61,6 +61,9 @@ public class Profile
 	@DateTimeFormat(pattern = "HH:mm")
 	private Date workingHoursEnd;
 
+	@Transient
+	private Double avgReview;
+	
 	private Boolean approved = true; //automatic admins :D
 	
 	private Boolean verified = false;
@@ -227,6 +230,16 @@ public class Profile
 
 	public void setVerified(Boolean verified) {
 		this.verified = verified;
+	}
+	
+	
+
+	public Double getAvgReview() {
+		return avgReview;
+	}
+
+	public void setAvgReview(Double avgReview) {
+		this.avgReview = avgReview;
 	}
 
 	@Override
