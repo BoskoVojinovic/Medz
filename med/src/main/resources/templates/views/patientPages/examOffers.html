@@ -10,23 +10,38 @@
 	<div layout:fragment="content" class="container">
 		<div class="card">
 			<div class="card card-body">
-			
-				<p class="text text-center" th:text="${clinicName}+' has these predefined exams, select one to start booking.'"></p>
+				<div class="alert alert-primary">
+					<h4 class="text-center" th:text="${clinicName}+' has these predefined exams, select one to start booking:'"></h4>
+				</div>
 			
 				<table class="table table-hover">
 					<thead>
 						<tr>
 							<th>ID</th>
-							<th>Name</th>
-							<th>LastName</th>
+							<th>Exam Type</th>
+							<th>Doctor</th>
+							<th>Room/Floor</th>
+							<th>Date&Time</th>
+							<th>Price</th>
+							<th></th>
 						</tr>
 					</thead>
 					
 					<tbody>
-						<tr th:each="profile:${profiles}">
-							<td th:text="${profile.IDNum}"></td>
-							<td th:text="${profile.name}"></td>
-							<td th:text="${profile.lastName}"></td>
+						<tr th:each="exam:${exams}">
+							<td th:text="${exam.id}"></td>
+							<td>
+								<p th:text="${exam.type.name}"></p>
+								<p th:text="${exam.type.description}"></p>
+							</td>
+							<td th:text="'Dr. ' + ${exam.doctor.name} + ' ' + ${exam.doctor.lastName}"></td>
+							<td th:text="${exam.room.number} + '/' + ${exam.room.floor}"></td>
+							<td th:text="${exam.start}"></td>
+							<td>
+								<del th:text="'$'+${exam.price}"> </del>
+								<p th:text="'$'+${exam.price*(exam.discount/100)} + ' [-' + ${exam.discount} + '%]'"></p>
+							</td>
+							<td><a class="btn btn-primary" th:href="${#httpServletRequest.requestURI} +'/'+ ${exam.id}" role="button">Book</a></td>
 						</tr>
 					</tbody>
 				</table>

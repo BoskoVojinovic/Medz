@@ -21,7 +21,7 @@
 				<form th:if="${msg==null}" th:action="@{/profile}" th:object="${profile}" method="post"
 					class="jumbotron text-center">
 
-					<div class="form-group spacerTop">
+					<div class="form-group">
 						<label for="IDNum" class="form-control-label">ID number</label>
 						<input readonly type="text" class="form-control"th:field="*{IDNum}" id="IDNum"/>
 						<div class="text text-danger" th:if="${#fields.hasErrors('IDNum')}" th:errors="*{IDNum}"></div>

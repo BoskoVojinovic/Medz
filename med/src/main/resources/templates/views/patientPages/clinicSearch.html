@@ -41,6 +41,7 @@
 							<tr>
 								<th>Clinic Name</th>
 								<th>Clinic Address</th>
+								<th>Avg. Review</th>
 								<th>Exam Price</th>
 								<th></th>
 							</tr>
@@ -50,6 +51,7 @@
 							<tr th:each="ep:${prices}">
 								<td th:text="${ep.clinic.name}"></td>
 								<td th:text="${ep.clinic.address}"></td>
+								<td th:text="${ep.clinic.avgReview}"></td>
 								<td th:text="${ep.basePrice}"></td>
 								<td><a class="btn btn-primary" th:href="${#httpServletRequest.requestURI} +'/'+ ${ep.clinic.id}" role="button">Select</a></td>
 								

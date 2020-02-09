@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import lombok.Data;
 
@@ -21,6 +22,8 @@ public class Clinic
 	private String name;
 	private String address;
 	private String description;
+	@Transient
+	private Double avgReview;
 
 	@OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL, orphanRemoval = true)
 	List<Room> rooms = new ArrayList<Room>();
@@ -92,6 +95,16 @@ public class Clinic
 		return employees;
 	}
 	
+	
+	
+	public Double getAvgReview() {
+		return avgReview;
+	}
+
+	public void setAvgReview(Double averageReview) {
+		this.avgReview = averageReview;
+	}
+
 	public void addRoom(Room r)
 	{
 		if(rooms == null)

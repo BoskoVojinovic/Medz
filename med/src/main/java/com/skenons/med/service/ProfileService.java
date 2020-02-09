@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.skenons.med.EmailConfig;
 import com.skenons.med.SecurityConfig;
+import com.skenons.med.data.ExamType;
 import com.skenons.med.data.Profile;
 import com.skenons.med.data.enums.ProfileType;
 import com.skenons.med.repo.IProfileRepo;
@@ -20,6 +21,11 @@ public class ProfileService extends ISSService<IProfileRepo, Profile, String>
 	public List<Profile> getAllForType(ProfileType type)
 	{
 		return repo.findByType(type);
+	}
+	
+	public List<Profile> getAllForSpecialty(ExamType type)
+	{
+		return repo.findBySpecialty(type);
 	}
 	
 	public ProfileType getType(String id)

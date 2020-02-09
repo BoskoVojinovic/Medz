@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -25,8 +26,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.skenons.med.DateConfig;
 import com.skenons.med.data.Clinic;
 import com.skenons.med.data.Exam;
+import com.skenons.med.data.ExamPrice;
 import com.skenons.med.data.ExamType;
 import com.skenons.med.data.Profile;
 import com.skenons.med.data.Records;
@@ -63,9 +66,11 @@ public class PatientController
 		
 		return "views/patientPages/clinicList";
 	}
-	
-	@GetMapping("/examOffers/{clinicID}")
-	public String getClinicsPage(@PathVariable(value = "clinicID") Long clinicID, HttpServletRequest request, Model model)
+	//=================================================================================================================================================
+	@GetMapping("/pexam/{clinicID}")
+	public String predefExamStage1(
+								@PathVariable(value = "clinicID") Long clinicID, 
+								Model model)
 	{
 		Optional<Clinic> oc = cs.getOne(clinicID);
 		if(!oc.isPresent())
@@ -74,13 +79,40 @@ public class PatientController
 			return "error";
 		}
 		List<Exam> exs = new ArrayList<Exam>();
-		
-		//TODO: filter
-		
+		for(Exam e : es.getAll())
+		{
+			if(e.getRoom()!=null && e.getRoom().getClinic().equals(oc.get()) && e.getPatient()==null)//predefined!
+			{
+				exs.add(e);
+			}
+		}
 		model.addAttribute("clinicName",oc.get().getName());
 		model.addAttribute("exams",exs);
 		return "views/patientPages/examOffers";
 	}
+	
+	@GetMapping("/pexam/{clinicID}/{examID}")
+	public RedirectView predefExamStage2(
+								@PathVariable(value = "clinicID") Long clinicID,
+								@PathVariable(value = "examID") Long examID,
+								HttpServletRequest request,
+								Model model)
+	{
+		Principal pr = request.getUserPrincipal();
+		Optional<Profile> op = ps.getOne(pr.getName());
+		Optional<Clinic> oc = cs.getOne(clinicID);
+		Optional<Exam> oe = es.getOne(examID);
+		if(!oc.isPresent() || !oe.isPresent() || oe.get().getPatient()!=null)
+		{
+			model.addAttribute("message","Invalid url.");
+			new RedirectView("/error");
+		}
+		oe.get().setPatient(op.get());
+		es.saveOne(oe.get());
+		return new RedirectView("/examHistory");
+	}
+	
+	//===============================================================================================================================================
 	
 	@GetMapping("/cexam")
 	public RedirectView customExamStage1(
@@ -96,13 +128,38 @@ public class PatientController
 									@PathVariable("date") String date,
 									Model m)
 	{
-		m.addAttribute("type", ets.getOne(typeID).get());//TODO: check if exist, throw error page!
+		Optional<ExamType> oet = ets.getOne(typeID);
+		Date d = null;
+		try
+		{
+			d = DateConfig.parseFromURL(date);
+		}
+		catch (ParseException e)
+		{
+			m.addAttribute("message","Invalid url.");
+			return "/error";
+		}
+		
+		m.addAttribute("type", oet.get());
 		m.addAttribute("date", date);
 		
 		
-		//TODO: filter clinics for time availability!
-		m.addAttribute("prices", eps.getForType(ets.getOne(typeID).get()));
+		List<ExamPrice> lep = eps.getAll().stream().filter((e)->
+		{
+			if(!e.getExamType().equals(oet.get()))
+			{
+				return false;
+			}
+			Clinic c = e.getClinic();
+			List<Profile> doctors = c.getEmployees().stream().filter((doc)->
+			{
+				//da li je doca doc slobodan?
+				return true;
+			}).collect(Collectors.toList());
+			return !doctors.isEmpty();
 		
+		}).collect(Collectors.toList());
+		m.addAttribute("prices", lep);
 		return "views/patientPages/clinicSearch";
 	}
 	
@@ -112,10 +169,13 @@ public class PatientController
 									@PathVariable("clinic") Long clinicID,
 									Model m)
 	{
+		
+		
+		
 		m.addAttribute("type", ets.getOne(typeID).get());//TODO: check if exist, throw error page!
 		m.addAttribute("date", date);
 		m.addAttribute("clinic", cs.getOne(clinicID).get());
-		m.addAttribute("doctors", ps.getAllForType(ProfileType.DOCTOR));//TODO: filter doctors
+		m.addAttribute("doctors", ps.getAllForSpecialty(ets.getOne(typeID).get()));//TODO: filter doctors
 		return "views/patientPages/doctorSearch";
 	}
 	
@@ -166,12 +226,14 @@ public class PatientController
 			m.addAttribute("message","Internal error.");
 			new RedirectView("/error");
 		}
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 		Exam e;
-		try {
-			e = new Exam(op.get(),od.get(),oet.get(),r,df.parse(date));
+		try
+		{
+			e = new Exam(op.get(),od.get(),oet.get(),r,DateConfig.parseFromURL(date));
 			es.saveOne(e);
-		} catch (ParseException e1) {
+		}
+		catch (ParseException e1)
+		{
 			m.addAttribute("message","Internal date error.");
 			new RedirectView("/error");
 			e1.printStackTrace();
@@ -180,7 +242,7 @@ public class PatientController
 		return new RedirectView("/examHistory");
 	}
 	
-	
+	//=========================================================================================================================================================
 	
 	
 	

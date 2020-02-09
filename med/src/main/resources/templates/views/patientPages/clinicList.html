@@ -40,6 +40,7 @@
 							<th><button type="button" class="btn btn-secondary">Name</button></th>
 							<th><button type="button" class="btn btn-secondary">Address</button></th>
 							<th><button type="button" class="btn btn-secondary">Description</button></th>
+							<th><button type="button" class="btn btn-secondary">Avg. Review</button></th>
 							<th></th>
 						</tr>
 					</thead>
@@ -49,8 +50,9 @@
 							<td th:text="${cl.name}"></td>
 							<td th:text="${cl.address}"></td>
 							<td th:text="${cl.description}"></td>
+							<td th:text="${cl.avgReview}"></td>
 							<td>
-								<a class="btn btn-primary" th:href="'/examOffers/'+${cl.id}" role="button">Select</a>
+								<a class="btn btn-primary" th:href="'/pexam/'+${cl.id}" role="button">Select</a>
 							</td>
 						</tr>
 					</tbody>

@@ -3,7 +3,6 @@ package com.skenons.med.api;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.datetime.standard.InstantFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -195,11 +194,11 @@ public class DEBUGController//Handling debug options
 			Exam ex;
 			ExamReport exr;
 			
-			ex = new Exam(s12.getOne("1111111111116").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(1L).get().getRooms().get(2), s8.getOne(1L).get(), 20D, 120D); ex.setPatient(s12.getOne("1111111111111").get());
+			ex = new Exam(s12.getOne("1111111111116").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(1L).get().getRooms().get(2), s8.getOne(1L).get(), 0D, 120D); ex.setPatient(s12.getOne("1111111111111").get());
 			exr = new ExamReport(s3.getOne(1L).get(), s11.getOne(1L).get(), s13.getOne("1111111111111").get()); s6.saveOne(exr);
 			ex.setReport(exr); s7.saveOne(ex);
 			
-			ex = new Exam(s12.getOne("1111111111117").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(2L).get().getRooms().get(3), s8.getOne(4L).get(), 25D, 300D); ex.setPatient(s12.getOne("1111111111111").get());
+			ex = new Exam(s12.getOne("1111111111117").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(2L).get().getRooms().get(3), s8.getOne(4L).get(), 15D, 300D); ex.setPatient(s12.getOne("1111111111111").get());
 			exr = new ExamReport(s3.getOne(2L).get(), s11.getOne(2L).get(), s13.getOne("1111111111111").get()); s6.saveOne(exr);
 			ex.setReport(exr); s7.saveOne(ex);
 			
@@ -207,32 +206,35 @@ public class DEBUGController//Handling debug options
 			exr = new ExamReport(s3.getOne(3L).get(), s11.getOne(3L).get(), s13.getOne("1111111111111").get()); s6.saveOne(exr);
 			ex.setReport(exr); s7.saveOne(ex);
 			
-			ex = new Exam(s12.getOne("1111111111119").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(3L).get().getRooms().get(2) , s8.getOne(5L).get(), 10D, 20D);  ex.setPatient(s12.getOne("1111111111111").get());
+			ex = new Exam(s12.getOne("1111111111119").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(3L).get().getRooms().get(2) , s8.getOne(5L).get(), 10D, 50D);  ex.setPatient(s12.getOne("1111111111111").get());
 			exr = new ExamReport(s3.getOne(4L).get(), s11.getOne(4L).get(), s13.getOne("1111111111111").get()); s6.saveOne(exr);
 			ex.setReport(exr); s7.saveOne(ex);
 			
-			ex = new Exam(s12.getOne("1111111111120").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(3L).get().getRooms().get(3) , s8.getOne(7L).get(), 10D, 20D);  ex.setPatient(s12.getOne("1111111111111").get());
+			ex = new Exam(s12.getOne("1111111111120").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(3L).get().getRooms().get(3) , s8.getOne(7L).get(), 10D, 80D);  ex.setPatient(s12.getOne("1111111111111").get());
 			exr = new ExamReport(s3.getOne(5L).get(), s11.getOne(5L).get(), s13.getOne("1111111111111").get()); s6.saveOne(exr);
 			ex.setReport(exr); s7.saveOne(ex);
 			
-			ex = new Exam(s12.getOne("1111111111121").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(4L).get().getRooms().get(2) , s8.getOne(7L).get(), 10D, 20D);  ex.setPatient(s12.getOne("1111111111111").get());
+			ex = new Exam(s12.getOne("1111111111121").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(4L).get().getRooms().get(2) , s8.getOne(7L).get(), 0D, 110D);  ex.setPatient(s12.getOne("1111111111111").get());
 			exr = new ExamReport(s3.getOne(6L).get(), s11.getOne(6L).get(), s13.getOne("1111111111111").get()); s6.saveOne(exr);
 			ex.setReport(exr); s7.saveOne(ex);
 			
-			ex = new Exam(s12.getOne("1111111111122").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(4L).get().getRooms().get(4) , s8.getOne(1L).get(), 10D, 20D);  ex.setPatient(s12.getOne("1111111111111").get());
+			ex = new Exam(s12.getOne("1111111111122").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(4L).get().getRooms().get(4) , s8.getOne(1L).get(), 0D, 120D);  ex.setPatient(s12.getOne("1111111111111").get());
 			exr = new ExamReport(s3.getOne(7L).get(), s11.getOne(7L).get(), s13.getOne("1111111111111").get()); s6.saveOne(exr);
 			ex.setReport(exr); s7.saveOne(ex);
 			
-			ex = new Exam(s12.getOne("1111111111123").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(5L).get().getRooms().get(2) , s8.getOne(6L).get(), 10D, 20D);  ex.setPatient(s12.getOne("1111111111111").get());
+			ex = new Exam(s12.getOne("1111111111123").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(5L).get().getRooms().get(2) , s8.getOne(6L).get(), 0D, 200D);  ex.setPatient(s12.getOne("1111111111111").get());
 			exr = new ExamReport(s3.getOne(8L).get(), s11.getOne(8L).get(), s13.getOne("1111111111111").get()); s6.saveOne(exr);
 			ex.setReport(exr); s7.saveOne(ex);
 			
 			//predefined
-			ex = new Exam(s12.getOne("1111111111116").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(1L).get().getRooms().get(2), e, 130D, 20D); s7.saveOne(ex);
-			ex = new Exam(s12.getOne("1111111111117").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(2L).get().getRooms().get(3), e, 150D, 30D); s7.saveOne(ex);
-			ex = new Exam(s12.getOne("1111111111118").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(2L).get().getRooms().get(4), e, 160D, 60D); s7.saveOne(ex);
-			ex = new Exam(s12.getOne("1111111111119").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(3L).get().getRooms().get(2), e, 120D, 10D); s7.saveOne(ex);
-			ex = new Exam(s12.getOne("1111111111120").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(3L).get().getRooms().get(3), e, 140D, 10D); s7.saveOne(ex);
+			ex = new Exam(s12.getOne("1111111111116").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(1L).get().getRooms().get(2), e, 20D, 130D); s7.saveOne(ex);
+			ex = new Exam(s12.getOne("1111111111117").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(2L).get().getRooms().get(3), e, 30D, 150D); s7.saveOne(ex);
+			ex = new Exam(s12.getOne("1111111111118").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(2L).get().getRooms().get(4), e, 25D, 160D); s7.saveOne(ex);
+			ex = new Exam(s12.getOne("1111111111119").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(3L).get().getRooms().get(2), e, 10D, 120D); s7.saveOne(ex);
+			ex = new Exam(s12.getOne("1111111111120").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(3L).get().getRooms().get(3), e, 10D, 140D); s7.saveOne(ex);
+			ex = new Exam(s12.getOne("1111111111121").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(4L).get().getRooms().get(2), e, 10D, 140D); s7.saveOne(ex);
+			ex = new Exam(s12.getOne("1111111111122").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(4L).get().getRooms().get(3), e, 10D, 140D); s7.saveOne(ex);
+			ex = new Exam(s12.getOne("1111111111123").get(), new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), s2.getOne(5L).get().getRooms().get(2), e, 10D, 140D); s7.saveOne(ex);
 			
 			
 			ClinicRating cr;
@@ -240,6 +242,7 @@ public class DEBUGController//Handling debug options
 			cr = new ClinicRating(s12.getOne("1111111111111").get(), s2.getOne(1L).get(), 10); s1.saveOne(cr);
 			cr = new ClinicRating(s12.getOne("1111111111111").get(), s2.getOne(2L).get(), 8); s1.saveOne(cr);
 			cr = new ClinicRating(s12.getOne("1111111111111").get(), s2.getOne(3L).get(), 9); s1.saveOne(cr);
+			s2.calculateReviewAll();
 			
 			DoctorRating dr;
 			
@@ -263,7 +266,6 @@ public class DEBUGController//Handling debug options
 	//@GetMapping("/debugBurn")
 	public String debugB(Model m)
 	{
-		
 		s13.deleteAll();
 		s7.deleteAll();
 		s12.deleteAll();

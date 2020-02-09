@@ -9,7 +9,7 @@
 <body>
 	<div layout:fragment="content" class="container">
 		<div class="card">
-			<div class="card card-body">
+			<div class="card card-body" style="background-color: #B0B0B0;">
 				<div class="alert alert-primary">
 					<h2 class="text text-center">All of your exams:</h2>
 				</div>
@@ -73,8 +73,8 @@
 						</table>
 					
 						<div class="card-footer text-center">
-							<a class="btn btn-primary btn-sm" th:href="'review/clinic/' + ${exam.id}+'/'" role="button">Leave a clinic review</a>
-							<a class="btn btn-primary btn-sm" th:href="'/review/doctor/' + ${exam.id}" role="button">Leave a doctor review</a>
+							<a class="btn btn-primary btn-sm" th:href="'review/clinic/' + ${exam.id}+'/'" role="button">Clinic review...</a>
+							<a class="btn btn-primary btn-sm" th:href="'/review/doctor/' + ${exam.id}" role="button">Doctor review...</a>
 						</div>			
 					</div>
 				</div>
