@@ -7,21 +7,21 @@
  $(function () {
      $('#start').on("change", function() {
             console.log($('#start').val());
-            if ($("#finish").val() != null && $("#start").val() != null && $("#type").val() != null){
-              //  $( "#butt" ).trigger( "click" );
+            if ($("#finish").val() != "" && $("#start").val() != "" && $("#type").val() != ""){
+                $( "#butt" ).trigger( "click" );
 
             }
      });
      $('#finish').on("change", function() {
          console.log($('#finish').val() + "ASF");
-         if ($("#finish").val() != null && $("#start").val() != null && $("#type").val() != null){
-           //  $( "#butt" ).trigger( "click" );
+         if ($("#finish").val() != "" && $("#start").val() != "" && $("#type").val() != ""){
+             $( "#butt" ).trigger( "click" );
 
          }
   });
      $('#type').change( function() {
          console.log($('#type').val());
-         if ($("#finish").val() != null && $("#start").val() != null && $("#type").val() != null){
+         if ($("#finish").val() != "" && $("#start").val() != "" && $("#type").val() != ""){
              $( "#butt" ).trigger( "click" );
 
          }

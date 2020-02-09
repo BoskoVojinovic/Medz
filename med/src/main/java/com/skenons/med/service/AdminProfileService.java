@@ -1,6 +1,7 @@
 package com.skenons.med.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +35,7 @@ public class AdminProfileService extends ISSService<IProfileRepo, Profile, Strin
 	@Autowired
 	IProfileRepo profileRepo;
 	public List<Profile> getDoctorsByClinic(Long id){
-		return repo.findByType(ProfileType.DOCTOR).stream().filter(x -> id == x.getClinic().getId()).collect(Collectors.toList());
+		return repo.findByType(ProfileType.DOCTOR).stream().filter(x -> id == x.getClinic().getId() && x.getDeleted() == false).collect(Collectors.toList());
 	}
 	public void changePassword(PasswordChange pr) {
 		Profile p = repo.getOne(pr.getIDNum());
@@ -47,15 +48,21 @@ public class AdminProfileService extends ISSService<IProfileRepo, Profile, Strin
 		return examRepo.findAll().stream().filter(x -> x.getDoctor().getClinic().getId() == one).collect(Collectors.toList());
 	};
 	public List<Profile> findAvailable(Date start, Date finish, Long typeId, Long clinicId){
-		List<Exam> exams = examRepo.findAll().stream().filter(x -> x.getDoctor().getClinic().getId() == clinicId && (start.before(x.getStart()) && finish.after(x.getStart())) || (start.before(x.getFinish()) && finish.after(x.getFinish())) || (start.after(x.getStart()) && finish.before(x.getFinish())) || (start.before(x.getStart()) && finish.after(x.getFinish()))).collect(Collectors.toList());
+		List<Exam> exams = examRepo.findAll().stream().filter(x -> x.getDoctor().getClinic().getId() == clinicId && ((start.equals(x.getStart())) || finish.equals(x.getFinish()) || (start.before(x.getStart()) && finish.after(x.getStart())) || (start.before(x.getFinish()) && finish.after(x.getFinish())) || (start.after(x.getStart()) && finish.before(x.getFinish())) || (start.before(x.getStart()) && finish.after(x.getFinish())))).collect(Collectors.toList());
 		List<Profile> ids = new ArrayList<Profile>();
 		for (Exam long1 : exams) {
-			ids.add(long1.getDoctor());
+			if (long1.getDoctor().getDeleted() == false)
+				ids.add(long1.getDoctor());
 		}
-		//List<LeaveRequest> requests = leaveRepo.findAll().stream().filter(x -> x.getEmployee().getClinic().getId() == clinicId && ());
+		List<LeaveRequest> requests = leaveRepo.findAll().stream().filter(x -> x.getEmployee().getClinic().getId() == clinicId && ((start.equals(x.getStart())) || finish.equals(x.getEnd()) || (start.before(x.getStart()) && finish.after(x.getStart())) || (start.before(x.getEnd()) && finish.after(x.getEnd())) || (start.after(x.getStart()) && finish.before(x.getEnd())) || (start.before(x.getStart()) && finish.after(x.getEnd())))).collect(Collectors.toList());
 		
-		List<Profile> r = profileRepo.findByType(ProfileType.DOCTOR).stream().filter(x -> x.getSpecialty().getId() == typeId && x.getClinic().getId() == clinicId && x.getWorkingHoursStart().before(start) && x.getWorkingHoursEnd().after(finish)).collect(Collectors.toList());
-	System.out.println(r.size() + "    " + ids.size());
+		List<Profile> r = profileRepo.findByType(ProfileType.DOCTOR).stream().filter(x -> x.getSpecialty().getId() == typeId && x.getDeleted() == false && x.getClinic().getId() == clinicId && (x.getWorkingHoursStart().before(start) || x.getWorkingHoursStart().equals(start)) &&( x.getWorkingHoursEnd().after(finish) || x.getWorkingHoursEnd().after(finish))).collect(Collectors.toList());
+		for (LeaveRequest long1 : requests) {
+			if (long1.getEmployee().getDeleted() == false)
+				ids.add(long1.getEmployee());
+		}
+		
+		System.out.println(r.size() + "    " + ids.size() +  "    " + requests.size());
 		r.removeAll(ids);
 		return r;
 	}
@@ -66,5 +73,14 @@ public class AdminProfileService extends ISSService<IProfileRepo, Profile, Strin
 	
 	public List<Profile> findAllAdmins(Long id){
 		return repo.findByType(ProfileType.ADMIN_CLINIC).stream().filter(x -> x.getClinic().getId() == id).collect(Collectors.toList());
+	}
+	
+	public boolean seeIfAvailable(String id) {
+		Date date = Calendar.getInstance().getTime();
+		if(!examRepo.findAll().stream().filter(x -> (x.getDoctor() != null ? x.getDoctor().getIDNum().equals(id) : false) && x.getStart().after(date)).collect(Collectors.toList()).isEmpty()){
+			return false;
+		} else {
+			return true;
+		}
 	}
 }

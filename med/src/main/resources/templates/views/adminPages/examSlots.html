@@ -35,13 +35,22 @@
 							<td th:text="${exam.type.name}"></td>
 							<td th:text="${#dates.format(exam.start, 'yyyy-MM-dd, HH:mm')}"></td>
 							<td th:text="${#dates.format(exam.duration, 'HH:mm')}"></td>
-							<td th:text="${exam.room.number}"></td>
-							<td th:text="${exam.doctor.name} + ${exam.doctor.lastName}"></td>
+							<td th:if="${exam.room != null}" th:text="${exam.room.number}"></td>
+							<td th:unless="${exam.room != null}"></td>
+							
+							<td th:if="${exam.doctor != null}" th:text="${exam.doctor.name} + ${exam.doctor.lastName}"></td>
+														<td th:unless="${exam.doctor != null}"></td>
+							
 							<td th:if="${exam.patient != null}" th:text="${exam.patient.name} + ${exam.patient.lastName}"></td>
 						 	<td th:unless="${exam.patient != null}"></td>
-						 	<td th:text="${exam.price}"></td>
-							<td th:text="${exam.discount}"></td>
-							<td th:text="${exam.approved}"></td>
+						 	<td th:if="${exam.price != null}" th:text="${exam.price}"></td>
+							<td th:unless="${exam.price != null}"></td>
+							
+							<td th:if="${exam.discount != null}" th:text="${exam.discount}"></td>
+							<td th:unless="${exam.discount != null}"></td>
+							
+							<td th:if="${exam.approved != null}" th:text="${exam.approved}"></td>
+							<td th:unless="${exam.approved != null}"></td>
 							
 						</tr>
 					</tbody>

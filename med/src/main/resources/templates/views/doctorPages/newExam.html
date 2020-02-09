@@ -11,6 +11,9 @@
 			<p class="text text-center">A profile with that ID number already
 				exists!</p>
 		</div>
+		<div class="alert alert-info" th:if="${error}">
+			<p class="text text-center">Niste slobodni za izabran datum</p>
+		</div>
 		<form th:action="@{/clinic/{id}/doctors/{doctorId}/patients/{patientId}/newExam (id=${clinicId}, patientId=${patientId}, doctorId=${doctorId})}"
 			th:object="${examSlot}" method="post" class="jumbotron text-center">
 

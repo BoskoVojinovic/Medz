@@ -218,6 +218,7 @@ public class AdminClinicController {
 
 		model.addAttribute("clinicId", id);
 		Exam e = examService.getOne(requestId).get();
+		e.setApproved(true);
 		e.setRoom(roomService.getOne(roomId).get());
 		e.setPrice(examPriceService.findByExamTypeId(e.getType().getId()).getBasePrice());
 		model.addAttribute("exams", examService.getRequests(id));
@@ -298,7 +299,7 @@ public class AdminClinicController {
 		model.addAttribute("examSlot", exam);
 		if (exam.getDoctor() != null && exam.getDuration() != null && exam.getStart() != null && exam.getRoom() != null && exam.getDiscount() != null) {
 			exam.setPrice(examPriceService.findByExamTypeId(exam.getType().getId()).getBasePrice());
-			
+			exam.setApproved(true);
 			examService.saveOne(exam);
 			model.addAttribute("exams", examService.findByClinicId(id));
 
@@ -349,6 +350,19 @@ public class AdminClinicController {
 		System.out.println(id +"ASadD");
 		model.addAttribute("clinicId", id);
 		model.addAttribute("roomId", roomId);
+		if (!roomService.seeIfAvailable(roomId)) {
+			model.addAttribute("error", true);
+			model.addAttribute("rooms", roomService.getRoomsByClinic(id));
+			return "views/adminPages/rooms";
+		}
+		for (Exam exam : examService.findByClinicIdD(id)) {
+			if(exam.getRoom() != null) {
+				if (exam.getRoom().getId() == roomId) {
+					exam.setRoom(null);
+					examService.saveOne(exam);
+				}
+			}
+		}
 		roomService.deleteOne(roomId);
 		model.addAttribute("rooms", roomService.getRoomsByClinic(id));
 		return "views/adminPages/rooms";
@@ -370,7 +384,14 @@ public class AdminClinicController {
 		System.out.println(id +"ASadD");
 		model.addAttribute("clinicId", id);
 		model.addAttribute("roomId", doctorId);
-		profileService.deleteOne(doctorId);
+		if (!profileService.seeIfAvailable(doctorId)) {
+			model.addAttribute("error", true);
+			model.addAttribute("doctors", profileService.getDoctorsByClinic(id));
+			return "views/adminPages/doctors";
+		}
+		Profile p = profileService.getOne(doctorId).get();
+		p.setDeleted(true);
+		profileService.saveOne(p);
 		model.addAttribute("doctors", profileService.getDoctorsByClinic(id));
 		return "views/adminPages/doctors";
 	}

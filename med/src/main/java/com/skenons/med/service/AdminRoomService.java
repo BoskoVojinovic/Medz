@@ -1,6 +1,7 @@
 package com.skenons.med.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,6 +48,15 @@ public class AdminRoomService extends ISSService<IRoomRepo, Room, Long> {
 		}
 		r.remove(d);
 		return r;
+	}
+	
+	public boolean seeIfAvailable(Long roomId) {
+		Date date = Calendar.getInstance().getTime();
+		if(!examRepo.findAll().stream().filter(x -> (x.getRoom() != null ? x.getRoom().getId() == roomId : false) && x.getStart().after(date)).collect(Collectors.toList()).isEmpty()){
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	

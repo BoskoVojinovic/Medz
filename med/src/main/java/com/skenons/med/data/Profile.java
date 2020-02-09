@@ -65,6 +65,8 @@ public class Profile
 	
 	private Boolean verified = false;
 	
+	private Boolean deleted = false;
+	
 	public Profile()
 	{
 		
@@ -104,6 +106,14 @@ public class Profile
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public String getPassword() {

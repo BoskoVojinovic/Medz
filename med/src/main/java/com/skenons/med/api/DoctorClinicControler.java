@@ -147,6 +147,11 @@ public class DoctorClinicControler {
 		int day = cal1.get(Calendar.DAY_OF_MONTH);
 		cal.set(year, month, day);
 		exam.setFinish(cal.getTime());
+		if (!examService.seeIfAvailable(exam.getStart(), exam.getFinish(), doctorId)) {
+			model.addAttribute("error", true);
+			model.addAttribute("examSlot", new Exam());
+			return "views/doctorPages/newExam";
+		}
 		exam.setType(examTypeService.getOne(profileService.getOne(doctorId).get().getSpecialty().getId()).get());
 		exam.setDoctor(profileService.getOne(doctorId).get());
 		exam.setPatient(profileService.getOne(patientId).get());

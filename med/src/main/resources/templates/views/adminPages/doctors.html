@@ -10,6 +10,12 @@
 <div layout:fragment="content" class="container">
 <div class="card">
 			<div class="card card-body">
+			<div class="card card-body">
+				<div class="alert alert-info" th:if="${error}">
+			<p class="text text-center">
+				You can't delete a doctor that has already been assigned to an exam!
+			</p>
+		</div>
 				<p class="text text-center">Logged in as:</p>
 				<table class="table table-hover">
 					<thead>
@@ -35,7 +41,7 @@
 							<td th:text="${profile.lastName}"></td>
 							<td th:text="${profile.address}"></td>
 							<td th:text="${profile.cellNumber}"></td>
-							<td th:text="${profile.specialty}"></td>
+							<td th:text="${profile.specialty.name}"></td>
 							<td th:text="${#dates.format(profile.workingHoursStart, 'HH:mm')}"></td>
 							<td th:text="${#dates.format(profile.workingHoursEnd, 'HH:mm')}"></td>
 							<td th:text="${profile.email}"></td>
