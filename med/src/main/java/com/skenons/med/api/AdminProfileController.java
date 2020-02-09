@@ -45,4 +45,30 @@ public class AdminProfileController
 		profileService.changePassword(p);
 		return "views/profile/profile";
 	}
+    
+    @PostMapping("{id}/changeProfilePassword")
+    public String changeProfilePassword(@PathVariable(value = "id") String id, @Valid PasswordChange p, BindingResult br, Model model) {
+    	Profile pr = profileService.getOne(id).get();
+    	PasswordChange pc = new PasswordChange();
+    	p.setIDNum(id);
+		pc.setIDNum(id);
+		System.out.println(p.getCurrentPassword() + "" + pr.getPassword() + "" + id);
+		model.addAttribute("passwordChange", pc);
+		if(!p.getNewPassword().equals(p.getRepeatedNewPassword()))
+		{
+			br.addError(new FieldError("passwordChange", "repeatedNewPassword", "Passwords must match!"));
+		}
+		if(!SecurityConfig.passEnc().matches(p.getCurrentPassword(), pr.getPassword()))
+		{
+			br.addError(new FieldError("currentPassword", "currentPassword", "Wrong password!"));
+		}
+		if(br.hasErrors()) {
+			System.out.println(br.getAllErrors());
+
+			return "views/doctorPages/changePassword";
+		}
+		model.addAttribute("profile", profileService.getOne(id).get());
+		profileService.changePassword(p);
+		return "views/doctorPages/profile";
+	}
 }

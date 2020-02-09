@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.skenons.med.data.Profile;
 import com.skenons.med.repo.IProfileRepo;
 
 //@RunWith(SpringRunner.class)

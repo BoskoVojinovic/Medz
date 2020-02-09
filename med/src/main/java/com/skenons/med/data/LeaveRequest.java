@@ -36,7 +36,7 @@ public class LeaveRequest
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date end;
 
-	protected LeaveRequest()
+	public LeaveRequest()
 	{
 		
 	}

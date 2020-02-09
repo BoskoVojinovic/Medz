@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div layout:fragment="content" class="container">
+		<div class="card">
+			<form 
+				th:action="@{/clinic/{id}/leaveRequests/{requestId}/reject (requestId=${requestId},id=${clinicId})}"
+				th:object="${object}" method="post" class="jumbotron text-center">
+
+				<div class="alert alert-dismissible alert-primary">
+					<p class="text text-center">Enter a reason for rejection:</p>
+				</div>
+				<textarea id="basePrice" th:field="*{reason}" rows="5" cols="100"></textarea>
+				<input type="submit" value="Reject"
+					class="btn btn-primary spacerTop" />
+			</form>
+		</div>
+	</div>
+</body>
+</html>

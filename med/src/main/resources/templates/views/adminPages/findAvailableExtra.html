@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}">
+<head>
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	$(function() {
+
+		$('#start').on(
+				"change",
+				function() {
+					console.log($('#start').val());
+					if ($("#finish").val() != null && $("#start").val() != null
+							&& $("#type").val() != null) {
+						//  $( "#butt" ).trigger( "click" );
+
+					}
+				});
+		$('#finish').on(
+				"change",
+				function() {
+					console.log($('#finish').val() + "ASF");
+					if ($("#finish").val() != null && $("#start").val() != null
+							&& $("#type").val() != null) {
+						//  $( "#butt" ).trigger( "click" );
+
+					}
+				});
+		$('#type').change(
+				function() {
+					console.log($('#type').val());
+					if ($("#finish").val() != null && $("#start").val() != null
+							&& $("#type").val() != null) {
+						$("#butt").trigger("click");
+
+					}
+				});
+	});
+</script>
+</head>
+<body>
+	<div layout:fragment="content" class="container">
+		<div class="card">
+			<div class="card card-body">
+				<p class="text text-center">Rooms</p>
+				<table>
+					<span th:each="survey : ${rooms}">
+						<h1 th:text="${survey.number}"></h1>
+						<td>
+							<tr th:each="answer: ${calendar}">
+                            <p th:text="${calendar.start}"></p>
+                        </tr>
+                    </td>
+                </span>
+              </table>
+				<!-- <table class="table table-hover">
+								<thead>
+						<tr>
+							<th hidden="true">ID</th>
+							<th>Floor</th>
+							<th>Number</th>
+						</tr>
+					</thead>
+
+					<tbody th:if="${rooms} != null" th:each="profile : ${rooms}">
+						<tr th:if="profile.number != 0">
+							<td hidden="true" th:text="${profile.id}"></td>
+							<td th:text="${profile.floor}"></td>
+							<td th:text="${profile.number}"></td>
+							<td><a style="width: 100%; height: 100%"
+											class="btn btn-outline-primary"
+											th:href="@{/clinic/{id}/examRequests/{requestId}/approved/{roomId} (roomId=${profile.id}, id=${clinicId}, requestId=${requestId})}">Izaberi</a></td>
+							<td><a style="width: 100%; height: 100%"
+											class="btn btn-outline-primary">Prikazi zauzece</a></td>
+
+						</tr>
+						<tr th:id="${profile.id}">
+						</tr>
+					</tbody>
+
+				</table> -->
+			
+					</div>
+		</div>
+	</div>
+</body>
+</html>

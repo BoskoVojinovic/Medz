@@ -8,8 +8,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -84,7 +82,20 @@ public class Profile
 		this.cellNumber = cellNumber;
 		this.address = address;
 	}
-
+	public Profile(@NotEmpty String iDNum, @NotEmpty @Email String email,
+			@NotEmpty String password, @NotEmpty String name, @NotEmpty String lastName, @NotEmpty String cellNumber,
+			@NotEmpty String address, Date whs, Date whe) {
+		super();
+		IDNum = iDNum;
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.lastName = lastName;
+		this.cellNumber = cellNumber;
+		this.address = address;
+		this.workingHoursStart = whs;
+		this.workingHoursEnd = whe;
+	}
 
 
 	public String getEmail() {

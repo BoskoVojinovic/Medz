@@ -4,11 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.skenons.med.data.Exam;
 import com.skenons.med.data.ExamPrice;
 import com.skenons.med.data.ExamType;
 import com.skenons.med.repo.IExamPriceRepo;
-import com.skenons.med.repo.IExamRepo;
 import com.skenons.med.service.generic.ISSService;
 
 @Service

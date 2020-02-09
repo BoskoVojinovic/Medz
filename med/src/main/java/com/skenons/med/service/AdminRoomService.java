@@ -26,7 +26,7 @@ public class AdminRoomService extends ISSService<IRoomRepo, Room, Long> {
 	}
 	
 	public boolean checkIfExists(Room room) {
-		return !repo.findAll().stream().filter(x -> room.getFloor() == x.getFloor() && room.getNumber() == x.getNumber()).collect(Collectors.toList()).isEmpty();
+		return !repo.findAll().stream().filter(x -> room.getFloor() == x.getFloor() && room.getNumber() == x.getNumber() && room.getClinic().getId() == x.getClinic().getId()).collect(Collectors.toList()).isEmpty();
 		
 	}
 	

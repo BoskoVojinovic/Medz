@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+<div class="card">
+			<div class="card card-body">
+				<p class="text text-center">Ratings</p>
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th hidden="true">ID</th>
+							<th>Name</th>
+							<th>Rating</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr>
+							<td hidden="true" th:text="${clinic.id}"></td>
+							<td th:text="${clinic.name}"></td>
+							<td th:text="${clinicStar}"></td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th hidden="true">ID</th>
+							<th>Name</th>
+							<th>Last Name</th>
+							<th>Rating</th>
+						</tr>
+					</thead>
+					
+					<tbody th:each="profile : ${doctorStar}">
+						<tr>
+							<td hidden="true" th:text="${profile.key.IDNum}"></td>
+							<td th:text="${profile.key.name}"></td>
+							<td th:text="${profile.key.lastName}"></td>
+							<td th:text="${profile.value}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

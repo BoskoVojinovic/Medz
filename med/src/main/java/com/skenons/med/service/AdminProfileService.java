@@ -10,11 +10,13 @@ import org.springframework.stereotype.Service;
 
 import com.skenons.med.SecurityConfig;
 import com.skenons.med.data.Exam;
+import com.skenons.med.data.LeaveRequest;
 import com.skenons.med.data.PasswordChange;
 import com.skenons.med.data.Profile;
 import com.skenons.med.data.enums.ProfileType;
 import com.skenons.med.repo.IClinicRepo;
 import com.skenons.med.repo.IExamRepo;
+import com.skenons.med.repo.ILeaveRequestRepo;
 import com.skenons.med.repo.IProfileRepo;
 import com.skenons.med.service.generic.ISSService;
 
@@ -23,6 +25,9 @@ public class AdminProfileService extends ISSService<IProfileRepo, Profile, Strin
 	
 	@Autowired
 	IExamRepo examRepo;
+
+	@Autowired
+	ILeaveRequestRepo leaveRepo;
 
 	@Autowired
 	IClinicRepo clinicRepo;
@@ -47,6 +52,7 @@ public class AdminProfileService extends ISSService<IProfileRepo, Profile, Strin
 		for (Exam long1 : exams) {
 			ids.add(long1.getDoctor());
 		}
+		//List<LeaveRequest> requests = leaveRepo.findAll().stream().filter(x -> x.getEmployee().getClinic().getId() == clinicId && ());
 		
 		List<Profile> r = profileRepo.findByType(ProfileType.DOCTOR).stream().filter(x -> x.getSpecialty().getId() == typeId && x.getClinic().getId() == clinicId && x.getWorkingHoursStart().before(start) && x.getWorkingHoursEnd().after(finish)).collect(Collectors.toList());
 	System.out.println(r.size() + "    " + ids.size());
@@ -56,5 +62,9 @@ public class AdminProfileService extends ISSService<IProfileRepo, Profile, Strin
 	
 	public List<Profile> getPatients(){
 		return repo.findByType(ProfileType.PATIENT);
+	}
+	
+	public List<Profile> findAllAdmins(Long id){
+		return repo.findByType(ProfileType.ADMIN_CLINIC).stream().filter(x -> x.getClinic().getId() == id).collect(Collectors.toList());
 	}
 }

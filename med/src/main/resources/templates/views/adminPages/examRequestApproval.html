@@ -6,7 +6,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<body>
 <div layout:fragment="content" class="container">
 <div class="card">
 			<div class="card card-body">
@@ -31,13 +30,12 @@
 						</tr>
 					</tbody>
 					<tbody th:if="${#lists.isEmpty(rooms)}"><tr >
-					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary">Pronadji novi termin</a></td>
+					<td><a style="width: 100%;height: 100%" th:href="@{/clinic/{id}/examRequests/{requestId}/findAvailable (id=${clinicId}, requestId=${requestId})}"  class="btn btn-outline-primary">Pronadji slobodni termin</a></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
-</body>
 </body>
 </html>

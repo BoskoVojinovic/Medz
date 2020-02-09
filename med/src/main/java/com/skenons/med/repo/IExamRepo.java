@@ -1,11 +1,9 @@
 package com.skenons.med.repo;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.skenons.med.data.Clinic;
 import com.skenons.med.data.Exam;
 import com.skenons.med.data.Profile;
 

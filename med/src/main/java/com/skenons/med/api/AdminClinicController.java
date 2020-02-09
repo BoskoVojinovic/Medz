@@ -1,6 +1,7 @@
 package com.skenons.med.api;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,13 +19,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.skenons.med.EmailConfig;
 import com.skenons.med.data.Clinic;
+import com.skenons.med.data.ClinicRating;
+import com.skenons.med.data.DoctorRating;
 import com.skenons.med.data.Exam;
 import com.skenons.med.data.ExamPrice;
 import com.skenons.med.data.ExamType;
+import com.skenons.med.data.LeaveRequest;
 import com.skenons.med.data.Profile;
+import com.skenons.med.data.Reason;
 import com.skenons.med.data.Room;
 import com.skenons.med.data.enums.ProfileType;
 import com.skenons.med.service.AdminExamPricesService;
@@ -32,7 +37,10 @@ import com.skenons.med.service.AdminExamService;
 import com.skenons.med.service.AdminExamTypeService;
 import com.skenons.med.service.AdminProfileService;
 import com.skenons.med.service.AdminRoomService;
+import com.skenons.med.service.ClinicRatingService;
 import com.skenons.med.service.ClinicService;
+import com.skenons.med.service.DoctorRatingService;
+import com.skenons.med.service.LeaveRequestService;
 import com.skenons.med.service.ProfileService;
 
 @Controller
@@ -40,6 +48,14 @@ import com.skenons.med.service.ProfileService;
 public class AdminClinicController {
 	@Autowired
 	private ClinicService clinicService;
+	
+	@Autowired
+	private ClinicRatingService clinicRatingService;
+	@Autowired
+	private DoctorRatingService doctorRatingService;
+	@Autowired
+	private LeaveRequestService leaveRequestService;
+	
 	
 	@Autowired
 	private AdminProfileService profileService;
@@ -74,6 +90,44 @@ public class AdminClinicController {
 		return "views/adminPages/doctors";
 	}
 	
+	
+	@GetMapping("/{id}/reports")
+	public String showReports(@PathVariable(value = "id") Long id, Model model) {
+		System.out.println(id +"ASD");
+
+		model.addAttribute("clinicId", id);
+		HashMap<Profile, Double> doctors = new HashMap<Profile, Double>();
+		
+		List<DoctorRating> dr = doctorRatingService.findByClinic(id);
+		
+		for (DoctorRating doctorRating : dr) {
+			if (doctors.containsKey(doctorRating.getDoctor())){
+				doctors.put(doctorRating.getDoctor(), doctorRating.getRating() + doctors.get(doctorRating.getDoctor()));
+			} else {
+				doctors.put(doctorRating.getDoctor(), doctorRating.getRating().doubleValue());
+			}
+		}
+		for (Profile p : doctors.keySet()) {
+			int i = 0;
+			for (DoctorRating doctorRating : dr) {
+				if (doctorRating.getDoctor() == p) {
+					i++;
+				}
+			}
+			doctors.put(p, doctors.get(p)/i);
+		}
+		model.addAttribute("doctorStar", doctors);
+		List<ClinicRating> cr = clinicRatingService.findByClinic(clinicService.getOne(id).get());
+		model.addAttribute("clinic", clinicService.getOne(id).get());
+		Double ratingC = 0.00;
+		for (ClinicRating clinicRating : cr) {
+			ratingC +=clinicRating.getRating();
+		}
+		ratingC = ratingC/cr.size();
+		model.addAttribute("clinicStar", ratingC);
+		return "views/adminPages/ratings";
+	}
+	
 	@GetMapping("/{id}/examSlots")
 	public String showExamSlots(@PathVariable(value = "id") Long id, Model model) {
 		System.out.println(id +"ASwwwwwwwwwD");
@@ -81,6 +135,50 @@ public class AdminClinicController {
 		model.addAttribute("clinicId", id);
 		model.addAttribute("exams", examService.findByClinicId(id));
 		return "views/adminPages/examSlots";
+	}
+	
+	@GetMapping("/{id}/leaveRequests")
+	public String showLeaveRequests(@PathVariable(value = "id") Long id, Model model) {
+		System.out.println(id +"ASwwwwwwwwwD");
+
+		model.addAttribute("clinicId", id);
+		model.addAttribute("leaves", leaveRequestService.findByClinic(clinicService.getOne(id).get()));
+		return "views/adminPages/leaveRequests";
+	}
+	
+	@GetMapping("/{id}/leaveRequests/{requestId}/approve")
+	public String approveLeaveRequests(@PathVariable(value = "requestId") Long requestId,@PathVariable(value = "id") Long id, Model model) {
+		System.out.println(id +"ASwwwwwwwwwD");
+		LeaveRequest lr = leaveRequestService.getOne(requestId).get();
+		lr.setApproved(true);
+		leaveRequestService.saveOne(lr);
+		EmailConfig.sendLeaveApprovalMail(leaveRequestService.getOne(requestId).get().getEmployee());
+		model.addAttribute("clinicId", id);
+		model.addAttribute("leaves", leaveRequestService.findByClinic(clinicService.getOne(id).get()));
+		return "views/adminPages/leaveRequests";
+	}
+	
+	@GetMapping("/{id}/leaveRequests/{requestId}/reject")
+	public String rejectLeaveRequests(@PathVariable(value = "requestId") Long requestId,@PathVariable(value = "id") Long id, Model model) {
+		System.out.println(id +"ASwwwwwwwwwD");
+		model.addAttribute("clinicId", id);
+		model.addAttribute("reqestId", requestId);
+		model.addAttribute("object", new Reason());
+		model.addAttribute("leaves", leaveRequestService.findByClinic(clinicService.getOne(id).get()));
+		return "views/adminPages/leaveRequestRejected";
+	}
+
+	@PostMapping("/{id}/leaveRequests/{requestId}/reject")
+	public String rejectRequests(@PathVariable(value = "requestId") Long requestId,@PathVariable(value = "id") Long id, Reason reason, Model model) {
+		System.out.println(id +"ASwwwwwwwwwD");
+		LeaveRequest lr = leaveRequestService.getOne(requestId).get();
+		lr.setApproved(false);
+		leaveRequestService.saveOne(lr);
+		EmailConfig.sendLeaveRejectionMail(leaveRequestService.getOne(requestId).get().getEmployee(), reason.getReason());
+		model.addAttribute("clinicId", id);
+		model.addAttribute("reqestId", requestId);
+		model.addAttribute("leaves", leaveRequestService.findByClinic(clinicService.getOne(id).get()));
+		return "views/adminPages/leaveRequests";
 	}
 	
 	@GetMapping("/{id}/rooms")
@@ -125,6 +223,20 @@ public class AdminClinicController {
 		model.addAttribute("exams", examService.getRequests(id));
 		examService.saveOne(e);
 		return "views/adminPages/examRequests";
+	}
+	
+	@GetMapping("/{id}/examRequests/{requestId}/findAvailable")
+	public String findAvailable(@PathVariable(value = "roomId") Long roomId, @PathVariable(value = "requestId") Long requestId, @PathVariable(value = "id") Long id, Model model) {
+		System.out.println(id +"ASadD");
+
+		Exam e = examService.getOne(requestId).get();
+		model.addAttribute("requestId", requestId);
+		model.addAttribute("rooms", roomService.getAll());
+		model.addAttribute("calendar", examService.findByClinicIdD(id));
+		
+		model.addAttribute("clinicId", id);
+		examService.saveOne(e);
+		return "views/adminPages/findAvailableExtra";
 	}
 	
 	@GetMapping("/{id}/rooms/form")

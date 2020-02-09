@@ -1,14 +1,10 @@
 package com.skenons.med.api;
 
 import java.security.Principal;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -34,7 +30,6 @@ import com.skenons.med.data.ExamType;
 import com.skenons.med.data.Profile;
 import com.skenons.med.data.Records;
 import com.skenons.med.data.Room;
-import com.skenons.med.data.enums.ProfileType;
 import com.skenons.med.service.ClinicService;
 import com.skenons.med.service.ExamPriceService;
 import com.skenons.med.service.ExamService;

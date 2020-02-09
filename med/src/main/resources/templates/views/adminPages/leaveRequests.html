@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+<div class="card">
+			<div class="card card-body">
+				<p class="text text-center">Leave requests:</p>
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th hidden="true">ID</th>
+							<th>Employee:</th>
+							<th>Reason</th>
+							<th>Start date:</th>
+							<th>End date:</th>
+							<th>Approved:</th>
+						</tr>
+					</thead>
+					
+					<tbody th:each="profile : ${leaves}">
+						<tr>
+							<td hidden="true" th:text="${profile.id}"></td>
+							<td th:text="${profile.employee.name} + ' ' + ${profile.employee.lastName}"></td>
+							<td th:text="${profile.reason}"></td>
+							<td th:text="${#dates.format(profile.start, 'yyyy-MM-dd')}"></td>
+							<td th:text="${#dates.format(profile.end, 'yyyy-MM-dd')}"></td>
+							<td th:text="${profile.approved}"></td>
+							
+							<td th:if="${profile.approved == null}"><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/leaveRequests/{requestId}/approve (id=${clinicId}, requestId=${profile.id})}">Approve</a></td>
+							<td th:if="${profile.approved == null}"><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/leaveRequests/{requestId}/reject (id=${clinicId}, requestId=${profile.id})}">Reject</a></td>
+						
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

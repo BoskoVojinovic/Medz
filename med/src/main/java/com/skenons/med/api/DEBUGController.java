@@ -1,5 +1,6 @@
 package com.skenons.med.api;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,13 @@ public class DEBUGController//Handling debug options
 	@GetMapping("/debugFill")
 	public String debugF(Model m)
 	{
+		Clinic c;
+		c = new Clinic("Two pines clinic", 			"Adress Line 1", 	"The best clinic in the world 1"); 		s2.saveOne(c);
+		c = new Clinic("Novi Sad general hospital", "Adress Line 11", 	"The best clinic in the world 2"); 		s2.saveOne(c);
+		c = new Clinic("Medica", 					"Adress Line 12", 	"The best clinic in the world 3"); 		s2.saveOne(c);
+		c = new Clinic("General health",			"Adress Line 13",	"The best clinic in the world 4"); 		s2.saveOne(c);
+		c = new Clinic("General medicine", 			"Adress Line 14", 	"The best clinic in the world 4"); 		s2.saveOne(c);
+		
 		if(!s12.getOne("1111111111111").isPresent())
 		{
 			s12.createProfileAs(new Profile("1111111111111", "skenons.mail@gmail.com", "123654789", "Bosko", "Vojinovic", "0604300501", "Adresica"), ProfileType.PATIENT, true);
@@ -68,24 +76,29 @@ public class DEBUGController//Handling debug options
 			s12.createProfileAs(new Profile("1111111111114", "skenons.mail@gmail.com", "password3", "Petar", "Markovic", "060-cell-03", "Address 3"), ProfileType.PATIENT, true);
 			
 			s12.createProfileAs(new Profile("1111111111115", "skenons.mail@gmail.com", "password4", "Stefan", "Marinkovic", "060-cell-04", "Address 4"), ProfileType.NURSE, true);
+			Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.YEAR, 1970);
+			cal.set(Calendar.MONTH, 0);
+			cal.set(Calendar.DAY_OF_MONTH, 1);
+			cal.set(Calendar.HOUR, 7);
+			cal.set(Calendar.MINUTE, 0);
+			Calendar cal1 = Calendar.getInstance();
+			cal1.set(Calendar.YEAR, 2200);
+			cal1.set(Calendar.MONTH, 0);
+			cal1.set(Calendar.DAY_OF_MONTH, 1);
+			cal1.set(Calendar.HOUR, 16);
+			cal1.set(Calendar.MINUTE, 0);
+			s12.createProfileAs(new Profile("1111111111116", "skenons.mail@gmail.com", "password5", "Gregory", "House", "060-cell-05", "Address 5", cal.getTime(), cal1.getTime()), ProfileType.DOCTOR, true);
+			s12.createProfileAs(new Profile("1111111111117", "skenons.mail@gmail.com", "password5", "Petar", "Bucan", "060-cell-05", "Address 5", cal.getTime(), cal1.getTime()), ProfileType.DOCTOR, true);
+			s12.createProfileAs(new Profile("1111111111118", "skenons.mail@gmail.com", "password5", "Nikolina", "Jeremic", "060-cell-05", "Address 5", cal.getTime(), cal1.getTime()), ProfileType.DOCTOR, true);
+			s12.createProfileAs(new Profile("1111111111119", "skenons.mail@gmail.com", "password6", "Igor", "Bogojevic", "060-cell-06", "Address 6", cal.getTime(), cal1.getTime()), ProfileType.DOCTOR, true);
+			s12.createProfileAs(new Profile("1111111111120", "skenons.mail@gmail.com", "password6", "Branislav", "Petrovic", "060-cell-06", "Address 6", cal.getTime(), cal1.getTime()), ProfileType.DOCTOR, true);
+			s12.createProfileAs(new Profile("1111111111121", "skenons.mail@gmail.com", "password6", "Slavica", "Jovanovic", "060-cell-06", "Address 6", cal.getTime(), cal1.getTime()), ProfileType.DOCTOR, true);
+			s12.createProfileAs(new Profile("1111111111122", "skenons.mail@gmail.com", "password6", "Goran", "Ivanovic", "060-cell-06", "Address 6", cal.getTime(), cal1.getTime()), ProfileType.DOCTOR, true);
+			s12.createProfileAs(new Profile("1111111111123", "skenons.mail@gmail.com", "password6", "Milan", "Todorov", "060-cell-06", "Address 6", cal.getTime(), cal1.getTime()), ProfileType.DOCTOR, true);
 			
-			s12.createProfileAs(new Profile("1111111111116", "skenons.mail@gmail.com", "password5", "Gregory", "House", "060-cell-05", "Address 5"), ProfileType.DOCTOR, true);
-			s12.createProfileAs(new Profile("1111111111117", "skenons.mail@gmail.com", "password5", "Petar", "Bucan", "060-cell-05", "Address 5"), ProfileType.DOCTOR, true);
-			s12.createProfileAs(new Profile("1111111111118", "skenons.mail@gmail.com", "password5", "Nikolina", "Jeremic", "060-cell-05", "Address 5"), ProfileType.DOCTOR, true);
-			s12.createProfileAs(new Profile("1111111111119", "skenons.mail@gmail.com", "password6", "Igor", "Bogojevic", "060-cell-06", "Address 6"), ProfileType.DOCTOR, true);
-			s12.createProfileAs(new Profile("1111111111120", "skenons.mail@gmail.com", "password6", "Branislav", "Petrovic", "060-cell-06", "Address 6"), ProfileType.DOCTOR, true);
-			s12.createProfileAs(new Profile("1111111111121", "skenons.mail@gmail.com", "password6", "Slavica", "Jovanovic", "060-cell-06", "Address 6"), ProfileType.DOCTOR, true);
-			s12.createProfileAs(new Profile("1111111111122", "skenons.mail@gmail.com", "password6", "Goran", "Ivanovic", "060-cell-06", "Address 6"), ProfileType.DOCTOR, true);
-			s12.createProfileAs(new Profile("1111111111123", "skenons.mail@gmail.com", "password6", "Milan", "Todorov", "060-cell-06", "Address 6"), ProfileType.DOCTOR, true);
+			s12.createProfileAs(new Profile("1111111111124", "behemoth1616@gmail.com", "password7", "Marija", "Stefanovic", "060-cell-07", "Address 7"), ProfileType.ADMIN_CLINIC, true);
 			
-			s12.createProfileAs(new Profile("1111111111124", "skenons.mail@gmail.com", "password7", "Marija", "Stefanovic", "060-cell-07", "Address 7"), ProfileType.ADMIN_CLINIC, true);
-			
-			Clinic c;
-			c = new Clinic("Two pines clinic", 			"Adress Line 1", 	"The best clinic in the world 1"); 		s2.saveOne(c);
-			c = new Clinic("Novi Sad general hospital", "Adress Line 11", 	"The best clinic in the world 2"); 		s2.saveOne(c);
-			c = new Clinic("Medica", 					"Adress Line 12", 	"The best clinic in the world 3"); 		s2.saveOne(c);
-			c = new Clinic("General health",			"Adress Line 13",	"The best clinic in the world 4"); 		s2.saveOne(c);
-			c = new Clinic("General medicine", 			"Adress Line 14", 	"The best clinic in the world 4"); 		s2.saveOne(c);
 			
 			ExamType e;
 			e = new ExamType("Head exam", "Head trauma exam");
@@ -133,7 +146,8 @@ public class DEBUGController//Handling debug options
 			p = s12.getOne("1111111111121").get(); p.setClinic(s2.getOne(4L).get()); p.setSpecialty(s8.getOne(7L).get()); s12.saveOne(p);
 			p = s12.getOne("1111111111122").get(); p.setClinic(s2.getOne(4L).get()); p.setSpecialty(s8.getOne(1L).get()); s12.saveOne(p);
 			p = s12.getOne("1111111111123").get(); p.setClinic(s2.getOne(5L).get()); p.setSpecialty(s8.getOne(6L).get()); s12.saveOne(p);
-			
+			p = s12.getOne("1111111111124").get(); p.setClinic(s2.getOne(3L).get()); s12.saveOne(p);
+
 			
 			for(Clinic cl : s2.getAll())
 			{
