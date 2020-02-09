@@ -16,7 +16,7 @@
 							<th hidden="true">ID</th>
 							<th>Name</th>
 							<th>Description</th>
-							<th><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/examTypes/form (id=${clinicId})}">Dodaj</a></th>
+							<th><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/examTypes/form (id=${clinicId})}">Add</a></th>
 						
 						</tr>
 					</thead>
@@ -26,8 +26,8 @@
 							<td hidden="true" th:text="${profile.id}"></td>
 							<td th:text="${profile.name}"></td>
 							<td th:text="${profile.description}"></td>
-							<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/examTypes/{examTypeId} (id=${clinicId}, examTypeId=${profile.id})}">Izmeni</a></td>
-							<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/examTypes/remove/{examTypeId} (id=${clinicId}, examTypeId=${profile.id})}">Obrisi</a></td>
+							<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/examTypes/{examTypeId} (id=${clinicId}, examTypeId=${profile.id})}">Change</a></td>
+							<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/examTypes/remove/{examTypeId} (id=${clinicId}, examTypeId=${profile.id})}">Delete</a></td>
 						
 						</tr>
 					</tbody>

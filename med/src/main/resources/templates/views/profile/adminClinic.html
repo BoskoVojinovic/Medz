@@ -13,17 +13,17 @@
 			<div id="links" style="width: 100%;height: 100%">
 			<table  style="display: inline-flex;width: 100%;height: 100%">
 				<tr style="width: 100%;height: 100%">
-					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors (id=${profile.clinic.id})}">Lekari</a></td>
-					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/rooms (id=${profile.clinic.id})}">Sobe</a></td>
-					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/examTypes (id=${profile.clinic.id})}">Tipovi pregleda</a></td>
+					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors (id=${profile.clinic.id})}">Doctors</a></td>
+					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/rooms (id=${profile.clinic.id})}">Rooms</a></td>
+					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/examTypes (id=${profile.clinic.id})}">Exam types</a></td>
 					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/leaveRequests (id=${profile.clinic.id})}">Leave Requests</a></td>
 					
 				</tr>
 				<tr style="width: 100%;height: 100%">
-					<td><a style="width: 100%;height: 100%" class="btn btn-outline-primary" th:href="@{/clinic/{id}/reports (id=${profile.clinic.id})}" id="clinicsReports">Izvestaji</a></td>
-					<td><a style="width: 100%;height: 100%" class="btn btn-outline-primary" th:href="@{/clinic/{id}/examSlots (id=${profile.clinic.id})}">Termini pregleda</a></td>
-					<td><a style="width: 100%;height: 100%" class="btn btn-outline-primary" th:href="@{/clinic/{id}/examRequests (id=${profile.clinic.id})}" id="examRequests">Zahtevi pregleda</a></td>
-				<td><a style="width: 100%;height: 100%" class="btn btn-outline-primary" th:href="@{/clinic/{id}/profile/{profileId} (profileId=${profile.IDNum},id=${profile.clinic.id})}" id="examRequests">Profil</a></td>
+					<td><a style="width: 100%;height: 100%" class="btn btn-outline-primary" th:href="@{/clinic/{id}/reports (id=${profile.clinic.id})}" id="clinicsReports">Reports</a></td>
+					<td><a style="width: 100%;height: 100%" class="btn btn-outline-primary" th:href="@{/clinic/{id}/examSlots (id=${profile.clinic.id})}">Exams</a></td>
+					<td><a style="width: 100%;height: 100%" class="btn btn-outline-primary" th:href="@{/clinic/{id}/examRequests (id=${profile.clinic.id})}" id="examRequests">Exam requests</a></td>
+				<td><a style="width: 100%;height: 100%" class="btn btn-outline-primary" th:href="@{/clinic/{id}/profile/{profileId} (profileId=${profile.IDNum},id=${profile.clinic.id})}" id="examRequests">Profile</a></td>
 				
 				</tr>
 			</table>
@@ -47,7 +47,7 @@
 							<td th:text="${profile.clinic.address}"></td>
 						</tr>
 						<tr>
-						<td><a style="width: 100%;height: 100%" class="btn btn-outline-primary" th:href="@{/clinic/{id}/change/{adminId} (adminId=${profile.IDNum},id=${profile.clinic.id})}" id="examRequests">Izmeni</a></td>
+						<td><a style="width: 100%;height: 100%" class="btn btn-outline-primary" th:href="@{/clinic/{id}/change/{adminId} (adminId=${profile.IDNum},id=${profile.clinic.id})}" id="examRequests">Change</a></td>
 				
 						</tr>
 					</tbody>

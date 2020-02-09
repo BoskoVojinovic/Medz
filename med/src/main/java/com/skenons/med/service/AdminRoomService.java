@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skenons.med.data.Exam;
+import com.skenons.med.data.Profile;
 import com.skenons.med.data.Room;
+import com.skenons.med.data.enums.ProfileType;
 import com.skenons.med.repo.IClinicRepo;
 import com.skenons.med.repo.IExamRepo;
 import com.skenons.med.repo.IRoomRepo;
@@ -29,6 +31,12 @@ public class AdminRoomService extends ISSService<IRoomRepo, Room, Long> {
 	public boolean checkIfExists(Room room) {
 		return !repo.findAll().stream().filter(x -> room.getFloor() == x.getFloor() && room.getNumber() == x.getNumber() && room.getClinic().getId() == x.getClinic().getId()).collect(Collectors.toList()).isEmpty();
 		
+	}
+	public List<Room> getSearchByFloorAndNumber(Integer floor, Integer number, Long id)
+	{
+		System.out.println(floor + "   " + number + "   "+ id);
+		
+		return repo.findAll().stream().filter(x -> (number != null ? x.getNumber() == number : true)&& (floor != null ? x.getFloor() == floor : true) && (x.getClinic() != null ? x.getClinic().getId() == id : false)).collect(Collectors.toList());
 	}
 	
 	public List<Room> findAvailable(Date start, Date finish, Long clinicId){

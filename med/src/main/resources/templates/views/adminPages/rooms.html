@@ -14,14 +14,34 @@
 			<p class="text text-center">
 				You can't delete a room that has already been assigned!
 			</p>
-		</div><p class="text text-center">Rooms</p>
+			
+			
+		</div>
+		<form th:action="@{/clinic/{id}/searchRooms (id=${clinicId})}">
+				
+		<div class="alert alert-primary">
+						<h2 class="text-center">Search:</h2>
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th><input class="form-control" name="number" id="number" th:type="number"
+										th:value="${searchNumber}" placeholder="Filter by number" /></th>
+									<th><input class="form-control" name="floor" th:type="number"
+										id="floor" th:value="${searchFloor}"
+										placeholder="Filter by Floor" /></th>
+									<th><input type="submit" value="Filter"
+										class="btn btn-primary"></th>
+								</tr>
+							</thead>
+						</table>
+					</div><p class="text text-center">Rooms</p>
 				<table class="table table-hover">
 					<thead>
 						<tr>
 							<th hidden="true">ID</th>
 							<th>Floor</th>
 							<th>Number</th>
-							<th><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/rooms/form (id=${clinicId})}">Dodaj</a></th>
+							<th><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/rooms/form (id=${clinicId})}">Add</a></th>
 						</tr>
 					</thead>
 					
@@ -30,12 +50,13 @@
 							<td hidden="true" th:text="${profile.id}"></td>
 							<td th:text="${profile.floor}"></td>
 							<td th:text="${profile.number}"></td>
-							<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/rooms/{roomId} (id=${clinicId}, roomId=${profile.id})}">Izmeni</a></td>
-							<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/rooms/remove/{roomId} (id=${clinicId}, roomId=${profile.id})}">Obrisi</a></td>
+							<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/rooms/{roomId} (id=${clinicId}, roomId=${profile.id})}">Update</a></td>
+							<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/rooms/remove/{roomId} (id=${clinicId}, roomId=${profile.id})}">Delete</a></td>
 						
 						</tr>
 					</tbody>
 				</table>
+				</form>
 			</div>
 		</div>
 	</div>

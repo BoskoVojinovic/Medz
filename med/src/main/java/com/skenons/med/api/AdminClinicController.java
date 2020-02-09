@@ -120,7 +120,7 @@ public class AdminClinicController {
 	}
 	
 	@GetMapping("/{id}/searchDoctors")
-	public String getClinicsPage(@PathVariable(value = "id") Long id,
+	public String getDoctors(@PathVariable(value = "id") Long id,
 								@RequestParam(name = "name", defaultValue = "") String name,
 								@RequestParam(name = "lastName", defaultValue = "") String lastName,
 								HttpServletRequest request,
@@ -132,6 +132,22 @@ public class AdminClinicController {
 		model.addAttribute("searchName",name);
 		model.addAttribute("searchAddress",lastName);
 		return "views/adminPages/doctors";
+	}
+	
+	@GetMapping("/{id}/searchRooms")
+	public String getRooms(@PathVariable(value = "id") Long id,
+								@RequestParam(name = "floor", defaultValue = "") Integer floor,
+								@RequestParam(name = "number", defaultValue = "") Integer number,
+								HttpServletRequest request,
+								Model model)
+	{
+		System.out.println(number + "   " + floor);
+		model.addAttribute("clinicId", id);
+		model.addAttribute("searchFloor",floor);
+		model.addAttribute("searchNumber",number);
+		model.addAttribute("rooms",roomService.getSearchByFloorAndNumber(floor,number, id));
+
+		return "views/adminPages/rooms";
 	}
 	
 	

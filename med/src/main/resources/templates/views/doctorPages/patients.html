@@ -27,7 +27,7 @@
 							<td th:text="${profile.IDNum}"></td>
 							<td th:text="${profile.name}"></td>
 							<td th:text="${profile.lastName}"></td>
-							<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors/{doctorId}/patients/{patientId} (id=${clinicId}, patientId=${profile.IDNum}, doctorId=${doctorId})}">Zapocni pregled</a></td>
+							<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors/{doctorId}/patients/{patientId} (id=${clinicId}, patientId=${profile.IDNum}, doctorId=${doctorId})}">Start exam</a></td>
 							
 						</tr>
 					</tbody>

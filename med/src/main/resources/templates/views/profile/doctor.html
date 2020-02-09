@@ -13,13 +13,13 @@
 			<div id="links" style="width: 100%;height: 100%">
 			<table  style="display: inline-flex;width: 100%;height: 100%">
 				<tr style="width: 100%;height: 100%">
-					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors/{doctorId}/patients (doctorId=${profile.IDNum},id=${profile.clinic.id})}">Pacijenti</a></td>
-					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/workingCalendar (id=${profile.clinic.id})}">Radni kalendar</a></td>
-					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors/{doctorId}/leaveRequest (doctorId=${profile.IDNum},id=${profile.clinic.id})}">Kreiraj zahtev za odmor/odsustvo</a></td>
+					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors/{doctorId}/patients (doctorId=${profile.IDNum},id=${profile.clinic.id})}">Patients</a></td>
+					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/workingCalendar (id=${profile.clinic.id})}">Working calendar</a></td>
+					<td><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors/{doctorId}/leaveRequest (doctorId=${profile.IDNum},id=${profile.clinic.id})}">Create leave request</a></td>
 					
 				</tr>
 				<tr style="width: 100%;height: 100%">
-					<td><a style="width: 100%;height: 100%" class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors/{doctorId}/profile (doctorId=${profile.IDNum},id=${profile.clinic.id})}">Profil</a></td>
+					<td><a style="width: 100%;height: 100%" class="btn btn-outline-primary" th:href="@{/clinic/{id}/doctors/{doctorId}/profile (doctorId=${profile.IDNum},id=${profile.clinic.id})}">Profile</a></td>
 					
 				</tr>
 			</table>

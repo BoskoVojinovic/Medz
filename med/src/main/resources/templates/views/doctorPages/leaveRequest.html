@@ -17,11 +17,7 @@
 			th:object="${leaveRequest}" method="post"
 			class="jumbotron text-center">
 
-			<div class="alert alert-dismissible alert-primary">
-				<p class="text text-center">Every user registration is subject
-					to admin approval. Once approved, a verification notification will
-					be sent to the e-mail address you specified.</p>
-			</div>
+			
 			<div class="progress">
 				<div class="progress-bar" role="progressbar" style="width: 100%;"
 					aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
@@ -49,8 +45,7 @@
 					th:if="${#fields.hasErrors('end')}" th:errors="*{end}"></div> -->
 			</div>
 			<div class="form-group">
-				<label for="type" class="form-control-label">Mailing
-					address:</label><input th:field="*{type}" type="radio" name="type"
+				<label for="type" class="form-control-label">Type:</label><input th:field="*{type}" type="radio" name="type"
 					th:value="ABSENCE" checked="checked" />Absence <input
 					th:field="*{type}" type="radio" th:value="VACATION" />Vacation
 				<div class="text text-danger"

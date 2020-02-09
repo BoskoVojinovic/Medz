@@ -9,15 +9,15 @@
 <div layout:fragment="content" class="container">
 <div class="card">
 			<div class="card card-body">
-				<p class="text text-center">Termini pregleda:</p>
+				<p class="text text-center">Exam requests:</p>
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>Tip</th>
-							<th>Datum pocetka</th>
-							<th>Zavrsetak</th>
-							<th>Doktor</th>
-							<th>Pacijent</th>
+							<th>Type</th>
+							<th>Start date</th>
+							<th>End</th>
+							<th>Doctor</th>
+							<th>Patient</th>
 							
 						</tr>
 					</thead>
@@ -29,7 +29,7 @@
 							<td th:text="${#dates.format(exam.duration, 'HH:mm')}"></td>
 							<td th:text="${exam.doctor.name} + ${exam.doctor.lastName}"></td>
 							<td th:text="${exam.patient.name} + ${exam.patient.lastName}"></td>
-						 	<th><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/examRequests/{requestId}/approve (id=${clinicId}, requestId=${exam.id})}">Dodaj</a></th>
+						 	<th><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/examRequests/{requestId}/approve (id=${clinicId}, requestId=${exam.id})}">Add</a></th>
 						
 						</tr>
 					</tbody>

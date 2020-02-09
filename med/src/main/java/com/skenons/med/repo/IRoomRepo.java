@@ -11,5 +11,6 @@ public interface IRoomRepo extends JpaRepository<Room, Long>
 {
 
 	List<Room> findByClinic(Clinic clinic);
+	List<Room> findByFloorLikeAndNumberLike(Integer floor, Integer number);
 
 }

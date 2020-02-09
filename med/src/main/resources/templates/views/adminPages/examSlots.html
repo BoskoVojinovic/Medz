@@ -12,20 +12,20 @@
 <body><div layout:fragment="content" class="container">
 <div class="card">
 			<div class="card card-body">
-				<p class="text text-center">Termini pregleda:</p>
+				<p class="text text-center">Exams:</p>
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>Tip</th>
-							<th>Datum</th>
-							<th>Trajanje</th>
-							<th>Sala</th>
-							<th>Doktor</th>
-							<th>Pacijent</th>
-							<th>Cena</th>
-							<th>Popust</th>
-							<th>Odobren</th>
-							<th><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/examSlots/form (id=${clinicId})}">Dodaj</a></th>
+							<th>Type</th>
+							<th>Start date</th>
+							<th>End</th>
+							<th>Room</th>
+							<th>Doctor</th>
+							<th>Patient</th>
+							<th>Price</th>
+							<th>Discount</th>
+							<th>Approved</th>
+							<th><a style="width: 100%;height: 100%"  class="btn btn-outline-primary" th:href="@{/clinic/{id}/examSlots/form (id=${clinicId})}">Add</a></th>
 						
 						</tr>
 					</thead>
