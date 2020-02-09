@@ -1,5 +1,6 @@
 package com.skenons.med.api;
 
+import java.security.Principal;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.skenons.med.EmailConfig;
 import com.skenons.med.data.Clinic;
@@ -90,6 +92,49 @@ public class AdminClinicController {
 		model.addAttribute("doctors", profileService.getDoctorsByClinic(id));
 		return "views/adminPages/doctors";
 	}
+	
+	@GetMapping("/{id}/change/{adminId}")
+	public String changeClinic(@PathVariable(value = "adminId") String adminId,@PathVariable(value = "id") Long id, Model model) {
+		System.out.println(id +"ASD");
+		model.addAttribute("clinic", clinicService.getOne(id).get());
+		model.addAttribute("clinicId", id);
+		model.addAttribute("adminId", adminId);
+		return "views/adminPages/changeClinic";
+	}
+	@PostMapping("/{id}/changeClinic/{adminId}")
+	public String saveChangeClinic(@PathVariable(value = "adminId") String adminId,@PathVariable(value = "id") Long id, @Valid Clinic clinic, BindingResult br, Model model) {
+		System.out.println(adminId +"ASD");
+		if (br.hasErrors()) {
+			System.out.println(br.getAllErrors());
+		}
+		Clinic c = clinicService.getOne(id).get();
+		c.setAddress(clinic.getAddress());
+		c.setDescription(clinic.getDescription());
+		c.setName(clinic.getName());
+		clinicService.saveOne(c);
+		model.addAttribute("clinic", clinicService.getOne(id).get());
+		model.addAttribute("clinicId", id);
+		model.addAttribute("doctors", profileService.getDoctorsByClinic(id));
+		model.addAttribute("profile", profileService.getOne(adminId).get());
+		return "views/profile/adminClinic";
+	}
+	
+	@GetMapping("/{id}/searchDoctors")
+	public String getClinicsPage(@PathVariable(value = "id") Long id,
+								@RequestParam(name = "name", defaultValue = "") String name,
+								@RequestParam(name = "lastName", defaultValue = "") String lastName,
+								HttpServletRequest request,
+								Model model)
+	{
+		System.out.println(name + "   " + lastName);
+		model.addAttribute("clinicId", id);
+		model.addAttribute("doctors",profileService.getSearchByNameAndLastName(name,lastName, id));
+		model.addAttribute("searchName",name);
+		model.addAttribute("searchAddress",lastName);
+		return "views/adminPages/doctors";
+	}
+	
+	
 	@GetMapping("/{id}/profile/{adminId}")
 	public String showProfile(@PathVariable(value = "adminId") String adminId,@PathVariable(value = "id") Long id, Model model) {
 		System.out.println(id +"ASD");

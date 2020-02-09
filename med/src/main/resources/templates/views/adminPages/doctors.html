@@ -11,13 +11,32 @@
 <div class="card">
 			<div class="card card-body">
 			<div class="card card-body">
+			
+			<form th:action="@{/clinic/{id}/searchDoctors (id=${clinicId})}">
 				<div class="alert alert-info" th:if="${error}">
-			<p class="text text-center">
-				You can't delete a doctor that has already been assigned to an exam!
-			</p>
-		</div>
-				<p class="text text-center">Logged in as:</p>
-				<table class="table table-hover">
+					<p class="text text-center">You can't delete a doctor that
+						has already been assigned to an exam!</p>
+					
+
+				</div>
+				<div class="alert alert-primary">
+						<h2 class="text-center">Current exam configuration:</h2>
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th><input class="form-control" name="name" id="name"
+										th:value="${searchName}" placeholder="Filter by name" /></th>
+									<th><input class="form-control" name="lastName"
+										id="lastName" th:value="${searchLastName}"
+										placeholder="Filter by Last Name" /></th>
+									<th><input type="submit" value="Filter"
+										class="btn btn-primary"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				<p class="text text-center">Doctors:</p>
+				<table  class="table table-hover">
 					<thead>
 						<tr>
 							<th>ID</th>
@@ -50,8 +69,9 @@
 						</tr>
 					</tbody>
 				</table>
+				</form>
 			</div>
 		</div>
 	</div>
-</body>
+</div></body>
 </html>

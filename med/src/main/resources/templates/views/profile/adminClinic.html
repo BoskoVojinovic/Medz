@@ -47,7 +47,7 @@
 							<td th:text="${profile.clinic.address}"></td>
 						</tr>
 						<tr>
-						<td><a style="width: 100%;height: 100%" class="btn btn-outline-primary" th:href="@{/clinic/{id}/profile/{profileId} (profileId=${profile.IDNum},id=${profile.clinic.id})}" id="examRequests">Izmeni</a></td>
+						<td><a style="width: 100%;height: 100%" class="btn btn-outline-primary" th:href="@{/clinic/{id}/change/{adminId} (adminId=${profile.IDNum},id=${profile.clinic.id})}" id="examRequests">Izmeni</a></td>
 				
 						</tr>
 					</tbody>

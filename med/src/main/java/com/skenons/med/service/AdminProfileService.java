@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skenons.med.SecurityConfig;
+import com.skenons.med.data.Clinic;
 import com.skenons.med.data.Exam;
 import com.skenons.med.data.LeaveRequest;
 import com.skenons.med.data.PasswordChange;
@@ -36,6 +37,18 @@ public class AdminProfileService extends ISSService<IProfileRepo, Profile, Strin
 	IProfileRepo profileRepo;
 	public List<Profile> getDoctorsByClinic(Long id){
 		return repo.findByType(ProfileType.DOCTOR).stream().filter(x -> id == x.getClinic().getId() && x.getDeleted() == false).collect(Collectors.toList());
+	}
+	
+	public List<Profile> getSearchByNameAndLastName(String name, String lastName, Long id)
+	{
+		System.out.println(name + "   " + lastName + "   "+ id);
+		if (name == null) {
+			name = "";
+		}
+		if (lastName == null) {
+			lastName = "";
+		}
+		return repo.findByNameLikeAndLastNameLike("%"+name+"%", "%"+lastName+"%").stream().filter(x -> (x.getDeleted() == false) && (x.getClinic() != null ? x.getClinic().getId() == id : false) &&  x.getType() == ProfileType.DOCTOR).collect(Collectors.toList());
 	}
 	public void changePassword(PasswordChange pr) {
 		Profile p = repo.getOne(pr.getIDNum());
