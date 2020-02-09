@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}">
+<head>
+<meta charset="UTF-8">
+<title>MEDz</title>
+</head>
+<body>
+	<div layout:fragment="content" class="container">
+
+		<div class="card">
+			<div class="card card-body">
+				<div class="alert alert-primary">
+					<h2 class="text-center">Current exam configuration:</h2>
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>
+									<strong class="text text-center">Selected exam:</strong>
+									<p th:text="${type.name}"/>
+								</th>
+								<th>
+									<strong class="text text-center">Preferred date:</strong>
+									<p th:text="${date}"/>
+								</th>
+								<th>
+									<strong class="text text-center">Clinic:</strong>
+									<p th:text="${clinic.name}"/>
+								</th>
+								<th>
+									<strong class="text text-center">Doctor:</strong>
+									<p th:text="${doctor.name}"/>
+								</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<p class="text text-center">After confirmation, your exam booking will be reviewed by administration and, if possible, assigned a specific time and exam room.
+				You will be notified of any changes to your booking via E-mail.</p>
+				<div class="text text-center">
+					<a th:href="${#httpServletRequest.requestURI} + '/' + 'confirm'" class="btn btn-primary"><strong>Confirm booking</strong></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.skenons.med.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -16,6 +17,11 @@ import com.skenons.med.service.generic.ISSService;
 @Service
 public class ProfileService extends ISSService<IProfileRepo, Profile, String>
 {
+	public List<Profile> getAllForType(ProfileType type)
+	{
+		return repo.findByType(type);
+	}
+	
 	public ProfileType getType(String id)
 	{
 		if(!exists(id))
@@ -32,6 +38,12 @@ public class ProfileService extends ISSService<IProfileRepo, Profile, String>
 	
 	public void createProfileAs(@Valid Profile p, ProfileType type)
 	{
+		createProfileAs(p, type, false);
+	}
+	
+	public void createProfileAs(@Valid Profile p, ProfileType type, Boolean preVerified)
+	{
+		p.setVerified(preVerified);
 		p.setPassword(SecurityConfig.passEnc().encode(p.getPassword()));
 		p.setRePassword(SecurityConfig.passEnc().encode(p.getRePassword()));
 		p.setType(type);
@@ -47,6 +59,7 @@ public class ProfileService extends ISSService<IProfileRepo, Profile, String>
 			return lp.get();
 		}
 		Profile p = new Profile("0000000000000", "admin@medz.com", SecurityConfig.passEnc().encode("admin123"), "Dr. Lisa", "Cuddy", "0601234567", "Greg's house ;)");
+		p.setVerified(true);
 		p.setType(ProfileType.ADMIN_CENTER);
 		repo.save(p);
 		return p;

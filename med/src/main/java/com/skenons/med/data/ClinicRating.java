@@ -25,6 +25,17 @@ public class ClinicRating
 		
 	}
 	
+	
+	
+	public ClinicRating(Profile patient, Clinic clinic, Integer rating) {
+		super();
+		this.patient = patient;
+		this.clinic = clinic;
+		this.rating = rating;
+	}
+
+
+
 	public Profile getPatient() {
 		return patient;
 	}

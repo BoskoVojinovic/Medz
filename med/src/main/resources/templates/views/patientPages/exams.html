@@ -16,7 +16,7 @@
 				<div th:each="exam:${exams}" class="card spacerTop border-primary">
 					<div class="card-header">
 						<h2 th:text="${exam.type.name}" class="text text-center"></h2>
-						<h3 th:if="${exam.report==null}">[FUTURE]</h3>
+						<h3 th:if="${exam.report==null}"  class="text text-center">[FUTURE]</h3>
 					</div>
 					<div class="progress">
   						<div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>

@@ -25,6 +25,17 @@ public class DoctorRating
 		
 	}
 	
+	
+	
+	public DoctorRating(Profile patient, Profile doctor, Integer rating) {
+		super();
+		this.patient = patient;
+		this.doctor = doctor;
+		this.rating = rating;
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}

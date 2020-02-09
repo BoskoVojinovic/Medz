@@ -69,12 +69,13 @@ public class Exam
 
 	
 
-	public Exam(Profile patient, Date start, ExamType type, Double price) { //CUSTOM
+	public Exam(Profile patient, Profile doctor, ExamType type, Room room, Date start) { //CUSTOM
 		super();
 		this.patient = patient;
-		this.start = start;
+		this.doctor = doctor;
 		this.type = type;
-		this.price = price;
+		this.room = room;
+		this.start = start;
 		approved = false;
 	}
 

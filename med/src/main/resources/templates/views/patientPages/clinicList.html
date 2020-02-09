@@ -14,16 +14,18 @@
 				<div class="alert alert-primary">
 					<strong class="text text-center">CONFIGURE AND BOOK YOUR OWN EXAM:</strong>
 				</div>
-				<form class="form-inline" action="/clinicSearch">
+				<form class="form-inline" action="/cexam">
 					<div class="form-group mb-2">
+						<strong>ExamType: </strong>
 						<select class="form-control" id="examtype" name="examtype">
 							<option th:each="type:${types}"
 									th:value="${type.id}"
 									th:text="${type.name}"
 							/>
 						</select>
+						<strong class="spacerLeft">Preferred date: </strong>
 						<input class="form-control" type="date" id="date" name="date"/>
-						<input type="submit" value="Search" class="btn btn-primary"/>
+						<input type="submit" value="Search available clinics" class="form-control btn btn-primary spacerLeft"/>
 					</div>
 				</form>			
 			

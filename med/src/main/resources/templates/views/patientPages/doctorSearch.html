@@ -24,35 +24,37 @@
 										<strong class="text text-center">Preferred date:</strong>
 										<p th:text="${date}"/>
 									</th>
+									<th>
+										<strong class="text text-center">Clinic:</strong>
+										<p th:text="${clinic.name}"/>
+									</th>
 								</tr>
 							</thead>
 						</table>
 					</div>
 					
-					
-					<h2 class="text-center">Clinic selection:</h2>
+					<h2 class="text-center">Doctor selection:</h2>
 					
 					<div class="progress">
   						<div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
-
+					
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th>Clinic Name</th>
-								<th>Clinic Address</th>
-								<th>Exam Price</th>
+								<th>Name</th>
+								<th>Specialty</th>
+								<th>Average Review</th>
 								<th></th>
 							</tr>
 						</thead>
 
 						<tbody>
-							<tr th:each="ep:${prices}">
-								<td th:text="${ep.clinic.name}"></td>
-								<td th:text="${ep.clinic.address}"></td>
-								<td th:text="${ep.basePrice}"></td>
-								<td><a class="btn btn-primary" th:href="${#httpServletRequest.requestURI} +'/'+ ${ep.clinic.id}" role="button">Select</a></td>
-								
+							<tr th:each="doc:${doctors}">
+								<td th:text="'Dr. '+${doc.name}+' '+${doc.lastName}"></td>
+								<td th:text="${doc.specialty.name}"></td>
+								<td></td>
+								<td><a class="btn btn-primary" th:href="${#httpServletRequest.requestURI} +'/'+ ${doc.IDNum}" role="button">Select</a></td>
 							</tr>
 						</tbody>
 					</table>
