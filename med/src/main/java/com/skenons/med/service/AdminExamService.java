@@ -28,7 +28,7 @@ public class AdminExamService extends ISSService<IExamRepo, Exam, Long> {
 	};
 	
 	public List<Exam> getRequests(Long clinicId){
-		return repo.findAll().stream().filter(x -> x.getRoom() == null && x.getDoctor().getClinic().getId() == clinicId).collect(Collectors.toList());
+		return repo.findAll().stream().filter(x -> x.getPatient() != null && (x.getApproved() == null ? true : x.getApproved() == false) && x.getDoctor().getClinic().getId() == clinicId).collect(Collectors.toList());
 	}
 	
 	public boolean seeIfAvailable(Date start, Date finish, String id) {

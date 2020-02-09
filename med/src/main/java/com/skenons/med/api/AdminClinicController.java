@@ -28,6 +28,7 @@ import com.skenons.med.data.Exam;
 import com.skenons.med.data.ExamPrice;
 import com.skenons.med.data.ExamType;
 import com.skenons.med.data.LeaveRequest;
+import com.skenons.med.data.PasswordChange;
 import com.skenons.med.data.Profile;
 import com.skenons.med.data.Reason;
 import com.skenons.med.data.Room;
@@ -89,7 +90,24 @@ public class AdminClinicController {
 		model.addAttribute("doctors", profileService.getDoctorsByClinic(id));
 		return "views/adminPages/doctors";
 	}
-	
+	@GetMapping("/{id}/profile/{adminId}")
+	public String showProfile(@PathVariable(value = "adminId") String adminId,@PathVariable(value = "id") Long id, Model model) {
+		System.out.println(id +"ASD");
+		model.addAttribute("adminId", adminId);
+		model.addAttribute("clinicId", id);
+		model.addAttribute("profile", profileService.getOne(adminId).get());
+		return "views/adminPages/profile";
+	}
+	@GetMapping("/{id}/doctors/{doctorId}/changePasswordAdmin")
+	public String changePassword(@PathVariable(value = "doctorId") String doctorId,@PathVariable(value = "id") Long id, Model model) {
+		System.out.println(id +"ASD");
+		PasswordChange pc = new PasswordChange();
+		pc.setIDNum(doctorId);
+		model.addAttribute("passwordChange", pc);
+		model.addAttribute("clinicId", id);
+		model.addAttribute("profile", profileService.getOne(doctorId).get());
+		return "views/adminPages/changePassword";
+	}
 	
 	@GetMapping("/{id}/reports")
 	public String showReports(@PathVariable(value = "id") Long id, Model model) {
@@ -139,8 +157,6 @@ public class AdminClinicController {
 	
 	@GetMapping("/{id}/leaveRequests")
 	public String showLeaveRequests(@PathVariable(value = "id") Long id, Model model) {
-		System.out.println(id +"ASwwwwwwwwwD");
-
 		model.addAttribute("clinicId", id);
 		model.addAttribute("leaves", leaveRequestService.findByClinic(clinicService.getOne(id).get()));
 		return "views/adminPages/leaveRequests";
@@ -148,7 +164,6 @@ public class AdminClinicController {
 	
 	@GetMapping("/{id}/leaveRequests/{requestId}/approve")
 	public String approveLeaveRequests(@PathVariable(value = "requestId") Long requestId,@PathVariable(value = "id") Long id, Model model) {
-		System.out.println(id +"ASwwwwwwwwwD");
 		LeaveRequest lr = leaveRequestService.getOne(requestId).get();
 		lr.setApproved(true);
 		leaveRequestService.saveOne(lr);
@@ -160,7 +175,6 @@ public class AdminClinicController {
 	
 	@GetMapping("/{id}/leaveRequests/{requestId}/reject")
 	public String rejectLeaveRequests(@PathVariable(value = "requestId") Long requestId,@PathVariable(value = "id") Long id, Model model) {
-		System.out.println(id +"ASwwwwwwwwwD");
 		model.addAttribute("clinicId", id);
 		model.addAttribute("reqestId", requestId);
 		model.addAttribute("object", new Reason());
@@ -170,7 +184,6 @@ public class AdminClinicController {
 
 	@PostMapping("/{id}/leaveRequests/{requestId}/reject")
 	public String rejectRequests(@PathVariable(value = "requestId") Long requestId,@PathVariable(value = "id") Long id, Reason reason, Model model) {
-		System.out.println(id +"ASwwwwwwwwwD");
 		LeaveRequest lr = leaveRequestService.getOne(requestId).get();
 		lr.setApproved(false);
 		leaveRequestService.saveOne(lr);
@@ -183,7 +196,6 @@ public class AdminClinicController {
 	
 	@GetMapping("/{id}/rooms")
 	public String showRooms(@PathVariable(value = "id") Long id, Model model) {
-		System.out.println(id +"ASadD");
 		model.addAttribute("clinicId", id);
 
 		model.addAttribute("rooms", roomService.getRoomsByClinic(id));
@@ -192,7 +204,6 @@ public class AdminClinicController {
 	
 	@GetMapping("/{id}/examRequests")
 	public String showExamRequests(@PathVariable(value = "id") Long id, Model model) {
-		System.out.println(id +"ASadD");
 		model.addAttribute("clinicId", id);
 
 		model.addAttribute("exams", examService.getRequests(id));

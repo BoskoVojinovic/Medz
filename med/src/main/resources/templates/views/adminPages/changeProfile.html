@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+		<div class="alert alert-info" th:if="${exist}">
+			<p class="text text-center">
+				A profile with that ID number already exists!
+			</p>
+		</div>
+		<form th:action="@{/{id}/changeProfile (id=${pId})}" th:object="${profile}" method="post" class="jumbotron text-center">
+			
+			<div class="alert alert-dismissible alert-primary">
+				<p class="text text-center">Every user registration is subject to admin approval. Once approved, a verification notification will be sent to the e-mail address you specified.</a></p>
+			</div>
+			<div class="progress">
+  				<div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+			
+			<div class="form-group">
+				<label for="mail" class="form-control-label">Email:</label>
+				<input type="text" class="form-control" th:field="*{mail}" id="mail"/>
+				<div class="text text-danger" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"></div>
+			</div>
+			<div class="form-group">
+				<label for="telephone" class="form-control-label">Phone number:</label>
+				<input type="text" class="form-control" th:field="*{telephone}" id="telephone"/>
+				<div class="text text-danger" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}"></div>
+			</div>
+			<div class="form-group">
+				<label for="address" class="form-control-label">Mailing address:</label>
+				<input type="text" class="form-control" th:field="*{address}" id="address"/>
+				<div class="text text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+			</div>
+			
+			
+			<div class="progress">
+  				<div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+			
+			<input type="submit" value="Change" class="btn btn-primary spacerTop"/>
+		</form>
+	</div>
+</body>
+</html>
