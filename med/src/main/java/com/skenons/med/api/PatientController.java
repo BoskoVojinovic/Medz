@@ -51,14 +51,17 @@ public class PatientController
 	
 	
 	@GetMapping("/clinics")
-	public String getClinicsPage(HttpServletRequest request, Model model)
+	public String getClinicsPage(
+								@RequestParam(name = "name", defaultValue = "") String name,
+								@RequestParam(name = "address", defaultValue = "") String address,
+								HttpServletRequest request,
+								Model model)
 	{
-		model.addAttribute("clinics",cs.getAll());
-		
-		List<ExamType> let = ets.getAll();
-		
-		model.addAttribute("types",let);
-		
+		System.out.println(name + "   " + address);
+		model.addAttribute("clinics",cs.getSearchByNameAndAddress(name,address));
+		model.addAttribute("types",ets.getAll());
+		model.addAttribute("searchName",name);
+		model.addAttribute("searchAddress",address);
 		return "views/patientPages/clinicList";
 	}
 	//=================================================================================================================================================
@@ -118,7 +121,7 @@ public class PatientController
 		return new RedirectView("/cexam/"+typeID+"/"+date);
 	}
 	
-	@GetMapping("/cexam/{type}/{date}")
+	@GetMapping("/cexam/{type}/{date}")//CLINIC SELECTION
 	public String customExamStage2(	@PathVariable("type") Long typeID,
 									@PathVariable("date") String date,
 									Model m)
@@ -158,19 +161,59 @@ public class PatientController
 		return "views/patientPages/clinicSearch";
 	}
 	
-	@GetMapping("/cexam/{type}/{date}/{clinic}")
-	public String customExamStage3(	@PathVariable("type") Long typeID,
+	@GetMapping("/cexam/{type}/{date}/{clinic}")//DOC SELECTION
+	public String customExamStage3(	
+									@RequestParam(name = "name", defaultValue = "")String name,
+									@RequestParam(name = "lastName", defaultValue = "")String lastName,
+									@RequestParam(name = "rating", defaultValue = "")String rating,
+									@PathVariable("type") Long typeID,
 									@PathVariable("date") String date,
 									@PathVariable("clinic") Long clinicID,
 									Model m)
 	{
+		Optional<ExamType> oet = ets.getOne(typeID);
+		Optional<Clinic> oc = cs.getOne(clinicID);
+		Date d = null;
+		Double minRating = 0D;
+		try
+		{
+			d = DateConfig.parseFromURL(date);
+			minRating = Double.parseDouble(rating);
+		}
+		catch (ParseException e)
+		{
+			m.addAttribute("message","Invalid URL!");
+			return "error";
+		}
+		catch(NumberFormatException e) {minRating = 0D;}
+		
+		if(!(oet.isPresent() && oc.isPresent() && d != null))
+		{
+			m.addAttribute("message","Invalid URL!");
+			return "error";
+		}
+
+		List<Profile> docs = ps.getAllForNameLastNameAndSpecialty(name, lastName, oet.get());
+		List<Profile> docs2 = new ArrayList<Profile>();
+		for(Profile p : docs)
+		{
+			if(!p.getDeleted() && p.getClinic().equals(oc.get()) && (p.getAvgReview()==null || p.getAvgReview()>=minRating))
+			{
+				docs2.add(p);
+			}
+		}
+
+		//TODO: filter doctors for availability
 		
 		
 		
-		m.addAttribute("type", ets.getOne(typeID).get());//TODO: check if exist, throw error page!
+		m.addAttribute("type", oet.get());
 		m.addAttribute("date", date);
-		m.addAttribute("clinic", cs.getOne(clinicID).get());
-		m.addAttribute("doctors", ps.getAllForSpecialty(ets.getOne(typeID).get()));//TODO: filter doctors
+		m.addAttribute("clinic", oc.get());
+		m.addAttribute("doctors", docs);
+		m.addAttribute("searchName",name);
+		m.addAttribute("searchLastName",lastName);
+		m.addAttribute("searchRating",minRating);
 		return "views/patientPages/doctorSearch";
 	}
 	

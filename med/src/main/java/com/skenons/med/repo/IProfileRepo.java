@@ -13,4 +13,5 @@ public interface IProfileRepo extends JpaRepository<Profile, String>
 	List<Profile> findByNameLike(String name); //some magic shit will know what this is...
 	List<Profile> findByType(ProfileType type);
 	List<Profile> findBySpecialty(ExamType type);
+	List<Profile> findByNameLikeAndLastNameLikeAndSpecialty(String name, String lastName, ExamType type);
 }

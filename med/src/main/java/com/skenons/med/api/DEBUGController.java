@@ -60,14 +60,7 @@ public class DEBUGController//Handling debug options
 	
 	@GetMapping("/debugFill")
 	public String debugF(Model m)
-	{
-		Clinic c;
-		c = new Clinic("Two pines clinic", 			"Adress Line 1", 	"The best clinic in the world 1"); 		s2.saveOne(c);
-		c = new Clinic("Novi Sad general hospital", "Adress Line 11", 	"The best clinic in the world 2"); 		s2.saveOne(c);
-		c = new Clinic("Medica", 					"Adress Line 12", 	"The best clinic in the world 3"); 		s2.saveOne(c);
-		c = new Clinic("General health",			"Adress Line 13",	"The best clinic in the world 4"); 		s2.saveOne(c);
-		c = new Clinic("General medicine", 			"Adress Line 14", 	"The best clinic in the world 4"); 		s2.saveOne(c);
-		
+	{	
 		if(!s12.getOne("1111111111111").isPresent())
 		{
 			s12.createProfileAs(new Profile("1111111111111", "skenons.mail@gmail.com", "123654789", "Bosko", "Vojinovic", "0604300501", "Adresica"), ProfileType.PATIENT, true);
@@ -99,6 +92,12 @@ public class DEBUGController//Handling debug options
 			
 			s12.createProfileAs(new Profile("1111111111124", "behemoth1616@gmail.com", "password7", "Marija", "Stefanovic", "060-cell-07", "Address 7"), ProfileType.ADMIN_CLINIC, true);
 			
+			Clinic c;
+			c = new Clinic("Two pines clinic", 			"Address Line 1", 	"The best clinic in the world"); 		s2.saveOne(c);
+			c = new Clinic("Novi Sad general hospital", "Address Line 11", 	"The best clinic in this world"); 		s2.saveOne(c);
+			c = new Clinic("Medica", 					"Address Line 12", 	"The best clinic in all worlds"); 		s2.saveOne(c);
+			c = new Clinic("General health",			"Address Line 13",	"The best clinic in some world"); 		s2.saveOne(c);
+			c = new Clinic("General medicine", 			"Address Line 14", 	"The best clinic in my world"); 		s2.saveOne(c);
 			
 			ExamType e;
 			e = new ExamType("Head exam", "Head trauma exam");
@@ -265,7 +264,7 @@ public class DEBUGController//Handling debug options
 			dr = new DoctorRating(s12.getOne("1111111111111").get(), s12.getOne("1111111111118").get(), 10); s4.saveOne(dr);
 			dr = new DoctorRating(s12.getOne("1111111111111").get(), s12.getOne("1111111111119").get(), 9); s4.saveOne(dr);
 			dr = new DoctorRating(s12.getOne("1111111111111").get(), s12.getOne("1111111111120").get(), 8); s4.saveOne(dr);
-			
+			s12.calculateReviewAll();
 			
 			m.addAttribute("title","DEBUG MSG");
 			m.addAttribute("msg","Database loaded!");

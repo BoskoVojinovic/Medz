@@ -5,10 +5,12 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skenons.med.EmailConfig;
 import com.skenons.med.SecurityConfig;
+import com.skenons.med.data.DoctorRating;
 import com.skenons.med.data.ExamType;
 import com.skenons.med.data.Profile;
 import com.skenons.med.data.enums.ProfileType;
@@ -18,6 +20,8 @@ import com.skenons.med.service.generic.ISSService;
 @Service
 public class ProfileService extends ISSService<IProfileRepo, Profile, String>
 {
+	@Autowired DoctorRatingService drs;
+	
 	public List<Profile> getAllForType(ProfileType type)
 	{
 		return repo.findByType(type);
@@ -26,6 +30,11 @@ public class ProfileService extends ISSService<IProfileRepo, Profile, String>
 	public List<Profile> getAllForSpecialty(ExamType type)
 	{
 		return repo.findBySpecialty(type);
+	}
+	
+	public List<Profile> getAllForNameLastNameAndSpecialty(String name, String lastName, ExamType type)
+	{
+		return repo.findByNameLikeAndLastNameLikeAndSpecialty("%"+name+"%", "%"+lastName+"%", type);
 	}
 	
 	public ProfileType getType(String id)
@@ -69,5 +78,40 @@ public class ProfileService extends ISSService<IProfileRepo, Profile, String>
 		p.setType(ProfileType.ADMIN_CENTER);
 		repo.save(p);
 		return p;
+	}
+	
+	public void calculateReviewOne(Profile p)
+	{
+		double sum = 0;
+		double count = 0;
+		for(DoctorRating dr : drs.getAll())
+		{
+			if(dr.getDoctor().equals(p))
+			{
+				sum += dr.getRating();
+				count++;
+			}
+		}
+		if(count > 0)
+		{
+			p.setAvgReview(sum/count);
+			saveOne(p);
+		}
+	}
+	
+	public void calculateReviewMulti(List<Profile> docs)
+	{
+		for(Profile p : docs)
+		{
+			calculateReviewOne(p);
+		}
+	}
+	
+	public void calculateReviewAll()
+	{
+		for(Profile p : repo.findAll())
+		{
+			calculateReviewOne(p);
+		}
 	}
 }

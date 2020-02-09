@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter //PATIENT LOGIN
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception
 	{
 		auth.jdbcAuthentication().dataSource(ds)
-		.usersByUsernameQuery("select idnum as principal, password as credentials, true from profile where idnum=? and verified=true")
+		.usersByUsernameQuery("select idnum as principal, password as credentials, true from profile where idnum=? and verified=true and deleted=false")
 		.authoritiesByUsernameQuery("select idnum as principal, type as role from profile where idnum=?")
 		.passwordEncoder(passEnc())
 		;
@@ -44,7 +44,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter //PATIENT LOGIN
 				"/register",
 				"/login",
 				"/verify/**",
-				//"/debugBurn",
 				"/debugFill",
 				"/about",
 				"/css/**",
