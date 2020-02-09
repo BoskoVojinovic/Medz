@@ -1,6 +1,7 @@
 package com.skenons.med.data;
 
 import java.util.Date;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -60,15 +61,18 @@ public class Profile
 
 	@DateTimeFormat(pattern = "HH:mm")
 	private Date workingHoursEnd;
-
-	@Transient
-	private Double avgReview;
 	
 	private Boolean approved = true; //automatic admins :D
 	
 	private Boolean verified = false;
 	
 	private Boolean deleted = false;
+	
+	@Transient
+	private Double avgReview;
+	
+	@Transient
+	private Map<Date, Date> times;
 	
 	public Profile()
 	{
@@ -231,8 +235,14 @@ public class Profile
 	public void setVerified(Boolean verified) {
 		this.verified = verified;
 	}
-	
-	
+
+	public Map<Date, Date> getTimes() {
+		return times;
+	}
+
+	public void setTimes(Map<Date, Date> times) {
+		this.times = times;
+	}
 
 	public Double getAvgReview() {
 		return avgReview;

@@ -7,6 +7,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Component;
 
+import com.skenons.med.data.Exam;
 import com.skenons.med.data.LeaveRequest;
 import com.skenons.med.data.Profile;
 
@@ -26,7 +27,6 @@ public class EmailConfig
 		p.put("mail.transport.protocol", "smtp");
 		p.put("mail.smtp.auth", "true");
 		p.put("mail.smtp.starttls.enable", "true");
-		//p.put("mail.debug", "true");
 	}
 	
 	public static void sendVerificationMail(Profile p)
@@ -34,6 +34,17 @@ public class EmailConfig
 		sendMail(p.getEmail(), "Verify your MEDz account",
 				"To start using our services, please click on the link below:\n"+
 				"http://localhost:8080/verify/"+p.getIDNum()+"/"+SecurityConfig.getVerifyToken(p));
+	}
+	
+	public static void sendPExamConfirmation(Exam e)
+	{
+		sendMail(e.getPatient().getEmail(), "New Exam Booked!\n\n",
+						"-Clinic: " + e.getRoom().getClinic().getName() + "\n"+
+						"-Room: " + e.getRoom().getNumber() + "\n"+
+						"-Exam Type: " + e.getType() + "\n"+
+						"-Price: " + e.getPrice() + "\n" +
+						"-Discount: " + e.getDiscount() + "%\n"
+		);
 	}
 	
 	public static void sendLeaveApprovalMail(Profile p)

@@ -10,7 +10,28 @@
 	<div layout:fragment="content" class="container">
 		<div class="card">
 			<div class="card card-body">
-				
+				<div class="alert alert-primary" th:if="${review == null}">
+					<p class="text text-center">You have never rated this clinic before, you can leave a review now.</p>
+				</div>
+				<table class="table table-hover" th:if="${review != null}">
+					<thead>
+						<tr>
+							<th>Reviewer</th>
+							<th>Clinic</th>
+							<th>Address</th>
+							<th>Review(?/10)</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr>
+							<td th:text="${review.patient.name} + ' ' + ${review.patient.lastName}"></td>
+							<td th:text="${review.clinic.name}"></td>
+							<td th:text="${review.clinic.address}"></td>
+							<td th:text="${review.rating}"></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

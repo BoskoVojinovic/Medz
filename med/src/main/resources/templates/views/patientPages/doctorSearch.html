@@ -60,7 +60,7 @@
 							<tr th:each="doc:${doctors}">
 								<td th:text="'Dr. '+${doc.name}+' '+${doc.lastName}"></td>
 								<td th:text="${doc.specialty.name}"></td>
-								<td></td>
+								<td th:text="${doc.avgReview}"></td>
 								<td><a class="btn btn-primary" th:href="${#httpServletRequest.requestURI} +'/'+ ${doc.IDNum}" role="button">Select</a></td>
 							</tr>
 						</tbody>

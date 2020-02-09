@@ -16,4 +16,8 @@ public class ExamService extends ISSService<IExamRepo, Exam, Long>
 	{
 		return repo.findByPatient(patient);
 	}
+	public List<Exam> getForDoctor(Profile doctor)
+	{
+		return repo.findByDoctor(doctor);
+	}
 }

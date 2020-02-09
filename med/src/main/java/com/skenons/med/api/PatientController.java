@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,14 +24,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.skenons.med.DateConfig;
+import com.skenons.med.EmailConfig;
 import com.skenons.med.data.Clinic;
+import com.skenons.med.data.ClinicRating;
+import com.skenons.med.data.DoctorRating;
 import com.skenons.med.data.Exam;
 import com.skenons.med.data.ExamPrice;
 import com.skenons.med.data.ExamType;
 import com.skenons.med.data.Profile;
 import com.skenons.med.data.Records;
 import com.skenons.med.data.Room;
+import com.skenons.med.service.ClinicRatingService;
 import com.skenons.med.service.ClinicService;
+import com.skenons.med.service.DoctorRatingService;
 import com.skenons.med.service.ExamPriceService;
 import com.skenons.med.service.ExamService;
 import com.skenons.med.service.ExamTypeService;
@@ -48,6 +54,10 @@ public class PatientController
 	@Autowired ExamTypeService ets;
 	@Autowired ExamPriceService eps;
 	@Autowired RoomService rms;
+	@Autowired ClinicRatingService crs;
+	@Autowired DoctorRatingService drs;
+	
+	@Autowired DateConfig dc;
 	
 	
 	@GetMapping("/clinics")
@@ -107,6 +117,7 @@ public class PatientController
 		}
 		oe.get().setPatient(op.get());
 		es.saveOne(oe.get());
+		EmailConfig.sendPExamConfirmation(oe.get());
 		return new RedirectView("/examHistory");
 	}
 	
@@ -121,7 +132,7 @@ public class PatientController
 		return new RedirectView("/cexam/"+typeID+"/"+date);
 	}
 	
-	@GetMapping("/cexam/{type}/{date}")//CLINIC SELECTION
+	@GetMapping("/cexam/{type}/{date}")
 	public String customExamStage2(	@PathVariable("type") Long typeID,
 									@PathVariable("date") String date,
 									Model m)
@@ -130,7 +141,7 @@ public class PatientController
 		Date d = null;
 		try
 		{
-			d = DateConfig.parseFromURL(date);
+			d = dc.parseFromURL(date);
 		}
 		catch (ParseException e)
 		{
@@ -138,25 +149,27 @@ public class PatientController
 			return "/error";
 		}
 		
+		List<ExamPrice> lep = new ArrayList<ExamPrice>();
+		for(ExamPrice ep : eps.getAll())
+		{
+			if(!ep.getExamType().equals(oet.get()))
+			{
+				continue;
+			}
+			Clinic c = ep.getClinic();
+			for(Profile doc : c.getEmployees())
+			{
+				if(dc.getFreeIntervals(doc, d).size() > 0)
+				{
+					lep.add(ep);
+					break;
+				}
+			}
+		}
+		
+		
 		m.addAttribute("type", oet.get());
 		m.addAttribute("date", date);
-		
-		
-		List<ExamPrice> lep = eps.getAll().stream().filter((e)->
-		{
-			if(!e.getExamType().equals(oet.get()))
-			{
-				return false;
-			}
-			Clinic c = e.getClinic();
-			List<Profile> doctors = c.getEmployees().stream().filter((doc)->
-			{
-				//da li je doca doc slobodan?
-				return true;
-			}).collect(Collectors.toList());
-			return !doctors.isEmpty();
-		
-		}).collect(Collectors.toList());
 		m.addAttribute("prices", lep);
 		return "views/patientPages/clinicSearch";
 	}
@@ -177,7 +190,7 @@ public class PatientController
 		Double minRating = 0D;
 		try
 		{
-			d = DateConfig.parseFromURL(date);
+			d = dc.parseFromURL(date);
 			minRating = Double.parseDouble(rating);
 		}
 		catch (ParseException e)
@@ -197,20 +210,20 @@ public class PatientController
 		List<Profile> docs2 = new ArrayList<Profile>();
 		for(Profile p : docs)
 		{
-			if(!p.getDeleted() && p.getClinic().equals(oc.get()) && (p.getAvgReview()==null || p.getAvgReview()>=minRating))
+			Map<Date, Date> times = dc.getFreeIntervals(p, d);
+			if(times.size() > 0 && !p.getDeleted() && p.getClinic().equals(oc.get()) && (p.getAvgReview()==null || p.getAvgReview()>=minRating))
 			{
+				p.setTimes(times);
 				docs2.add(p);
 			}
 		}
-
-		//TODO: filter doctors for availability
 		
 		
 		
 		m.addAttribute("type", oet.get());
 		m.addAttribute("date", date);
 		m.addAttribute("clinic", oc.get());
-		m.addAttribute("doctors", docs);
+		m.addAttribute("doctors", docs2);
 		m.addAttribute("searchName",name);
 		m.addAttribute("searchLastName",lastName);
 		m.addAttribute("searchRating",minRating);
@@ -224,7 +237,7 @@ public class PatientController
 									@PathVariable("doctor") String doctorID,
 									Model m)
 	{
-		m.addAttribute("type", ets.getOne(typeID).get());//TODO: check if exist, throw error page!
+		m.addAttribute("type", ets.getOne(typeID).get());
 		m.addAttribute("date", date);
 		m.addAttribute("clinic", cs.getOne(clinicID).get());
 		m.addAttribute("doctor", ps.getOne(doctorID).get());
@@ -232,7 +245,7 @@ public class PatientController
 	}
 	
 	
-	@GetMapping("/cexam/{type}/{date}/{clinic}/{doctor}/confirm") //TODO: change to post mapping, remove confirmation?
+	@GetMapping("/cexam/{type}/{date}/{clinic}/{doctor}/confirm")
 	public RedirectView customExamStage5(
 									HttpServletRequest request,
 									@PathVariable("type") Long typeID,
@@ -267,7 +280,8 @@ public class PatientController
 		Exam e;
 		try
 		{
-			e = new Exam(op.get(),od.get(),oet.get(),r,DateConfig.parseFromURL(date));
+			e = new Exam(op.get(),od.get(),oet.get(),r,dc.parseFromURL(date));
+			e.setPrice(eps.getForTypeAndClinic(oet.get(), oc.get()).get(0).getBasePrice());
 			es.saveOne(e);
 		}
 		catch (ParseException e1)
@@ -323,7 +337,11 @@ public class PatientController
 			model.addAttribute("message","You can only review based on exams in the past!");
 			return "error";
 		}
-		//TODO: check existing review?
+		List<ClinicRating> lcr = crs.getForClinicAndPatient(oe.get().getRoom().getClinic(), op.get());
+		if(!lcr.isEmpty())
+		{
+			model.addAttribute("review",lcr.get(0));
+		}
 		
 		return "views/patientPages/clinicReview";
 	}
@@ -350,7 +368,11 @@ public class PatientController
 			return "error";
 		}
 
-		//TODO: check existing review?
+		List<DoctorRating> ldr = drs.getByDoctorAndPatient(oe.get().getDoctor(), op.get());
+		if(!ldr.isEmpty())
+		{
+			model.addAttribute("review",ldr.get(0));
+		}
 		
 		return "views/patientPages/doctorReview";
 	}
